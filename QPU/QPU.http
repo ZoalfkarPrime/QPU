@@ -1,0 +1,6 @@
+@QPU_HostAddress = http://localhost:5159
+
+GET {{QPU_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

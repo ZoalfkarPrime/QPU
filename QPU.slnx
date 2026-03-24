@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="QPU/QPU.csproj" />
+  <Project Path="QPU_DataAccess/QPU_DataAccess.csproj" />
+</Solution>
