@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using QPU.Services;
 using QPU_DataAccess.Models;
 using Scalar.AspNetCore;
@@ -66,6 +67,18 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+var uploadPath = builder.Configuration["FileManager:UploadPath"];
+if (!string.IsNullOrWhiteSpace(uploadPath))
+{
+    Directory.CreateDirectory(uploadPath);
+
+    app.UseStaticFiles(new StaticFileOptions
+    {
+        FileProvider = new PhysicalFileProvider(uploadPath),
+        RequestPath = "/uploads"
+    });
+}
 
 app.UseAuthorization();
 
