@@ -26,15 +26,10 @@ RUN dotnet build "./QPU.csproj" -c $BUILD_CONFIGURATION -o /app/build --no-resto
 # This stage is used to publish the service project to be copied to the final stage
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-ENV PATH="$PATH:/root/.dotnet/tools"
-RUN dotnet tool install --global dotnet-ef --version 10.0.5
 RUN dotnet publish "./QPU.csproj" -c $BUILD_CONFIGURATION -o /app/publish --no-restore
-# Build a migration bundle from existing migrations only (no add-migration here)
-RUN dotnet ef migrations bundle --project ../QPU_DataAccess/QPU_DataAccess.csproj --startup-project ../QPU_DataAccess/QPU_DataAccess.csproj --output /app/publish/efbundle --self-contained false
 
 # This stage is used in production or when running from VS in regular mode (Default when not using the Debug configuration)
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-RUN chmod +x /app/efbundle && printf '#!/bin/sh\nset -e\nif [ "${Database__ApplyMigrationsOnStartup}" = "true" ] || [ "${Database__ApplyMigrationsOnStartup}" = "True" ]; then\n  /app/efbundle --connection "${ConnectionStrings__DefaultConnection}"\nfi\nexec dotnet QPU.dll\n' > /app/entrypoint.sh && chmod +x /app/entrypoint.sh
-ENTRYPOINT ["/app/entrypoint.sh"]
+ENTRYPOINT ["dotnet", "QPU.dll"]
