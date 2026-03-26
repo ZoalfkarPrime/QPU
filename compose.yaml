@@ -30,6 +30,9 @@ services:
       ASPNETCORE_HTTP_PORTS: "8080"
       Database__ApplyMigrationsOnStartup: "true"
       ConnectionStrings__DefaultConnection: "Server=sqlserver,1433;Database=QPU;User Id=sa;Password=Qpu!Sql2022Pass;TrustServerCertificate=True;Encrypt=False;MultipleActiveResultSets=True"
+      FileManager__UploadPath: "/app/uploads"
+      FileManager__UploadRelativePath: "/uploads/"
+      FileManager__APIBaseURL: "http://localhost:8080"
     depends_on:
       sqlserver:
         condition: service_healthy

@@ -15,6 +15,14 @@ public class FileManagerService(AppDBContext db, IConfiguration config) : IFileM
         get
         {
             var configuredPath = config["FileManager:UploadPath"];
+            var runningInContainer = string.Equals(
+                Environment.GetEnvironmentVariable("DOTNET_RUNNING_IN_CONTAINER"),
+                "true",
+                StringComparison.OrdinalIgnoreCase);
+
+            if (runningInContainer)
+                return "/app/uploads";
+
             if (string.IsNullOrWhiteSpace(configuredPath))
                 return Path.Combine(Directory.GetCurrentDirectory(), "uploads");
 
