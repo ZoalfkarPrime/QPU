@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using QPU_DataAccess.Models;
 
@@ -11,9 +12,11 @@ using QPU_DataAccess.Models;
 namespace QPU_DataAccess.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    partial class AppDBContextModelSnapshot : ModelSnapshot
+    [Migration("20260326153644_AddBaseEntityAndNewTables")]
+    partial class AddBaseEntityAndNewTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -495,56 +498,6 @@ namespace QPU_DataAccess.Migrations
                     b.ToTable("FileManagers", "dbo");
                 });
 
-            modelBuilder.Entity("QPU_DataAccess.Models.GraduatedStudent", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<decimal>("Average")
-                        .HasColumnType("decimal(5,2)");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("DisplayOrder")
-                        .HasColumnType("int");
-
-                    b.Property<int>("FacultyId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("FullName")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsPublished")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("StudentNumber")
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.Property<int>("StudyYearId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FacultyId");
-
-                    b.HasIndex("StudyYearId");
-
-                    b.ToTable("GraduatedStudents", "dbo");
-                });
-
             modelBuilder.Entity("QPU_DataAccess.Models.Lab", b =>
                 {
                     b.Property<int>("Id")
@@ -702,49 +655,6 @@ namespace QPU_DataAccess.Migrations
                     b.HasIndex("TeacherId");
 
                     b.ToTable("ScientificResearches", "dbo");
-                });
-
-            modelBuilder.Entity("QPU_DataAccess.Models.StudyProgram", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("DisplayOrder")
-                        .HasColumnType("int");
-
-                    b.Property<Guid?>("FileId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsPublished")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(300)
-                        .HasColumnType("nvarchar(300)");
-
-                    b.Property<int>("StudyYearId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FileId");
-
-                    b.HasIndex("StudyYearId");
-
-                    b.ToTable("StudyPrograms", "dbo");
                 });
 
             modelBuilder.Entity("QPU_DataAccess.Models.StudyYear", b =>
@@ -1003,25 +913,6 @@ namespace QPU_DataAccess.Migrations
                     b.Navigation("Parent");
                 });
 
-            modelBuilder.Entity("QPU_DataAccess.Models.GraduatedStudent", b =>
-                {
-                    b.HasOne("QPU_DataAccess.Models.Faculty", "Faculty")
-                        .WithMany("GraduatedStudents")
-                        .HasForeignKey("FacultyId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("QPU_DataAccess.Models.StudyYear", "StudyYear")
-                        .WithMany("GraduatedStudents")
-                        .HasForeignKey("StudyYearId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Faculty");
-
-                    b.Navigation("StudyYear");
-                });
-
             modelBuilder.Entity("QPU_DataAccess.Models.Lab", b =>
                 {
                     b.HasOne("QPU_DataAccess.Models.Faculty", "Faculty")
@@ -1099,24 +990,6 @@ namespace QPU_DataAccess.Migrations
                     b.Navigation("Teacher");
                 });
 
-            modelBuilder.Entity("QPU_DataAccess.Models.StudyProgram", b =>
-                {
-                    b.HasOne("QPU_DataAccess.Models.FileManager", "File")
-                        .WithMany()
-                        .HasForeignKey("FileId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("QPU_DataAccess.Models.StudyYear", "StudyYear")
-                        .WithMany("StudyPrograms")
-                        .HasForeignKey("StudyYearId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("File");
-
-                    b.Navigation("StudyYear");
-                });
-
             modelBuilder.Entity("QPU_DataAccess.Models.Teacher", b =>
                 {
                     b.HasOne("QPU_DataAccess.Models.FileManager", "CvArabic")
@@ -1159,8 +1032,6 @@ namespace QPU_DataAccess.Migrations
 
                     b.Navigation("FacultyTeachers");
 
-                    b.Navigation("GraduatedStudents");
-
                     b.Navigation("Labs");
 
                     b.Navigation("ScientificResearches");
@@ -1175,11 +1046,7 @@ namespace QPU_DataAccess.Migrations
                 {
                     b.Navigation("Courses");
 
-                    b.Navigation("GraduatedStudents");
-
                     b.Navigation("ScientificResearches");
-
-                    b.Navigation("StudyPrograms");
                 });
 
             modelBuilder.Entity("QPU_DataAccess.Models.Teacher", b =>

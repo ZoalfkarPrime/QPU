@@ -1,0 +1,47 @@
+[
+  {
+    "fileType": 0,
+    "label": "Folder",
+    "extensions": []
+  },
+  {
+    "fileType": 1,
+    "label": "Image",
+    "extensions": [ "jpg", "jpeg", "png", "gif", "bmp", "svg","webp" ]
+  },
+  {
+    "fileType": 2,
+    "label": "Video",
+    "extensions": [ "mp4", "avi", "mov", "wmv", "flv", "mkv" ]
+  },
+  {
+    "fileType": 3,
+    "label": "Audio",
+    "extensions": [ "mp3", "wav", "ogg", "flac", "aac" ]
+  },
+  {
+    "fileType": 4,
+    "label": "Document",
+    "extensions": [ "pdf", "doc", "docx", "xls", "xlsx", "ppt", "pptx", "txt" ]
+  },
+  {
+    "fileType": 5,
+    "label": "Archive",
+    "extensions": [ "zip", "rar", "7z", "tar", "gz" ]
+  },
+  {
+    "fileType": 6,
+    "label": "Executable",
+    "extensions": [ "exe", "msi", "apk", "bat", "sh", "app", "bin" ]
+  },
+  {
+    "fileType": 7,
+    "label": "Code",
+    "extensions": [ "js", "jsx", "ts", "tsx", "html", "css", "py", "java", "c", "cpp", "rb", "php" ]
+  },
+  {
+    "fileType": 8,
+    "label": "ThreeD",
+    "extensions": [ "gltf", "fbx", "usdz", "glb" ]
+  }
+]

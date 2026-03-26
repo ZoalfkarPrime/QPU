@@ -1,10 +1,9 @@
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace QPU_DataAccess.Models;
 
-public class FileManager
+public class FileManager : BaseEntity
 {
     [Key]
     public Guid Id { get; set; }
@@ -29,7 +28,7 @@ public class FileManager
     public virtual ICollection<FileManager> Children { get; set; } = new List<FileManager>();
 }
 
-public class Faculty
+public class Faculty : BaseEntity
 {
     [Key]
     public int Id { get; set; }
@@ -44,22 +43,30 @@ public class Faculty
 
     public Guid? PictureId { get; set; }
 
-    public bool Slider { get; set; }
+    public Guid? LogoId { get; set; }
 
-    public int DisplayOrder { get; set; }
+    public bool Slider { get; set; }
 
     public bool IsPublished { get; set; } = true;
 
-    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+    public string? PrimaryColor { get; set; }
+
+    public string? SecondaryColor { get; set; }
 
     [ForeignKey(nameof(PictureId))]
     public virtual FileManager? Picture { get; set; }
 
+    [ForeignKey(nameof(LogoId))]
+    public virtual FileManager? Logo { get; set; }
+
     public virtual ICollection<Lab> Labs { get; set; } = new List<Lab>();
     public virtual ICollection<ScientificResearch> ScientificResearches { get; set; } = new List<ScientificResearch>();
+    public virtual ICollection<FacultyTeacher> FacultyTeachers { get; set; } = new List<FacultyTeacher>();
+    public virtual ICollection<Course> Courses { get; set; } = new List<Course>();
+    public virtual ICollection<GraduatedStudent> GraduatedStudents { get; set; } = new List<GraduatedStudent>();
 }
 
-public class Lab
+public class Lab : BaseEntity
 {
     [Key]
     public int Id { get; set; }
@@ -76,8 +83,6 @@ public class Lab
     [Column(TypeName = "nvarchar(max)")]
     public string? Content { get; set; }
 
-    public int DisplayOrder { get; set; }
-
     public bool IsPublished { get; set; } = true;
 
     [ForeignKey(nameof(FacultyId))]
@@ -87,7 +92,7 @@ public class Lab
     public virtual FileManager? Picture { get; set; }
 }
 
-public class Teacher
+public class Teacher : BaseEntity
 {
     [Key]
     public int Id { get; set; }
@@ -132,9 +137,12 @@ public class Teacher
     public virtual FileManager? CvArabic { get; set; }
 
     public virtual ICollection<ScientificResearch> ScientificResearches { get; set; } = new List<ScientificResearch>();
+    public virtual ICollection<FacultyTeacher> FacultyTeachers { get; set; } = new List<FacultyTeacher>();
+    public virtual ICollection<CourseTeacher> CourseTeachers { get; set; } = new List<CourseTeacher>();
+    public virtual ICollection<Lecture> Lectures { get; set; } = new List<Lecture>();
 }
 
-public class ScientificResearch
+public class FacultyTeacher : BaseEntity
 {
     [Key]
     public int Id { get; set; }
@@ -144,6 +152,159 @@ public class ScientificResearch
 
     [Required]
     public int TeacherId { get; set; }
+
+    [ForeignKey(nameof(FacultyId))]
+    public virtual Faculty? Faculty { get; set; }
+
+    [ForeignKey(nameof(TeacherId))]
+    public virtual Teacher? Teacher { get; set; }
+}
+
+public class StudyYear : BaseEntity
+{
+    [Key]
+    public int Id { get; set; }
+
+    [Required]
+    [MaxLength(20)]
+    public string Name { get; set; } = string.Empty;
+
+    public DateOnly StartDate { get; set; }
+
+    public DateOnly EndDate { get; set; }
+
+    public bool IsCurrent { get; set; }
+
+    public virtual ICollection<ScientificResearch> ScientificResearches { get; set; } = new List<ScientificResearch>();
+    public virtual ICollection<Course> Courses { get; set; } = new List<Course>();
+    public virtual ICollection<GraduatedStudent> GraduatedStudents { get; set; } = new List<GraduatedStudent>();
+    public virtual ICollection<StudyProgram> StudyPrograms { get; set; } = new List<StudyProgram>();
+}
+
+public class GraduatedStudent : BaseEntity
+{
+    [Key]
+    public int Id { get; set; }
+
+    [Required]
+    public int StudyYearId { get; set; }
+
+    [Required]
+    public int FacultyId { get; set; }
+
+    [Required]
+    [MaxLength(200)]
+    public string FullName { get; set; } = string.Empty;
+
+    [Column(TypeName = "decimal(5,2)")]
+    public decimal Average { get; set; }
+
+    [MaxLength(20)]
+    public string? StudentNumber { get; set; }
+
+    public bool IsPublished { get; set; } = true;
+
+    [ForeignKey(nameof(StudyYearId))]
+    public virtual StudyYear? StudyYear { get; set; }
+
+    [ForeignKey(nameof(FacultyId))]
+    public virtual Faculty? Faculty { get; set; }
+}
+
+public class Course : BaseEntity
+{
+    [Key]
+    public int Id { get; set; }
+
+    [Required]
+    public int FacultyId { get; set; }
+
+    [Required]
+    public int StudyYearId { get; set; }
+
+    [Required]
+    [MaxLength(300)]
+    public string Name { get; set; } = string.Empty;
+
+    [Column(TypeName = "nvarchar(max)")]
+    public string? Description { get; set; }
+
+    public bool IsPublished { get; set; } = true;
+
+    [ForeignKey(nameof(FacultyId))]
+    public virtual Faculty? Faculty { get; set; }
+
+    [ForeignKey(nameof(StudyYearId))]
+    public virtual StudyYear? StudyYear { get; set; }
+
+    public virtual ICollection<CourseTeacher> CourseTeachers { get; set; } = new List<CourseTeacher>();
+    public virtual ICollection<Lecture> Lectures { get; set; } = new List<Lecture>();
+}
+
+public class CourseTeacher : BaseEntity
+{
+    [Key]
+    public int Id { get; set; }
+
+    [Required]
+    public int CourseId { get; set; }
+
+    [Required]
+    public int TeacherId { get; set; }
+
+    [ForeignKey(nameof(CourseId))]
+    public virtual Course? Course { get; set; }
+
+    [ForeignKey(nameof(TeacherId))]
+    public virtual Teacher? Teacher { get; set; }
+}
+
+public class Lecture : BaseEntity
+{
+    [Key]
+    public int Id { get; set; }
+
+    [Required]
+    public int CourseId { get; set; }
+
+    [Required]
+    public int TeacherId { get; set; }
+
+    [Required]
+    [MaxLength(300)]
+    public string Title { get; set; } = string.Empty;
+
+    [Column(TypeName = "nvarchar(max)")]
+    public string? Content { get; set; }
+
+    public Guid? FileId { get; set; }
+
+    public int LectureNumber { get; set; }
+
+    public bool IsPublished { get; set; } = true;
+
+    [ForeignKey(nameof(CourseId))]
+    public virtual Course? Course { get; set; }
+
+    [ForeignKey(nameof(TeacherId))]
+    public virtual Teacher? Teacher { get; set; }
+
+    [ForeignKey(nameof(FileId))]
+    public virtual FileManager? File { get; set; }
+}
+
+public class ScientificResearch : BaseEntity
+{
+    [Key]
+    public int Id { get; set; }
+
+    [Required]
+    public int FacultyId { get; set; }
+
+    [Required]
+    public int TeacherId { get; set; }
+
+    public int? StudyYearId { get; set; }
 
     [Required]
     [MaxLength(300)]
@@ -164,6 +325,32 @@ public class ScientificResearch
     [ForeignKey(nameof(TeacherId))]
     public virtual Teacher? Teacher { get; set; }
 
+    [ForeignKey(nameof(StudyYearId))]
+    public virtual StudyYear? StudyYear { get; set; }
+
     [ForeignKey(nameof(DownloadFileId))]
     public virtual FileManager? DownloadFile { get; set; }
+}
+
+public class StudyProgram : BaseEntity
+{
+    [Key]
+    public int Id { get; set; }
+
+    [Required]
+    public int StudyYearId { get; set; }
+
+    [Required]
+    [MaxLength(300)]
+    public string Name { get; set; } = string.Empty;
+
+    public Guid? FileId { get; set; }
+
+    public bool IsPublished { get; set; } = true;
+
+    [ForeignKey(nameof(StudyYearId))]
+    public virtual StudyYear? StudyYear { get; set; }
+
+    [ForeignKey(nameof(FileId))]
+    public virtual FileManager? File { get; set; }
 }
