@@ -10,7 +10,18 @@ public class FileManagerService(AppDBContext db, IConfiguration config) : IFileM
     private static readonly HashSet<string> ImageExtensions =
         [".jpg", ".jpeg", ".png", ".gif", ".webp", ".bmp"];
 
-    private string UploadPath => config["FileManager:UploadPath"] ?? Path.Combine(Directory.GetCurrentDirectory(), "uploads");
+    private string UploadPath
+    {
+        get
+        {
+            var configuredPath = config["FileManager:UploadPath"];
+            if (string.IsNullOrWhiteSpace(configuredPath))
+                return Path.Combine(Directory.GetCurrentDirectory(), "uploads");
+
+            return configuredPath.Replace("upolads", "uploads", StringComparison.OrdinalIgnoreCase);
+        }
+    }
+
     private string UploadRelativePath => config["FileManager:UploadRelativePath"] ?? "/uploads/";
     private string ApiBaseUrl => config["FileManager:APIBaseURL"] ?? string.Empty;
     private long MaxFileSize => long.Parse(config["FileManager:MaxFileSize"] ?? "52428800");
