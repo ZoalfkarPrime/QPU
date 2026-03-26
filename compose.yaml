@@ -28,6 +28,7 @@ services:
     environment:
       ASPNETCORE_ENVIRONMENT: "Development"
       ASPNETCORE_HTTP_PORTS: "8080"
+      ASPNETCORE_FORWARDEDHEADERS_ENABLED: "true"
       Database__ApplyMigrationsOnStartup: "true"
       ConnectionStrings__DefaultConnection: "Server=sqlserver,1433;Database=QPU;User Id=sa;Password=Qpu!Sql2022Pass;TrustServerCertificate=True;Encrypt=False;MultipleActiveResultSets=True"
       FileManager__UploadPath: "/app/uploads"
