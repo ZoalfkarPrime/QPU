@@ -32,7 +32,7 @@ services:
       ConnectionStrings__DefaultConnection: "Server=sqlserver,1433;Database=QPU;User Id=sa;Password=Qpu!Sql2022Pass;TrustServerCertificate=True;Encrypt=False;MultipleActiveResultSets=True"
       FileManager__UploadPath: "/app/uploads"
       FileManager__UploadRelativePath: "/uploads/"
-      FileManager__APIBaseURL: "http://portainer.v2202503187605326384.powersrv.de:8080"
+      FileManager__APIBaseURL: "https://api.v2202503187605326384.powersrv.de"
     depends_on:
       sqlserver:
         condition: service_healthy
