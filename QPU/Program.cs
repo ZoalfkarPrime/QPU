@@ -40,6 +40,8 @@ builder.Services.AddScoped<ILectureService, LectureService>();
 builder.Services.AddScoped<IScientificResearchService, ScientificResearchService>();
 builder.Services.AddScoped<IGraduatedStudentService, GraduatedStudentService>();
 builder.Services.AddScoped<IStudyProgramService, StudyProgramService>();
+builder.Services.AddScoped<IContentService, ContentService>();
+builder.Services.AddScoped<IContentMetaService, ContentMetaService>();
 
 var app = builder.Build();
 

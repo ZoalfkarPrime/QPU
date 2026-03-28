@@ -22,6 +22,8 @@ public class AppDBContext : IdentityDbContext<AppUser, AppRole, string, AppUserC
     public DbSet<Lecture> Lectures => Set<Lecture>();
     public DbSet<GraduatedStudent> GraduatedStudents => Set<GraduatedStudent>();
     public DbSet<ScientificResearch> ScientificResearches => Set<ScientificResearch>();
+    public DbSet<Content> Contents => Set<Content>();
+    public DbSet<ContentMeta> ContentMetas => Set<ContentMeta>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -204,5 +206,12 @@ public class AppDBContext : IdentityDbContext<AppUser, AppRole, string, AppUserC
             .WithMany()
             .HasForeignKey(sp => sp.FileId)
             .OnDelete(DeleteBehavior.Restrict);
+
+        // Content
+        modelBuilder.Entity<ContentMeta>()
+            .HasOne(cm => cm.Content)
+            .WithMany(c => c.ContentMetas)
+            .HasForeignKey(cm => cm.ContentId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

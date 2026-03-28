@@ -354,3 +354,49 @@ public class StudyProgram : BaseEntity
     [ForeignKey(nameof(FileId))]
     public virtual FileManager? File { get; set; }
 }
+
+public class Content : BaseEntity
+{
+    [Key]
+    public int Id { get; set; }
+
+    [Required]
+    public int ReferenceId { get; set; }
+
+    [Required]
+    [MaxLength(100)]
+    public string ReferenceType { get; set; } = string.Empty;
+
+    [Required]
+    [MaxLength(100)]
+    public string Type { get; set; } = string.Empty;
+
+    [Required]
+    [MaxLength(300)]
+    public string Title { get; set; } = string.Empty;
+
+    public virtual ICollection<ContentMeta> ContentMetas { get; set; } = new List<ContentMeta>();
+}
+
+public class ContentMeta : BaseEntity
+{
+    [Key]
+    public int Id { get; set; }
+
+    [Required]
+    public int ContentId { get; set; }
+
+    [Required]
+    [MaxLength(50)]
+    public string Type { get; set; } = string.Empty;
+
+    [Required]
+    [MaxLength(200)]
+    public string KeyName { get; set; } = string.Empty;
+
+    [Column(TypeName = "nvarchar(max)")]
+    public string? Value { get; set; }
+
+    [ForeignKey(nameof(ContentId))]
+    public virtual Content? Content { get; set; }
+}
