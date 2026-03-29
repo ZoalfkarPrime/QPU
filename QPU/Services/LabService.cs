@@ -12,8 +12,10 @@ public class LabService(AppDBContext db) : ILabService
             Id = l.Id,
             FacultyId = l.FacultyId,
             Name = l.Name,
+            Name_AR = l.Name_AR,
             PictureId = l.PictureId,
             Content = l.Content,
+            Content_AR = l.Content_AR,
             IsPublished = l.IsPublished,
             DisplayOrder = l.DisplayOrder,
             IsActive = l.IsActive,
@@ -33,8 +35,10 @@ public class LabService(AppDBContext db) : ILabService
         {
             FacultyId = request.FacultyId,
             Name = request.Name,
+            Name_AR = request.Name_AR,
             PictureId = request.PictureId,
             Content = request.Content,
+            Content_AR = request.Content_AR,
             IsPublished = request.IsPublished,
             DisplayOrder = request.DisplayOrder,
             CreatedAt = DateTime.UtcNow,
@@ -54,8 +58,10 @@ public class LabService(AppDBContext db) : ILabService
 
         entity.FacultyId = dto.FacultyId;
         entity.Name = dto.Name;
+        entity.Name_AR = dto.Name_AR;
         entity.PictureId = dto.PictureId;
         entity.Content = dto.Content;
+        entity.Content_AR = dto.Content_AR;
         entity.IsPublished = dto.IsPublished;
         entity.DisplayOrder = dto.DisplayOrder;
         entity.IsActive = dto.IsActive;
@@ -80,8 +86,10 @@ public class LabService(AppDBContext db) : ILabService
         Id = l.Id,
         FacultyId = l.FacultyId,
         Name = l.Name,
+        Name_AR = l.Name_AR,
         PictureId = l.PictureId,
         Content = l.Content,
+        Content_AR = l.Content_AR,
         IsPublished = l.IsPublished,
         DisplayOrder = l.DisplayOrder,
         IsActive = l.IsActive,

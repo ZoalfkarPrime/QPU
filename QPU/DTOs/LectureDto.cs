@@ -8,7 +8,9 @@ public class LectureDto
     public int CourseId { get; set; }
     public int TeacherId { get; set; }
     public string Title { get; set; } = string.Empty;
+    public string? Title_AR { get; set; }
     public string? Content { get; set; }
+    public string? Content_AR { get; set; }
     public Guid? FileId { get; set; }
     public int LectureNumber { get; set; }
     public bool IsPublished { get; set; }
@@ -30,7 +32,11 @@ public class CreateLectureRequest
     [MaxLength(300)]
     public string Title { get; set; } = string.Empty;
 
+    [MaxLength(300)]
+    public string? Title_AR { get; set; }
+
     public string? Content { get; set; }
+    public string? Content_AR { get; set; }
     public Guid? FileId { get; set; }
     public int LectureNumber { get; set; }
     public bool IsPublished { get; set; } = true;

@@ -12,6 +12,7 @@ public class StudyProgramService(AppDBContext db) : IStudyProgramService
             Id = sp.Id,
             StudyYearId = sp.StudyYearId,
             Name = sp.Name,
+            Name_AR = sp.Name_AR,
             FileId = sp.FileId,
             IsPublished = sp.IsPublished,
             DisplayOrder = sp.DisplayOrder,
@@ -32,6 +33,7 @@ public class StudyProgramService(AppDBContext db) : IStudyProgramService
         {
             StudyYearId = request.StudyYearId,
             Name = request.Name,
+            Name_AR = request.Name_AR,
             FileId = request.FileId,
             IsPublished = request.IsPublished,
             DisplayOrder = request.DisplayOrder,
@@ -52,6 +54,7 @@ public class StudyProgramService(AppDBContext db) : IStudyProgramService
 
         entity.StudyYearId = dto.StudyYearId;
         entity.Name = dto.Name;
+        entity.Name_AR = dto.Name_AR;
         entity.FileId = dto.FileId;
         entity.IsPublished = dto.IsPublished;
         entity.DisplayOrder = dto.DisplayOrder;
@@ -77,6 +80,7 @@ public class StudyProgramService(AppDBContext db) : IStudyProgramService
         Id = sp.Id,
         StudyYearId = sp.StudyYearId,
         Name = sp.Name,
+        Name_AR = sp.Name_AR,
         FileId = sp.FileId,
         IsPublished = sp.IsPublished,
         DisplayOrder = sp.DisplayOrder,

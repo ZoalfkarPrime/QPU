@@ -13,7 +13,9 @@ public class LectureService(AppDBContext db) : ILectureService
             CourseId = l.CourseId,
             TeacherId = l.TeacherId,
             Title = l.Title,
+            Title_AR = l.Title_AR,
             Content = l.Content,
+            Content_AR = l.Content_AR,
             FileId = l.FileId,
             LectureNumber = l.LectureNumber,
             IsPublished = l.IsPublished,
@@ -36,7 +38,9 @@ public class LectureService(AppDBContext db) : ILectureService
             CourseId = request.CourseId,
             TeacherId = request.TeacherId,
             Title = request.Title,
+            Title_AR = request.Title_AR,
             Content = request.Content,
+            Content_AR = request.Content_AR,
             FileId = request.FileId,
             LectureNumber = request.LectureNumber,
             IsPublished = request.IsPublished,
@@ -59,7 +63,9 @@ public class LectureService(AppDBContext db) : ILectureService
         entity.CourseId = dto.CourseId;
         entity.TeacherId = dto.TeacherId;
         entity.Title = dto.Title;
+        entity.Title_AR = dto.Title_AR;
         entity.Content = dto.Content;
+        entity.Content_AR = dto.Content_AR;
         entity.FileId = dto.FileId;
         entity.LectureNumber = dto.LectureNumber;
         entity.IsPublished = dto.IsPublished;
@@ -87,7 +93,9 @@ public class LectureService(AppDBContext db) : ILectureService
         CourseId = l.CourseId,
         TeacherId = l.TeacherId,
         Title = l.Title,
+        Title_AR = l.Title_AR,
         Content = l.Content,
+        Content_AR = l.Content_AR,
         FileId = l.FileId,
         LectureNumber = l.LectureNumber,
         IsPublished = l.IsPublished,

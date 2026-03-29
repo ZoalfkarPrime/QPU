@@ -8,6 +8,7 @@ public class GraduatedStudentDto
     public int StudyYearId { get; set; }
     public int FacultyId { get; set; }
     public string FullName { get; set; } = string.Empty;
+    public string? FullName_AR { get; set; }
     public decimal Average { get; set; }
     public string? StudentNumber { get; set; }
     public bool IsPublished { get; set; }
@@ -28,6 +29,9 @@ public class CreateGraduatedStudentRequest
     [Required]
     [MaxLength(200)]
     public string FullName { get; set; } = string.Empty;
+
+    [MaxLength(200)]
+    public string? FullName_AR { get; set; }
 
     public decimal Average { get; set; }
 

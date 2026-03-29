@@ -13,6 +13,7 @@ public class GraduatedStudentService(AppDBContext db) : IGraduatedStudentService
             StudyYearId = g.StudyYearId,
             FacultyId = g.FacultyId,
             FullName = g.FullName,
+            FullName_AR = g.FullName_AR,
             Average = g.Average,
             StudentNumber = g.StudentNumber,
             IsPublished = g.IsPublished,
@@ -35,6 +36,7 @@ public class GraduatedStudentService(AppDBContext db) : IGraduatedStudentService
             StudyYearId = request.StudyYearId,
             FacultyId = request.FacultyId,
             FullName = request.FullName,
+            FullName_AR = request.FullName_AR,
             Average = request.Average,
             StudentNumber = request.StudentNumber,
             IsPublished = request.IsPublished,
@@ -57,6 +59,7 @@ public class GraduatedStudentService(AppDBContext db) : IGraduatedStudentService
         entity.StudyYearId = dto.StudyYearId;
         entity.FacultyId = dto.FacultyId;
         entity.FullName = dto.FullName;
+        entity.FullName_AR = dto.FullName_AR;
         entity.Average = dto.Average;
         entity.StudentNumber = dto.StudentNumber;
         entity.IsPublished = dto.IsPublished;
@@ -84,6 +87,7 @@ public class GraduatedStudentService(AppDBContext db) : IGraduatedStudentService
         StudyYearId = g.StudyYearId,
         FacultyId = g.FacultyId,
         FullName = g.FullName,
+        FullName_AR = g.FullName_AR,
         Average = g.Average,
         StudentNumber = g.StudentNumber,
         IsPublished = g.IsPublished,

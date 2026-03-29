@@ -7,6 +7,7 @@ public class FacultyDto
     public int Id { get; set; }
     public string Slug { get; set; } = string.Empty;
     public string Name { get; set; } = string.Empty;
+    public string? Name_AR { get; set; }
     public Guid? PictureId { get; set; }
     public Guid? LogoId { get; set; }
     public bool Slider { get; set; }
@@ -29,6 +30,9 @@ public class CreateFacultyRequest
     [MaxLength(200)]
     public string Name { get; set; } = string.Empty;
 
+    [MaxLength(200)]
+    public string? Name_AR { get; set; }
+
     public Guid? PictureId { get; set; }
     public Guid? LogoId { get; set; }
     public bool Slider { get; set; }
@@ -47,6 +51,9 @@ public class UpdateFacultyRequest
     [Required]
     [MaxLength(200)]
     public string Name { get; set; } = string.Empty;
+
+    [MaxLength(200)]
+    public string? Name_AR { get; set; }
 
     public Guid? PictureId { get; set; }
     public Guid? LogoId { get; set; }

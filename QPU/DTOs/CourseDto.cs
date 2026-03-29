@@ -8,7 +8,9 @@ public class CourseDto
     public int FacultyId { get; set; }
     public int StudyYearId { get; set; }
     public string Name { get; set; } = string.Empty;
+    public string? Name_AR { get; set; }
     public string? Description { get; set; }
+    public string? Description_AR { get; set; }
     public bool IsPublished { get; set; }
     public int DisplayOrder { get; set; }
     public bool IsActive { get; set; }
@@ -28,7 +30,11 @@ public class CreateCourseRequest
     [MaxLength(300)]
     public string Name { get; set; } = string.Empty;
 
+    [MaxLength(300)]
+    public string? Name_AR { get; set; }
+
     public string? Description { get; set; }
+    public string? Description_AR { get; set; }
     public bool IsPublished { get; set; } = true;
     public int DisplayOrder { get; set; }
 }

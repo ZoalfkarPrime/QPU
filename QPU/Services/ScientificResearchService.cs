@@ -14,7 +14,9 @@ public class ScientificResearchService(AppDBContext db) : IScientificResearchSer
             TeacherId = r.TeacherId,
             StudyYearId = r.StudyYearId,
             Title = r.Title,
+            Title_AR = r.Title_AR,
             Details = r.Details,
+            Details_AR = r.Details_AR,
             DownloadFileId = r.DownloadFileId,
             PublishedAt = r.PublishedAt,
             IsPublished = r.IsPublished,
@@ -38,7 +40,9 @@ public class ScientificResearchService(AppDBContext db) : IScientificResearchSer
             TeacherId = request.TeacherId,
             StudyYearId = request.StudyYearId,
             Title = request.Title,
+            Title_AR = request.Title_AR,
             Details = request.Details,
+            Details_AR = request.Details_AR,
             DownloadFileId = request.DownloadFileId,
             PublishedAt = request.PublishedAt,
             IsPublished = request.IsPublished,
@@ -62,7 +66,9 @@ public class ScientificResearchService(AppDBContext db) : IScientificResearchSer
         entity.TeacherId = dto.TeacherId;
         entity.StudyYearId = dto.StudyYearId;
         entity.Title = dto.Title;
+        entity.Title_AR = dto.Title_AR;
         entity.Details = dto.Details;
+        entity.Details_AR = dto.Details_AR;
         entity.DownloadFileId = dto.DownloadFileId;
         entity.PublishedAt = dto.PublishedAt;
         entity.IsPublished = dto.IsPublished;
@@ -91,7 +97,9 @@ public class ScientificResearchService(AppDBContext db) : IScientificResearchSer
         TeacherId = r.TeacherId,
         StudyYearId = r.StudyYearId,
         Title = r.Title,
+        Title_AR = r.Title_AR,
         Details = r.Details,
+        Details_AR = r.Details_AR,
         DownloadFileId = r.DownloadFileId,
         PublishedAt = r.PublishedAt,
         IsPublished = r.IsPublished,

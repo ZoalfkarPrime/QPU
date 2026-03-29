@@ -14,6 +14,7 @@ public class ContentMetaService(AppDBContext db) : IContentMetaService
             Type = cm.Type,
             KeyName = cm.KeyName,
             Value = cm.Value,
+            Value_AR = cm.Value_AR,
             DisplayOrder = cm.DisplayOrder,
             IsActive = cm.IsActive,
             CreatedAt = cm.CreatedAt,
@@ -34,6 +35,7 @@ public class ContentMetaService(AppDBContext db) : IContentMetaService
             Type = request.Type,
             KeyName = request.KeyName,
             Value = request.Value,
+            Value_AR = request.Value_AR,
             DisplayOrder = request.DisplayOrder,
             IsActive = true,
             CreatedAt = DateTime.UtcNow,
@@ -56,6 +58,7 @@ public class ContentMetaService(AppDBContext db) : IContentMetaService
         entity.Type = dto.Type;
         entity.KeyName = dto.KeyName;
         entity.Value = dto.Value;
+        entity.Value_AR = dto.Value_AR;
         entity.DisplayOrder = dto.DisplayOrder;
         entity.IsActive = dto.IsActive;
         entity.UpdatedAt = DateTime.UtcNow;
@@ -82,6 +85,7 @@ public class ContentMetaService(AppDBContext db) : IContentMetaService
         Type = cm.Type,
         KeyName = cm.KeyName,
         Value = cm.Value,
+        Value_AR = cm.Value_AR,
         DisplayOrder = cm.DisplayOrder,
         IsActive = cm.IsActive,
         CreatedAt = cm.CreatedAt,

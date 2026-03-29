@@ -7,6 +7,7 @@ public class StudyProgramDto
     public int Id { get; set; }
     public int StudyYearId { get; set; }
     public string Name { get; set; } = string.Empty;
+    public string? Name_AR { get; set; }
     public Guid? FileId { get; set; }
     public bool IsPublished { get; set; }
     public int DisplayOrder { get; set; }
@@ -23,6 +24,9 @@ public class CreateStudyProgramRequest
     [Required]
     [MaxLength(300)]
     public string Name { get; set; } = string.Empty;
+
+    [MaxLength(300)]
+    public string? Name_AR { get; set; }
 
     public Guid? FileId { get; set; }
     public bool IsPublished { get; set; } = true;

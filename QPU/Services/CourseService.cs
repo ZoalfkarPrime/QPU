@@ -13,7 +13,9 @@ public class CourseService(AppDBContext db) : ICourseService
             FacultyId = c.FacultyId,
             StudyYearId = c.StudyYearId,
             Name = c.Name,
+            Name_AR = c.Name_AR,
             Description = c.Description,
+            Description_AR = c.Description_AR,
             IsPublished = c.IsPublished,
             DisplayOrder = c.DisplayOrder,
             IsActive = c.IsActive,
@@ -34,7 +36,9 @@ public class CourseService(AppDBContext db) : ICourseService
             FacultyId = request.FacultyId,
             StudyYearId = request.StudyYearId,
             Name = request.Name,
+            Name_AR = request.Name_AR,
             Description = request.Description,
+            Description_AR = request.Description_AR,
             IsPublished = request.IsPublished,
             DisplayOrder = request.DisplayOrder,
             CreatedAt = DateTime.UtcNow,
@@ -55,7 +59,9 @@ public class CourseService(AppDBContext db) : ICourseService
         entity.FacultyId = dto.FacultyId;
         entity.StudyYearId = dto.StudyYearId;
         entity.Name = dto.Name;
+        entity.Name_AR = dto.Name_AR;
         entity.Description = dto.Description;
+        entity.Description_AR = dto.Description_AR;
         entity.IsPublished = dto.IsPublished;
         entity.DisplayOrder = dto.DisplayOrder;
         entity.IsActive = dto.IsActive;
@@ -81,7 +87,9 @@ public class CourseService(AppDBContext db) : ICourseService
         FacultyId = c.FacultyId,
         StudyYearId = c.StudyYearId,
         Name = c.Name,
+        Name_AR = c.Name_AR,
         Description = c.Description,
+        Description_AR = c.Description_AR,
         IsPublished = c.IsPublished,
         DisplayOrder = c.DisplayOrder,
         IsActive = c.IsActive,

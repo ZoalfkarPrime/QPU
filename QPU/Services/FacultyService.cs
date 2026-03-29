@@ -12,6 +12,7 @@ public class FacultyService(AppDBContext db) : IFacultyService
             Id = f.Id,
             Slug = f.Slug,
             Name = f.Name,
+            Name_AR = f.Name_AR,
             PictureId = f.PictureId,
             LogoId = f.LogoId,
             Slider = f.Slider,
@@ -39,6 +40,7 @@ public class FacultyService(AppDBContext db) : IFacultyService
         {
             Slug = request.Slug,
             Name = request.Name,
+            Name_AR = request.Name_AR,
             PictureId = request.PictureId,
             LogoId = request.LogoId,
             Slider = request.Slider,
@@ -66,6 +68,7 @@ public class FacultyService(AppDBContext db) : IFacultyService
 
         faculty.Slug = dto.Slug;
         faculty.Name = dto.Name;
+        faculty.Name_AR = dto.Name_AR;
         faculty.PictureId = dto.PictureId;
         faculty.LogoId = dto.LogoId;
         faculty.Slider = dto.Slider;
@@ -99,6 +102,7 @@ public class FacultyService(AppDBContext db) : IFacultyService
         Id = f.Id,
         Slug = f.Slug,
         Name = f.Name,
+        Name_AR = f.Name_AR,
         PictureId = f.PictureId,
         LogoId = f.LogoId,
         Slider = f.Slider,

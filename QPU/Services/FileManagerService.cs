@@ -42,6 +42,7 @@ public class FileManagerService(AppDBContext db, IConfiguration config) : IFileM
         {
             Id = f.Id,
             Name = f.Name,
+            Name_AR = f.Name_AR,
             URL = f.URL != null ? baseUrl + f.URL : null,
             IsFile = f.IsFile,
             Thumbnail = f.Thumbnail != null ? baseUrl + f.Thumbnail : null,
@@ -100,6 +101,7 @@ public class FileManagerService(AppDBContext db, IConfiguration config) : IFileM
                     {
                         Id = Guid.NewGuid(),
                         Name = file.FileName,
+                        Name_AR = request.Name_AR,
                         URL = relativeUrl,
                         IsFile = true,
                         FileType = GetFileType(extension),
@@ -122,6 +124,7 @@ public class FileManagerService(AppDBContext db, IConfiguration config) : IFileM
                 {
                     Id = Guid.NewGuid(),
                     Name = request.Name ?? "New Folder",
+                    Name_AR = request.Name_AR,
                     IsFile = false,
                     FileType = 0,
                     Thumbnail = request.Thumbnail,
@@ -153,6 +156,7 @@ public class FileManagerService(AppDBContext db, IConfiguration config) : IFileM
         }
 
         entity.Name = request.Name ?? entity.Name;
+        entity.Name_AR = request.Name_AR ?? entity.Name_AR;
         entity.ParentId = request.ParentId;
         entity.UpdatedAt = DateTime.UtcNow;
 
@@ -194,6 +198,7 @@ public class FileManagerService(AppDBContext db, IConfiguration config) : IFileM
     {
         Id = f.Id,
         Name = f.Name,
+        Name_AR = f.Name_AR,
         URL = f.URL != null ? baseUrl + f.URL : null,
         IsFile = f.IsFile,
         Thumbnail = f.Thumbnail != null ? baseUrl + f.Thumbnail : null,

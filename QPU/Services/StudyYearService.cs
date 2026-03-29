@@ -11,6 +11,7 @@ public class StudyYearService(AppDBContext db) : IStudyYearService
         {
             Id = s.Id,
             Name = s.Name,
+            Name_AR = s.Name_AR,
             StartDate = s.StartDate,
             EndDate = s.EndDate,
             IsCurrent = s.IsCurrent,
@@ -31,6 +32,7 @@ public class StudyYearService(AppDBContext db) : IStudyYearService
         var entity = new StudyYear
         {
             Name = request.Name,
+            Name_AR = request.Name_AR,
             StartDate = request.StartDate,
             EndDate = request.EndDate,
             IsCurrent = request.IsCurrent,
@@ -51,6 +53,7 @@ public class StudyYearService(AppDBContext db) : IStudyYearService
         if (entity is null) return null;
 
         entity.Name = dto.Name;
+        entity.Name_AR = dto.Name_AR;
         entity.StartDate = dto.StartDate;
         entity.EndDate = dto.EndDate;
         entity.IsCurrent = dto.IsCurrent;
@@ -76,6 +79,7 @@ public class StudyYearService(AppDBContext db) : IStudyYearService
     {
         Id = s.Id,
         Name = s.Name,
+        Name_AR = s.Name_AR,
         StartDate = s.StartDate,
         EndDate = s.EndDate,
         IsCurrent = s.IsCurrent,

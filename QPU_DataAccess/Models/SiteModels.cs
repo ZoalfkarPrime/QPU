@@ -12,6 +12,9 @@ public class FileManager : BaseEntity
     [StringLength(255)]
     public string Name { get; set; } = string.Empty;
 
+    [StringLength(255)]
+    public string? Name_AR { get; set; }
+
     public string? URL { get; set; }
 
     public bool IsFile { get; set; }
@@ -40,6 +43,9 @@ public class Faculty : BaseEntity
     [Required]
     [MaxLength(200)]
     public string Name { get; set; } = string.Empty;
+
+    [MaxLength(200)]
+    public string? Name_AR { get; set; }
 
     public Guid? PictureId { get; set; }
 
@@ -78,10 +84,16 @@ public class Lab : BaseEntity
     [MaxLength(200)]
     public string Name { get; set; } = string.Empty;
 
+    [MaxLength(200)]
+    public string? Name_AR { get; set; }
+
     public Guid? PictureId { get; set; }
 
     [Column(TypeName = "nvarchar(max)")]
     public string? Content { get; set; }
+
+    [Column(TypeName = "nvarchar(max)")]
+    public string? Content_AR { get; set; }
 
     public bool IsPublished { get; set; } = true;
 
@@ -101,25 +113,46 @@ public class Teacher : BaseEntity
     [MaxLength(200)]
     public string Name { get; set; } = string.Empty;
 
+    [MaxLength(200)]
+    public string? Name_AR { get; set; }
+
     public Guid? PictureId { get; set; }
 
     [MaxLength(200)]
     public string? Position { get; set; }
 
+    [MaxLength(200)]
+    public string? Position_AR { get; set; }
+
     [MaxLength(300)]
     public string? Specialist { get; set; }
+
+    [MaxLength(300)]
+    public string? Specialist_AR { get; set; }
 
     [MaxLength(300)]
     public string? ScientificDegree { get; set; }
 
     [MaxLength(300)]
+    public string? ScientificDegree_AR { get; set; }
+
+    [MaxLength(300)]
     public string? AcademicDegree { get; set; }
+
+    [MaxLength(300)]
+    public string? AcademicDegree_AR { get; set; }
 
     [Column(TypeName = "nvarchar(max)")]
     public string? Certificates { get; set; }
 
     [Column(TypeName = "nvarchar(max)")]
+    public string? Certificates_AR { get; set; }
+
+    [Column(TypeName = "nvarchar(max)")]
     public string? Experiences { get; set; }
+
+    [Column(TypeName = "nvarchar(max)")]
+    public string? Experiences_AR { get; set; }
 
     public Guid? CvEnglishId { get; set; }
 
@@ -169,6 +202,9 @@ public class StudyYear : BaseEntity
     [MaxLength(20)]
     public string Name { get; set; } = string.Empty;
 
+    [MaxLength(20)]
+    public string? Name_AR { get; set; }
+
     public DateOnly StartDate { get; set; }
 
     public DateOnly EndDate { get; set; }
@@ -195,6 +231,9 @@ public class GraduatedStudent : BaseEntity
     [Required]
     [MaxLength(200)]
     public string FullName { get; set; } = string.Empty;
+
+    [MaxLength(200)]
+    public string? FullName_AR { get; set; }
 
     [Column(TypeName = "decimal(5,2)")]
     public decimal Average { get; set; }
@@ -226,8 +265,14 @@ public class Course : BaseEntity
     [MaxLength(300)]
     public string Name { get; set; } = string.Empty;
 
+    [MaxLength(300)]
+    public string? Name_AR { get; set; }
+
     [Column(TypeName = "nvarchar(max)")]
     public string? Description { get; set; }
+
+    [Column(TypeName = "nvarchar(max)")]
+    public string? Description_AR { get; set; }
 
     public bool IsPublished { get; set; } = true;
 
@@ -274,8 +319,14 @@ public class Lecture : BaseEntity
     [MaxLength(300)]
     public string Title { get; set; } = string.Empty;
 
+    [MaxLength(300)]
+    public string? Title_AR { get; set; }
+
     [Column(TypeName = "nvarchar(max)")]
     public string? Content { get; set; }
+
+    [Column(TypeName = "nvarchar(max)")]
+    public string? Content_AR { get; set; }
 
     public Guid? FileId { get; set; }
 
@@ -310,8 +361,14 @@ public class ScientificResearch : BaseEntity
     [MaxLength(300)]
     public string Title { get; set; } = string.Empty;
 
+    [MaxLength(300)]
+    public string? Title_AR { get; set; }
+
     [Column(TypeName = "nvarchar(max)")]
     public string? Details { get; set; }
+
+    [Column(TypeName = "nvarchar(max)")]
+    public string? Details_AR { get; set; }
 
     public Guid? DownloadFileId { get; set; }
 
@@ -343,6 +400,9 @@ public class StudyProgram : BaseEntity
     [Required]
     [MaxLength(300)]
     public string Name { get; set; } = string.Empty;
+
+    [MaxLength(300)]
+    public string? Name_AR { get; set; }
 
     public Guid? FileId { get; set; }
 
@@ -396,6 +456,9 @@ public class ContentMeta : BaseEntity
 
     [Column(TypeName = "nvarchar(max)")]
     public string? Value { get; set; }
+
+    [Column(TypeName = "nvarchar(max)")]
+    public string? Value_AR { get; set; }
 
     [ForeignKey(nameof(ContentId))]
     public virtual Content? Content { get; set; }
