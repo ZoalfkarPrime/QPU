@@ -17,6 +17,16 @@ public class LectureService(AppDBContext db) : ILectureService
             Content = l.Content,
             Content_AR = l.Content_AR,
             FileId = l.FileId,
+            File = l.File == null ? null : new FileManagerNodeDto
+            {
+                Id = l.File.Id,
+                Name = l.File.Name,
+                Name_AR = l.File.Name_AR,
+                URL = l.File.URL,
+                Thumbnail = l.File.Thumbnail,
+                IsFile = l.File.IsFile,
+                FileType = l.File.FileType
+            },
             LectureNumber = l.LectureNumber,
             IsPublished = l.IsPublished,
             DisplayOrder = l.DisplayOrder,
@@ -27,8 +37,7 @@ public class LectureService(AppDBContext db) : ILectureService
 
     public async Task<LectureDto?> GetByIdAsync(int id)
     {
-        var entity = await db.Lectures.AsNoTracking().FirstOrDefaultAsync(l => l.Id == id);
-        return entity is null ? null : ToDto(entity);
+        return await GetQueryable().FirstOrDefaultAsync(l => l.Id == id);
     }
 
     public async Task<LectureDto> CreateAsync(CreateLectureRequest request)
@@ -97,6 +106,16 @@ public class LectureService(AppDBContext db) : ILectureService
         Content = l.Content,
         Content_AR = l.Content_AR,
         FileId = l.FileId,
+        File = l.File == null ? null : new FileManagerNodeDto
+        {
+            Id = l.File.Id,
+            Name = l.File.Name,
+            Name_AR = l.File.Name_AR,
+            URL = l.File.URL,
+            Thumbnail = l.File.Thumbnail,
+            IsFile = l.File.IsFile,
+            FileType = l.File.FileType
+        },
         LectureNumber = l.LectureNumber,
         IsPublished = l.IsPublished,
         DisplayOrder = l.DisplayOrder,

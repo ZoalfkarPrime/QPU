@@ -9,7 +9,9 @@ public class FacultyDto
     public string Name { get; set; } = string.Empty;
     public string? Name_AR { get; set; }
     public Guid? PictureId { get; set; }
+    public FileManagerNodeDto? Picture { get; set; }
     public Guid? LogoId { get; set; }
+    public FileManagerNodeDto? Logo { get; set; }
     public bool Slider { get; set; }
     public bool IsPublished { get; set; }
     public string? PrimaryColor { get; set; }

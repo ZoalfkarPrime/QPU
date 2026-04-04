@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
@@ -24,6 +25,7 @@ builder.Services.Configure<ForwardedHeadersOptions>(options =>
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+builder.Services.AddProblemDetails();
 
 builder.Services.AddDbContext<AppDBContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -46,6 +48,33 @@ builder.Services.AddScoped<IContentMetaService, ContentMetaService>();
 var app = builder.Build();
 
 app.UseForwardedHeaders();
+
+app.UseExceptionHandler(exceptionHandlerApp =>
+{
+    exceptionHandlerApp.Run(async context =>
+    {
+        var logger = context.RequestServices.GetRequiredService<ILoggerFactory>().CreateLogger("GlobalException");
+        var exceptionFeature = context.Features.Get<IExceptionHandlerPathFeature>();
+
+        if (exceptionFeature?.Error is not null)
+        {
+            logger.LogError(
+                exceptionFeature.Error,
+                "Unhandled exception at {Path}. TraceId: {TraceId}",
+                exceptionFeature.Path,
+                context.TraceIdentifier);
+        }
+
+        context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+        context.Response.ContentType = "application/json";
+
+        await context.Response.WriteAsJsonAsync(new
+        {
+            message = "An unexpected error occurred.",
+            traceId = context.TraceIdentifier
+        });
+    });
+});
 
 var applyMigrationsOnStartup = builder.Configuration.GetValue<bool>("Database:ApplyMigrationsOnStartup");
 

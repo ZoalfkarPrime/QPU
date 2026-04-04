@@ -13,6 +13,7 @@ public class ScientificResearchDto
     public string? Details { get; set; }
     public string? Details_AR { get; set; }
     public Guid? DownloadFileId { get; set; }
+    public FileManagerNodeDto? DownloadFile { get; set; }
     public DateTime? PublishedAt { get; set; }
     public bool IsPublished { get; set; }
     public int DisplayOrder { get; set; }

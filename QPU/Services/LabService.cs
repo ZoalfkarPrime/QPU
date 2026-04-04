@@ -14,6 +14,16 @@ public class LabService(AppDBContext db) : ILabService
             Name = l.Name,
             Name_AR = l.Name_AR,
             PictureId = l.PictureId,
+            Picture = l.Picture == null ? null : new FileManagerNodeDto
+            {
+                Id = l.Picture.Id,
+                Name = l.Picture.Name,
+                Name_AR = l.Picture.Name_AR,
+                URL = l.Picture.URL,
+                Thumbnail = l.Picture.Thumbnail,
+                IsFile = l.Picture.IsFile,
+                FileType = l.Picture.FileType
+            },
             Content = l.Content,
             Content_AR = l.Content_AR,
             IsPublished = l.IsPublished,
@@ -25,8 +35,7 @@ public class LabService(AppDBContext db) : ILabService
 
     public async Task<LabDto?> GetByIdAsync(int id)
     {
-        var entity = await db.Labs.AsNoTracking().FirstOrDefaultAsync(l => l.Id == id);
-        return entity is null ? null : ToDto(entity);
+        return await GetQueryable().FirstOrDefaultAsync(l => l.Id == id);
     }
 
     public async Task<LabDto> CreateAsync(CreateLabRequest request)
@@ -88,6 +97,16 @@ public class LabService(AppDBContext db) : ILabService
         Name = l.Name,
         Name_AR = l.Name_AR,
         PictureId = l.PictureId,
+        Picture = l.Picture == null ? null : new FileManagerNodeDto
+        {
+            Id = l.Picture.Id,
+            Name = l.Picture.Name,
+            Name_AR = l.Picture.Name_AR,
+            URL = l.Picture.URL,
+            Thumbnail = l.Picture.Thumbnail,
+            IsFile = l.Picture.IsFile,
+            FileType = l.Picture.FileType
+        },
         Content = l.Content,
         Content_AR = l.Content_AR,
         IsPublished = l.IsPublished,

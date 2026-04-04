@@ -8,6 +8,7 @@ public class TeacherDto
     public string Name { get; set; } = string.Empty;
     public string? Name_AR { get; set; }
     public Guid? PictureId { get; set; }
+    public FileManagerNodeDto? Picture { get; set; }
     public string? Position { get; set; }
     public string? Position_AR { get; set; }
     public string? Specialist { get; set; }
@@ -21,7 +22,9 @@ public class TeacherDto
     public string? Experiences { get; set; }
     public string? Experiences_AR { get; set; }
     public Guid? CvEnglishId { get; set; }
+    public FileManagerNodeDto? CvEnglish { get; set; }
     public Guid? CvArabicId { get; set; }
+    public FileManagerNodeDto? CvArabic { get; set; }
     public bool IsPublished { get; set; }
     public int DisplayOrder { get; set; }
     public bool IsActive { get; set; }

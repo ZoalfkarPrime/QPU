@@ -12,6 +12,7 @@ public class LectureDto
     public string? Content { get; set; }
     public string? Content_AR { get; set; }
     public Guid? FileId { get; set; }
+    public FileManagerNodeDto? File { get; set; }
     public int LectureNumber { get; set; }
     public bool IsPublished { get; set; }
     public int DisplayOrder { get; set; }

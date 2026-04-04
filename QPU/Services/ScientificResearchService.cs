@@ -18,6 +18,16 @@ public class ScientificResearchService(AppDBContext db) : IScientificResearchSer
             Details = r.Details,
             Details_AR = r.Details_AR,
             DownloadFileId = r.DownloadFileId,
+            DownloadFile = r.DownloadFile == null ? null : new FileManagerNodeDto
+            {
+                Id = r.DownloadFile.Id,
+                Name = r.DownloadFile.Name,
+                Name_AR = r.DownloadFile.Name_AR,
+                URL = r.DownloadFile.URL,
+                Thumbnail = r.DownloadFile.Thumbnail,
+                IsFile = r.DownloadFile.IsFile,
+                FileType = r.DownloadFile.FileType
+            },
             PublishedAt = r.PublishedAt,
             IsPublished = r.IsPublished,
             DisplayOrder = r.DisplayOrder,
@@ -28,8 +38,7 @@ public class ScientificResearchService(AppDBContext db) : IScientificResearchSer
 
     public async Task<ScientificResearchDto?> GetByIdAsync(int id)
     {
-        var entity = await db.ScientificResearches.AsNoTracking().FirstOrDefaultAsync(r => r.Id == id);
-        return entity is null ? null : ToDto(entity);
+        return await GetQueryable().FirstOrDefaultAsync(r => r.Id == id);
     }
 
     public async Task<ScientificResearchDto> CreateAsync(CreateScientificResearchRequest request)
@@ -101,6 +110,16 @@ public class ScientificResearchService(AppDBContext db) : IScientificResearchSer
         Details = r.Details,
         Details_AR = r.Details_AR,
         DownloadFileId = r.DownloadFileId,
+        DownloadFile = r.DownloadFile == null ? null : new FileManagerNodeDto
+        {
+            Id = r.DownloadFile.Id,
+            Name = r.DownloadFile.Name,
+            Name_AR = r.DownloadFile.Name_AR,
+            URL = r.DownloadFile.URL,
+            Thumbnail = r.DownloadFile.Thumbnail,
+            IsFile = r.DownloadFile.IsFile,
+            FileType = r.DownloadFile.FileType
+        },
         PublishedAt = r.PublishedAt,
         IsPublished = r.IsPublished,
         DisplayOrder = r.DisplayOrder,

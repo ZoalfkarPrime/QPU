@@ -14,7 +14,27 @@ public class FacultyService(AppDBContext db) : IFacultyService
             Name = f.Name,
             Name_AR = f.Name_AR,
             PictureId = f.PictureId,
+            Picture = f.Picture == null ? null : new FileManagerNodeDto
+            {
+                Id = f.Picture.Id,
+                Name = f.Picture.Name,
+                Name_AR = f.Picture.Name_AR,
+                URL = f.Picture.URL,
+                Thumbnail = f.Picture.Thumbnail,
+                IsFile = f.Picture.IsFile,
+                FileType = f.Picture.FileType
+            },
             LogoId = f.LogoId,
+            Logo = f.Logo == null ? null : new FileManagerNodeDto
+            {
+                Id = f.Logo.Id,
+                Name = f.Logo.Name,
+                Name_AR = f.Logo.Name_AR,
+                URL = f.Logo.URL,
+                Thumbnail = f.Logo.Thumbnail,
+                IsFile = f.Logo.IsFile,
+                FileType = f.Logo.FileType
+            },
             Slider = f.Slider,
             IsPublished = f.IsPublished,
             PrimaryColor = f.PrimaryColor,
@@ -27,11 +47,7 @@ public class FacultyService(AppDBContext db) : IFacultyService
 
     public async Task<FacultyDto?> GetByIdAsync(int id)
     {
-        var faculty = await db.Faculties
-            .AsNoTracking()
-            .FirstOrDefaultAsync(f => f.Id == id);
-
-        return faculty is null ? null : ToDto(faculty);
+        return await GetQueryable().FirstOrDefaultAsync(f => f.Id == id);
     }
 
     public async Task<FacultyDto> CreateAsync(CreateFacultyRequest request)
@@ -104,7 +120,27 @@ public class FacultyService(AppDBContext db) : IFacultyService
         Name = f.Name,
         Name_AR = f.Name_AR,
         PictureId = f.PictureId,
+        Picture = f.Picture == null ? null : new FileManagerNodeDto
+        {
+            Id = f.Picture.Id,
+            Name = f.Picture.Name,
+            Name_AR = f.Picture.Name_AR,
+            URL = f.Picture.URL,
+            Thumbnail = f.Picture.Thumbnail,
+            IsFile = f.Picture.IsFile,
+            FileType = f.Picture.FileType
+        },
         LogoId = f.LogoId,
+        Logo = f.Logo == null ? null : new FileManagerNodeDto
+        {
+            Id = f.Logo.Id,
+            Name = f.Logo.Name,
+            Name_AR = f.Logo.Name_AR,
+            URL = f.Logo.URL,
+            Thumbnail = f.Logo.Thumbnail,
+            IsFile = f.Logo.IsFile,
+            FileType = f.Logo.FileType
+        },
         Slider = f.Slider,
         IsPublished = f.IsPublished,
         PrimaryColor = f.PrimaryColor,

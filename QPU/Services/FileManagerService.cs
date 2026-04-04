@@ -5,7 +5,7 @@ using QPU_DataAccess.Models;
 
 namespace QPU.Services;
 
-public class FileManagerService(AppDBContext db, IConfiguration config) : IFileManagerService
+public class FileManagerService(AppDBContext db, IConfiguration config, ILogger<FileManagerService> logger) : IFileManagerService
 {
     private static readonly HashSet<string> ImageExtensions =
         [".jpg", ".jpeg", ".png", ".gif", ".webp", ".bmp"];
@@ -72,6 +72,7 @@ public class FileManagerService(AppDBContext db, IConfiguration config) : IFileM
                 if (request.Files is null || request.Files.Count == 0)
                 {
                     modelState.AddModelError("Files", "No files provided.");
+                    logger.LogWarning("File upload request received without files.");
                     return;
                 }
 
@@ -141,6 +142,7 @@ public class FileManagerService(AppDBContext db, IConfiguration config) : IFileM
         }
         catch (Exception ex)
         {
+            logger.LogError(ex, "FileManager insert failed. ParentId: {ParentId}, IsFile: {IsFile}", request.ParentId, request.IsFile);
             modelState.AddModelError("FileUpload", ex.Message);
         }
     }
@@ -151,6 +153,7 @@ public class FileManagerService(AppDBContext db, IConfiguration config) : IFileM
 
         if (entity is null)
         {
+            logger.LogWarning("FileManager update failed. Entity not found. Id: {Id}", request.Id);
             modelState.AddModelError("Id", "File or folder not found.");
             return;
         }
@@ -167,7 +170,11 @@ public class FileManagerService(AppDBContext db, IConfiguration config) : IFileM
     {
         var entity = await db.FileManagers.FindAsync(id);
 
-        if (entity is null) return;
+        if (entity is null)
+        {
+            logger.LogWarning("FileManager delete skipped. Entity not found. Id: {Id}", id);
+            return;
+        }
 
         db.FileManagers.Remove(entity);
         await db.SaveChangesAsync();

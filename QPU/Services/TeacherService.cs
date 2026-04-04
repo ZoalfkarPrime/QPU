@@ -13,6 +13,16 @@ public class TeacherService(AppDBContext db) : ITeacherService
             Name = t.Name,
             Name_AR = t.Name_AR,
             PictureId = t.PictureId,
+            Picture = t.Picture == null ? null : new FileManagerNodeDto
+            {
+                Id = t.Picture.Id,
+                Name = t.Picture.Name,
+                Name_AR = t.Picture.Name_AR,
+                URL = t.Picture.URL,
+                Thumbnail = t.Picture.Thumbnail,
+                IsFile = t.Picture.IsFile,
+                FileType = t.Picture.FileType
+            },
             Position = t.Position,
             Position_AR = t.Position_AR,
             Specialist = t.Specialist,
@@ -26,7 +36,27 @@ public class TeacherService(AppDBContext db) : ITeacherService
             Experiences = t.Experiences,
             Experiences_AR = t.Experiences_AR,
             CvEnglishId = t.CvEnglishId,
+            CvEnglish = t.CvEnglish == null ? null : new FileManagerNodeDto
+            {
+                Id = t.CvEnglish.Id,
+                Name = t.CvEnglish.Name,
+                Name_AR = t.CvEnglish.Name_AR,
+                URL = t.CvEnglish.URL,
+                Thumbnail = t.CvEnglish.Thumbnail,
+                IsFile = t.CvEnglish.IsFile,
+                FileType = t.CvEnglish.FileType
+            },
             CvArabicId = t.CvArabicId,
+            CvArabic = t.CvArabic == null ? null : new FileManagerNodeDto
+            {
+                Id = t.CvArabic.Id,
+                Name = t.CvArabic.Name,
+                Name_AR = t.CvArabic.Name_AR,
+                URL = t.CvArabic.URL,
+                Thumbnail = t.CvArabic.Thumbnail,
+                IsFile = t.CvArabic.IsFile,
+                FileType = t.CvArabic.FileType
+            },
             IsPublished = t.IsPublished,
             DisplayOrder = t.DisplayOrder,
             IsActive = t.IsActive,
@@ -36,8 +66,7 @@ public class TeacherService(AppDBContext db) : ITeacherService
 
     public async Task<TeacherDto?> GetByIdAsync(int id)
     {
-        var entity = await db.Teachers.AsNoTracking().FirstOrDefaultAsync(t => t.Id == id);
-        return entity is null ? null : ToDto(entity);
+        return await GetQueryable().FirstOrDefaultAsync(t => t.Id == id);
     }
 
     public async Task<TeacherDto> CreateAsync(CreateTeacherRequest request)
@@ -120,6 +149,16 @@ public class TeacherService(AppDBContext db) : ITeacherService
         Name = t.Name,
         Name_AR = t.Name_AR,
         PictureId = t.PictureId,
+        Picture = t.Picture == null ? null : new FileManagerNodeDto
+        {
+            Id = t.Picture.Id,
+            Name = t.Picture.Name,
+            Name_AR = t.Picture.Name_AR,
+            URL = t.Picture.URL,
+            Thumbnail = t.Picture.Thumbnail,
+            IsFile = t.Picture.IsFile,
+            FileType = t.Picture.FileType
+        },
         Position = t.Position,
         Position_AR = t.Position_AR,
         Specialist = t.Specialist,
@@ -133,7 +172,27 @@ public class TeacherService(AppDBContext db) : ITeacherService
         Experiences = t.Experiences,
         Experiences_AR = t.Experiences_AR,
         CvEnglishId = t.CvEnglishId,
+        CvEnglish = t.CvEnglish == null ? null : new FileManagerNodeDto
+        {
+            Id = t.CvEnglish.Id,
+            Name = t.CvEnglish.Name,
+            Name_AR = t.CvEnglish.Name_AR,
+            URL = t.CvEnglish.URL,
+            Thumbnail = t.CvEnglish.Thumbnail,
+            IsFile = t.CvEnglish.IsFile,
+            FileType = t.CvEnglish.FileType
+        },
         CvArabicId = t.CvArabicId,
+        CvArabic = t.CvArabic == null ? null : new FileManagerNodeDto
+        {
+            Id = t.CvArabic.Id,
+            Name = t.CvArabic.Name,
+            Name_AR = t.CvArabic.Name_AR,
+            URL = t.CvArabic.URL,
+            Thumbnail = t.CvArabic.Thumbnail,
+            IsFile = t.CvArabic.IsFile,
+            FileType = t.CvArabic.FileType
+        },
         IsPublished = t.IsPublished,
         DisplayOrder = t.DisplayOrder,
         IsActive = t.IsActive,

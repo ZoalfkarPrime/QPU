@@ -209,6 +209,10 @@ public class AppDBContext : IdentityDbContext<AppUser, AppRole, string, AppUserC
 
         // Content
         modelBuilder.Entity<ContentMeta>()
+            .HasIndex(cm => new { cm.ContentId, cm.KeyName })
+            .IsUnique();
+
+        modelBuilder.Entity<ContentMeta>()
             .HasOne(cm => cm.Content)
             .WithMany(c => c.ContentMetas)
             .HasForeignKey(cm => cm.ContentId)

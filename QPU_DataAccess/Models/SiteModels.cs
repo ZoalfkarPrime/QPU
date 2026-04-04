@@ -421,7 +421,8 @@ public class Content : BaseEntity
     public int Id { get; set; }
 
     [Required]
-    public int ReferenceId { get; set; }
+    [MaxLength(100)]
+    public string ReferenceId { get; set; } = string.Empty;
 
     [Required]
     [MaxLength(100)]
@@ -429,7 +430,7 @@ public class Content : BaseEntity
 
     [Required]
     [MaxLength(100)]
-    public string Type { get; set; } = string.Empty;
+    public string Section { get; set; } = string.Empty;
 
     [Required]
     [MaxLength(300)]

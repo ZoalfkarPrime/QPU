@@ -14,6 +14,16 @@ public class StudyProgramService(AppDBContext db) : IStudyProgramService
             Name = sp.Name,
             Name_AR = sp.Name_AR,
             FileId = sp.FileId,
+            File = sp.File == null ? null : new FileManagerNodeDto
+            {
+                Id = sp.File.Id,
+                Name = sp.File.Name,
+                Name_AR = sp.File.Name_AR,
+                URL = sp.File.URL,
+                Thumbnail = sp.File.Thumbnail,
+                IsFile = sp.File.IsFile,
+                FileType = sp.File.FileType
+            },
             IsPublished = sp.IsPublished,
             DisplayOrder = sp.DisplayOrder,
             IsActive = sp.IsActive,
@@ -23,8 +33,7 @@ public class StudyProgramService(AppDBContext db) : IStudyProgramService
 
     public async Task<StudyProgramDto?> GetByIdAsync(int id)
     {
-        var entity = await db.StudyPrograms.AsNoTracking().FirstOrDefaultAsync(sp => sp.Id == id);
-        return entity is null ? null : ToDto(entity);
+        return await GetQueryable().FirstOrDefaultAsync(sp => sp.Id == id);
     }
 
     public async Task<StudyProgramDto> CreateAsync(CreateStudyProgramRequest request)
@@ -82,6 +91,16 @@ public class StudyProgramService(AppDBContext db) : IStudyProgramService
         Name = sp.Name,
         Name_AR = sp.Name_AR,
         FileId = sp.FileId,
+        File = sp.File == null ? null : new FileManagerNodeDto
+        {
+            Id = sp.File.Id,
+            Name = sp.File.Name,
+            Name_AR = sp.File.Name_AR,
+            URL = sp.File.URL,
+            Thumbnail = sp.File.Thumbnail,
+            IsFile = sp.File.IsFile,
+            FileType = sp.File.FileType
+        },
         IsPublished = sp.IsPublished,
         DisplayOrder = sp.DisplayOrder,
         IsActive = sp.IsActive,

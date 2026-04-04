@@ -9,6 +9,7 @@ public class LabDto
     public string Name { get; set; } = string.Empty;
     public string? Name_AR { get; set; }
     public Guid? PictureId { get; set; }
+    public FileManagerNodeDto? Picture { get; set; }
     public string? Content { get; set; }
     public string? Content_AR { get; set; }
     public bool IsPublished { get; set; }
