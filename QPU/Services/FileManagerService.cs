@@ -101,8 +101,8 @@ public class FileManagerService(AppDBContext db, IConfiguration config, ILogger<
                     var entity = new FileManager
                     {
                         Id = Guid.NewGuid(),
-                        Name = file.FileName,
-                        Name_AR = request.Name_AR,
+                        Name = request.Name is null ? file.FileName: request.Name,
+                        Name_AR = request.Name_AR is null ? file.FileName: request.Name_AR,
                         URL = relativeUrl,
                         IsFile = true,
                         FileType = GetFileType(extension),
