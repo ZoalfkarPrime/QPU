@@ -18,13 +18,27 @@ public class ContentMetaService(AppDBContext db) : IContentMetaService
             DisplayOrder = cm.DisplayOrder,
             IsActive = cm.IsActive,
             CreatedAt = cm.CreatedAt,
-            UpdatedAt = cm.UpdatedAt
+            UpdatedAt = cm.UpdatedAt,
+            Filemanager = (cm.Type == "image" || cm.Type == "video")
+                ? db.FileManagers
+                    .Where(f => f.Id.ToString() == cm.Value)
+                    .Select(f => new FileManagerNodeDto
+                    {
+                        Id = f.Id,
+                        Name = f.Name,
+                        Name_AR = f.Name_AR,
+                        URL = f.URL,
+                        Thumbnail = f.Thumbnail,
+                        IsFile = f.IsFile,
+                        FileType = f.FileType
+                    })
+                    .FirstOrDefault()
+                : null
         });
 
     public async Task<ContentMetaDto?> GetByIdAsync(int id)
     {
-        var entity = await db.ContentMetas.AsNoTracking().FirstOrDefaultAsync(cm => cm.Id == id);
-        return entity is null ? null : ToDto(entity);
+        return await GetQueryable().FirstOrDefaultAsync(cm => cm.Id == id);
     }
 
     public async Task<ContentMetaDto> CreateAsync(CreateContentMetaRequest request)
@@ -45,7 +59,7 @@ public class ContentMetaService(AppDBContext db) : IContentMetaService
         db.ContentMetas.Add(entity);
         await db.SaveChangesAsync();
 
-        return ToDto(entity);
+        return await GetQueryable().FirstAsync(cm => cm.Id == entity.Id);
     }
 
     public async Task<ContentMetaDto?> UpdateAsync(ContentMetaDto dto)
@@ -64,7 +78,7 @@ public class ContentMetaService(AppDBContext db) : IContentMetaService
         entity.UpdatedAt = DateTime.UtcNow;
 
         await db.SaveChangesAsync();
-        return ToDto(entity);
+        return await GetQueryable().FirstAsync(cm => cm.Id == entity.Id);
     }
 
     public async Task<bool> DeleteAsync(int id)
@@ -77,18 +91,4 @@ public class ContentMetaService(AppDBContext db) : IContentMetaService
         await db.SaveChangesAsync();
         return true;
     }
-
-    private static ContentMetaDto ToDto(ContentMeta cm) => new()
-    {
-        Id = cm.Id,
-        ContentId = cm.ContentId,
-        Type = cm.Type,
-        KeyName = cm.KeyName,
-        Value = cm.Value,
-        Value_AR = cm.Value_AR,
-        DisplayOrder = cm.DisplayOrder,
-        IsActive = cm.IsActive,
-        CreatedAt = cm.CreatedAt,
-        UpdatedAt = cm.UpdatedAt
-    };
 }

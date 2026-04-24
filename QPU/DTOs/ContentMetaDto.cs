@@ -14,6 +14,7 @@ public class ContentMetaDto
     public bool IsActive { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
+    public FileManagerNodeDto? Filemanager { get; set; }
 }
 
 public class CreateContentMetaRequest
