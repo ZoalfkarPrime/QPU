@@ -4,10 +4,14 @@ using QPU_DataAccess.Models;
 
 namespace QPU.Services;
 
-public class ContentMetaService(AppDBContext db) : IContentMetaService
+public class ContentMetaService(AppDBContext db, IConfiguration config) : IContentMetaService
 {
-    public IQueryable<ContentMetaDto> GetQueryable() =>
-        db.ContentMetas.Select(cm => new ContentMetaDto
+    private string ApiBaseUrl => config["FileManager:APIBaseURL"] ?? string.Empty;
+
+    public IQueryable<ContentMetaDto> GetQueryable()
+    {
+        var baseUrl = ApiBaseUrl;
+        return db.ContentMetas.Select(cm => new ContentMetaDto
         {
             Id = cm.Id,
             ContentId = cm.ContentId,
@@ -19,7 +23,7 @@ public class ContentMetaService(AppDBContext db) : IContentMetaService
             IsActive = cm.IsActive,
             CreatedAt = cm.CreatedAt,
             UpdatedAt = cm.UpdatedAt,
-            Filemanager = (cm.Type == "image" || cm.Type == "video")
+            Filemanager = (cm.Type == "image" || cm.Type == "video" || cm.Type == "file")
                 ? db.FileManagers
                     .Where(f => f.Id.ToString() == cm.Value)
                     .Select(f => new FileManagerNodeDto
@@ -27,14 +31,15 @@ public class ContentMetaService(AppDBContext db) : IContentMetaService
                         Id = f.Id,
                         Name = f.Name,
                         Name_AR = f.Name_AR,
-                        URL = f.URL,
-                        Thumbnail = f.Thumbnail,
+                        URL = f.URL != null ? baseUrl + f.URL : null,
+                        Thumbnail = f.Thumbnail != null ? baseUrl + f.Thumbnail : null,
                         IsFile = f.IsFile,
                         FileType = f.FileType
                     })
                     .FirstOrDefault()
                 : null
         });
+    }
 
     public async Task<ContentMetaDto?> GetByIdAsync(int id)
     {
