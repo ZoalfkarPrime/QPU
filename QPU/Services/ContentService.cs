@@ -4,10 +4,14 @@ using QPU_DataAccess.Models;
 
 namespace QPU.Services;
 
-public class ContentService(AppDBContext db) : IContentService
+public class ContentService(AppDBContext db, IConfiguration config) : IContentService
 {
-    public IQueryable<ContentDto> GetQueryable() =>
-        db.Contents.Select(c => new ContentDto
+    private string ApiBaseUrl => config["FileManager:APIBaseURL"] ?? string.Empty;
+
+    public IQueryable<ContentDto> GetQueryable()
+    {
+        var baseUrl = ApiBaseUrl;
+        return db.Contents.Select(c => new ContentDto
         {
             Id = c.Id,
             ReferenceId = c.ReferenceId,
@@ -27,7 +31,22 @@ public class ContentService(AppDBContext db) : IContentService
                     DisplayOrder = cm.DisplayOrder,
                     IsActive = cm.IsActive,
                     CreatedAt = cm.CreatedAt,
-                    UpdatedAt = cm.UpdatedAt
+                    UpdatedAt = cm.UpdatedAt,
+                    Filemanager = (cm.Type == "image" || cm.Type == "video")
+                        ? db.FileManagers
+                            .Where(f => f.Id.ToString() == cm.Value)
+                            .Select(f => new FileManagerNodeDto
+                            {
+                                Id = f.Id,
+                                Name = f.Name,
+                                Name_AR = f.Name_AR,
+                                URL = f.URL != null ? baseUrl + f.URL : null,
+                                Thumbnail = f.Thumbnail != null ? baseUrl + f.Thumbnail : null,
+                                IsFile = f.IsFile,
+                                FileType = f.FileType
+                            })
+                            .FirstOrDefault()
+                        : null
                 })
                 .ToList(),
             DisplayOrder = c.DisplayOrder,
@@ -35,15 +54,11 @@ public class ContentService(AppDBContext db) : IContentService
             CreatedAt = c.CreatedAt,
             UpdatedAt = c.UpdatedAt
         });
+    }
 
     public async Task<ContentDto?> GetByIdAsync(int id)
     {
-        var entity = await db.Contents
-            .AsNoTracking()
-            .Include(c => c.ContentMetas)
-            .FirstOrDefaultAsync(c => c.Id == id);
-
-        return entity is null ? null : ToDto(entity);
+        return await GetQueryable().FirstOrDefaultAsync(c => c.Id == id);
     }
 
     public async Task<ContentDto> CreateAsync(CreateContentRequest request)
@@ -63,7 +78,7 @@ public class ContentService(AppDBContext db) : IContentService
         db.Contents.Add(entity);
         await db.SaveChangesAsync();
 
-        return ToDto(entity);
+        return await GetQueryable().FirstAsync(c => c.Id == entity.Id);
     }
 
     public async Task<ContentDto?> UpdateAsync(ContentDto dto)
@@ -81,7 +96,7 @@ public class ContentService(AppDBContext db) : IContentService
         entity.UpdatedAt = DateTime.UtcNow;
 
         await db.SaveChangesAsync();
-        return ToDto(entity);
+        return await GetQueryable().FirstAsync(c => c.Id == entity.Id);
     }
 
     public async Task<bool> DeleteAsync(int id)
@@ -94,33 +109,4 @@ public class ContentService(AppDBContext db) : IContentService
         await db.SaveChangesAsync();
         return true;
     }
-
-    private static ContentDto ToDto(Content c) => new()
-    {
-        Id = c.Id,
-        ReferenceId = c.ReferenceId,
-        ReferenceType = c.ReferenceType,
-        Section = c.Section,
-        Title = c.Title,
-        ContentMetas = c.ContentMetas
-            .OrderBy(cm => cm.DisplayOrder)
-            .Select(cm => new ContentMetaDto
-            {
-                Id = cm.Id,
-                ContentId = cm.ContentId,
-                Type = cm.Type,
-                KeyName = cm.KeyName,
-                Value = cm.Value,
-                Value_AR = cm.Value_AR,
-                DisplayOrder = cm.DisplayOrder,
-                IsActive = cm.IsActive,
-                CreatedAt = cm.CreatedAt,
-                UpdatedAt = cm.UpdatedAt
-            })
-            .ToList(),
-        DisplayOrder = c.DisplayOrder,
-        IsActive = c.IsActive,
-        CreatedAt = c.CreatedAt,
-        UpdatedAt = c.UpdatedAt
-    };
 }
