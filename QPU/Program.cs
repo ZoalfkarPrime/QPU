@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
+using QPU.Auth;
 using QPU.Services;
 using QPU_DataAccess.Models;
 using Scalar.AspNetCore;
@@ -29,6 +30,24 @@ builder.Services.AddProblemDetails();
 
 builder.Services.AddDbContext<AppDBContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddIdentity<AppUser, AppRole>(options =>
+    {
+        options.Password.RequireDigit = false;
+        options.Password.RequiredLength = 6;
+        options.Password.RequireNonAlphanumeric = false;
+        options.Password.RequireUppercase = false;
+        options.Password.RequireLowercase = false;
+    })
+    .AddEntityFrameworkStores<AppDBContext>();
+
+builder.Services.AddAuthentication("DbToken")
+    .AddScheme<DbTokenAuthOptions, DbTokenAuthHandler>("DbToken", _ => { });
+
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IRoleService, UserService>();
 
 builder.Services.AddScoped<IFacultyService, FacultyService>();
 builder.Services.AddScoped<IFileManagerService, FileManagerService>();
@@ -137,6 +156,7 @@ if (!string.IsNullOrWhiteSpace(uploadPath))
     });
 }
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
