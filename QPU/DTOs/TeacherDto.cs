@@ -26,6 +26,7 @@ public class TeacherDto
     public Guid? CvArabicId { get; set; }
     public FileManagerNodeDto? CvArabic { get; set; }
     public bool IsPublished { get; set; }
+    public bool? HasHonor { get; set; }
     public int DisplayOrder { get; set; }
     public bool IsActive { get; set; }
     public DateTime CreatedAt { get; set; }

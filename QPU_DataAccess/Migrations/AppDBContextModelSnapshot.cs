@@ -966,6 +966,9 @@ namespace QPU_DataAccess.Migrations
                     b.Property<string>("Experiences_AR")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool?>("HasHonor")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
@@ -1020,6 +1023,52 @@ namespace QPU_DataAccess.Migrations
                     b.HasIndex("PictureId");
 
                     b.ToTable("Teachers", "dbo");
+                });
+
+            modelBuilder.Entity("QPU_DataAccess.Models.BestEmployee", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description_AR")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("DisplayOrder")
+                        .HasColumnType("int");
+
+                    b.Property<int>("FacultyId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("StudyYearId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TeacherId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FacultyId");
+
+                    b.HasIndex("StudyYearId");
+
+                    b.HasIndex("TeacherId");
+
+                    b.ToTable("BestEmployees", "dbo");
                 });
 
             modelBuilder.Entity("QPU_DataAccess.Models.AppRoleClaim", b =>
@@ -1083,6 +1132,33 @@ namespace QPU_DataAccess.Migrations
                     b.Navigation("Role");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("QPU_DataAccess.Models.BestEmployee", b =>
+                {
+                    b.HasOne("QPU_DataAccess.Models.Faculty", "Faculty")
+                        .WithMany()
+                        .HasForeignKey("FacultyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("QPU_DataAccess.Models.StudyYear", "StudyYear")
+                        .WithMany()
+                        .HasForeignKey("StudyYearId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("QPU_DataAccess.Models.Teacher", "Teacher")
+                        .WithMany()
+                        .HasForeignKey("TeacherId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Faculty");
+
+                    b.Navigation("StudyYear");
+
+                    b.Navigation("Teacher");
                 });
 
             modelBuilder.Entity("QPU_DataAccess.Models.ContentMeta", b =>

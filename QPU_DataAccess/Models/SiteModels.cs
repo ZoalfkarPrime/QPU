@@ -160,6 +160,8 @@ public class Teacher : BaseEntity
 
     public bool IsPublished { get; set; } = true;
 
+    public bool? HasHonor { get; set; }
+
     [ForeignKey(nameof(PictureId))]
     public virtual FileManager? Picture { get; set; }
 
@@ -463,4 +465,34 @@ public class ContentMeta : BaseEntity
 
     [ForeignKey(nameof(ContentId))]
     public virtual Content? Content { get; set; }
+}
+
+public class BestEmployee : BaseEntity
+{
+    [Key]
+    public int Id { get; set; }
+
+    [Required]
+    public int FacultyId { get; set; }
+
+    [Required]
+    public int StudyYearId { get; set; }
+
+    [Required]
+    public int TeacherId { get; set; }
+
+    [Column(TypeName = "nvarchar(max)")]
+    public string? Description { get; set; }
+
+    [Column(TypeName = "nvarchar(max)")]
+    public string? Description_AR { get; set; }
+
+    [ForeignKey(nameof(FacultyId))]
+    public virtual Faculty? Faculty { get; set; }
+
+    [ForeignKey(nameof(StudyYearId))]
+    public virtual StudyYear? StudyYear { get; set; }
+
+    [ForeignKey(nameof(TeacherId))]
+    public virtual Teacher? Teacher { get; set; }
 }

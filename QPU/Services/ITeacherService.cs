@@ -10,4 +10,5 @@ public interface ITeacherService
     Task<TeacherDto> CreateAsync(CreateTeacherRequest request);
     Task<TeacherDto?> UpdateAsync(TeacherDto dto);
     Task<bool> DeleteAsync(int id);
+    Task<TeacherDto?> SetHonorAsync(int id, bool hasHonor);
 }

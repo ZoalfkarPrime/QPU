@@ -58,6 +58,7 @@ public class TeacherService(AppDBContext db) : ITeacherService
                 FileType = t.CvArabic.FileType
             },
             IsPublished = t.IsPublished,
+            HasHonor = t.HasHonor,
             DisplayOrder = t.DisplayOrder,
             IsActive = t.IsActive,
             CreatedAt = t.CreatedAt,
@@ -125,6 +126,7 @@ public class TeacherService(AppDBContext db) : ITeacherService
         entity.CvEnglishId = dto.CvEnglishId;
         entity.CvArabicId = dto.CvArabicId;
         entity.IsPublished = dto.IsPublished;
+        entity.HasHonor = dto.HasHonor;
         entity.DisplayOrder = dto.DisplayOrder;
         entity.IsActive = dto.IsActive;
         entity.UpdatedAt = DateTime.UtcNow;
@@ -194,9 +196,21 @@ public class TeacherService(AppDBContext db) : ITeacherService
             FileType = t.CvArabic.FileType
         },
         IsPublished = t.IsPublished,
+        HasHonor = t.HasHonor,
         DisplayOrder = t.DisplayOrder,
         IsActive = t.IsActive,
         CreatedAt = t.CreatedAt,
         UpdatedAt = t.UpdatedAt
     };
+
+    public async Task<TeacherDto?> SetHonorAsync(int id, bool hasHonor)
+    {
+        var entity = await db.Teachers.FindAsync(id);
+        if (entity is null) return null;
+
+        entity.HasHonor = hasHonor;
+        entity.UpdatedAt = DateTime.UtcNow;
+        await db.SaveChangesAsync();
+        return await GetQueryable().FirstOrDefaultAsync(t => t.Id == id);
+    }
 }

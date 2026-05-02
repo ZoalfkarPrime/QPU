@@ -24,6 +24,7 @@ public class AppDBContext : IdentityDbContext<AppUser, AppRole, string, AppUserC
     public DbSet<ScientificResearch> ScientificResearches => Set<ScientificResearch>();
     public DbSet<Content> Contents => Set<Content>();
     public DbSet<ContentMeta> ContentMetas => Set<ContentMeta>();
+    public DbSet<BestEmployee> BestEmployees => Set<BestEmployee>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -217,5 +218,24 @@ public class AppDBContext : IdentityDbContext<AppUser, AppRole, string, AppUserC
             .WithMany(c => c.ContentMetas)
             .HasForeignKey(cm => cm.ContentId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        // BestEmployee
+        modelBuilder.Entity<BestEmployee>()
+            .HasOne(be => be.Faculty)
+            .WithMany()
+            .HasForeignKey(be => be.FacultyId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<BestEmployee>()
+            .HasOne(be => be.StudyYear)
+            .WithMany()
+            .HasForeignKey(be => be.StudyYearId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<BestEmployee>()
+            .HasOne(be => be.Teacher)
+            .WithMany()
+            .HasForeignKey(be => be.TeacherId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }
