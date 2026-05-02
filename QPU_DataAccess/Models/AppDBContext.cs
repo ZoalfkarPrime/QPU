@@ -42,6 +42,13 @@ public class AppDBContext : IdentityDbContext<AppUser, AppRole, string, AppUserC
             .HasForeignKey(f => f.ParentId)
             .OnDelete(DeleteBehavior.Restrict);
 
+        // AppUser → Faculty (scoped access)
+        modelBuilder.Entity<AppUser>()
+            .HasOne(u => u.Faculty)
+            .WithMany()
+            .HasForeignKey(u => u.FacultyId)
+            .OnDelete(DeleteBehavior.Restrict);
+
         // Faculty
         modelBuilder.Entity<Faculty>()
             .HasIndex(f => f.Slug)

@@ -48,6 +48,7 @@ public class UserService(
             LastName = request.LastName,
             PhoneNumber = request.PhoneNumber,
             UserType = 2,
+            FacultyId = request.FacultyId,
             EmailConfirmed = true,
             PhoneNumberConfirmed = true,
             LockoutEnabled = false,
@@ -88,6 +89,7 @@ public class UserService(
         user.FirstName = request.FirstName;
         user.LastName = request.LastName;
         user.PhoneNumber = request.PhoneNumber;
+        user.FacultyId = request.FacultyId;
 
         var updateResult = await userManager.UpdateAsync(user);
         if (!updateResult.Succeeded)
@@ -217,6 +219,7 @@ public class UserService(
         LastName = user.LastName,
         PhoneNumber = user.PhoneNumber,
         UserType = user.UserType,
+        FacultyId = user.FacultyId,
         IsActive = user.IsActive,
         IsVerified = user.IsVerified,
         IsDeleted = user.IsDeleted,

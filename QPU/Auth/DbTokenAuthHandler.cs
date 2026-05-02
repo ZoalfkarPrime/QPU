@@ -39,7 +39,8 @@ public class DbTokenAuthHandler(
             new(ClaimTypes.NameIdentifier, user.Id),
             new(ClaimTypes.Email, user.Email ?? string.Empty),
             new(ClaimTypes.Name, user.UserName ?? string.Empty),
-            new("UserType", user.UserType?.ToString() ?? "1")
+            new("UserType", user.UserType?.ToString() ?? "1"),
+            new("FacultyId", user.FacultyId?.ToString() ?? string.Empty)
         };
 
         var roles = db.UserRoles

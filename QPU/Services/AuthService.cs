@@ -117,6 +117,7 @@ public class AuthService(
             FirstName = user.FirstName,
             Phone = user.PhoneNumber,
             UserType = user.UserType,
+            FacultyId = user.FacultyId,
             Token = token,
             Photo = user.Photo != null ? ApiBaseUrl + user.Photo : null
         };

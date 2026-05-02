@@ -66,6 +66,7 @@ public class UserSessionDto
     public string FirstName { get; set; } = string.Empty;
     public string? Phone { get; set; }
     public int? UserType { get; set; }
+    public int? FacultyId { get; set; }
     public string Token { get; set; } = string.Empty;
     public string? Photo { get; set; }
 }

@@ -11,6 +11,7 @@ public class UserDto
     public string LastName { get; set; } = string.Empty;
     public string? PhoneNumber { get; set; }
     public int? UserType { get; set; }
+    public int? FacultyId { get; set; }
     public bool IsActive { get; set; }
     public bool IsVerified { get; set; }
     public bool IsDeleted { get; set; }
@@ -37,6 +38,7 @@ public class CreateUserRequest
     [MinLength(6)]
     public string Password { get; set; } = string.Empty;
 
+    public int? FacultyId { get; set; }
     public List<string> RoleIds { get; set; } = [];
 }
 
@@ -58,6 +60,7 @@ public class UpdateUserRequest
     public string LastName { get; set; } = string.Empty;
 
     public string? PhoneNumber { get; set; }
+    public int? FacultyId { get; set; }
 
     public List<string> RoleIds { get; set; } = [];
 }
