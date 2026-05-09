@@ -6,7 +6,9 @@ public class GraduatedStudentDto
 {
     public int Id { get; set; }
     public int StudyYearId { get; set; }
+    public StudyYearLookupDto? StudyYear { get; set; }
     public int FacultyId { get; set; }
+    public FacultyLookupDto? Faculty { get; set; }
     public string FullName { get; set; } = string.Empty;
     public string? FullName_AR { get; set; }
     public decimal Average { get; set; }

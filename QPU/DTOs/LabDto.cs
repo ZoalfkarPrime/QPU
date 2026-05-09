@@ -6,6 +6,7 @@ public class LabDto
 {
     public int Id { get; set; }
     public int FacultyId { get; set; }
+    public FacultyLookupDto? Faculty { get; set; }
     public string Name { get; set; } = string.Empty;
     public string? Name_AR { get; set; }
     public Guid? PictureId { get; set; }

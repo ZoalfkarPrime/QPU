@@ -11,7 +11,31 @@ public class CourseTeacherService(AppDBContext db) : ICourseTeacherService
         {
             Id = ct.Id,
             CourseId = ct.CourseId,
+            Course = ct.Course == null ? null : new CourseLookupDto
+            {
+                Id = ct.Course.Id,
+                Name = ct.Course.Name,
+                Name_AR = ct.Course.Name_AR,
+                FacultyId = ct.Course.FacultyId,
+                StudyYearId = ct.Course.StudyYearId
+            },
             TeacherId = ct.TeacherId,
+            Teacher = ct.Teacher == null ? null : new TeacherLookupDto
+            {
+                Id = ct.Teacher.Id,
+                Name = ct.Teacher.Name,
+                Name_AR = ct.Teacher.Name_AR,
+                Picture = ct.Teacher.Picture == null ? null : new FileManagerNodeDto
+                {
+                    Id = ct.Teacher.Picture.Id,
+                    Name = ct.Teacher.Picture.Name,
+                    Name_AR = ct.Teacher.Picture.Name_AR,
+                    URL = ct.Teacher.Picture.URL,
+                    Thumbnail = ct.Teacher.Picture.Thumbnail,
+                    IsFile = ct.Teacher.Picture.IsFile,
+                    FileType = ct.Teacher.Picture.FileType
+                }
+            },
             DisplayOrder = ct.DisplayOrder,
             IsActive = ct.IsActive,
             CreatedAt = ct.CreatedAt,

@@ -11,7 +11,21 @@ public class GraduatedStudentService(AppDBContext db) : IGraduatedStudentService
         {
             Id = g.Id,
             StudyYearId = g.StudyYearId,
+            StudyYear = g.StudyYear == null ? null : new StudyYearLookupDto
+            {
+                Id = g.StudyYear.Id,
+                Name = g.StudyYear.Name,
+                Name_AR = g.StudyYear.Name_AR,
+                IsCurrent = g.StudyYear.IsCurrent
+            },
             FacultyId = g.FacultyId,
+            Faculty = g.Faculty == null ? null : new FacultyLookupDto
+            {
+                Id = g.Faculty.Id,
+                Slug = g.Faculty.Slug,
+                Name = g.Faculty.Name,
+                Name_AR = g.Faculty.Name_AR
+            },
             FullName = g.FullName,
             FullName_AR = g.FullName_AR,
             Average = g.Average,

@@ -6,8 +6,11 @@ public class ScientificResearchDto
 {
     public int Id { get; set; }
     public int FacultyId { get; set; }
+    public FacultyLookupDto? Faculty { get; set; }
     public int TeacherId { get; set; }
+    public TeacherLookupDto? Teacher { get; set; }
     public int? StudyYearId { get; set; }
+    public StudyYearLookupDto? StudyYear { get; set; }
     public string Title { get; set; } = string.Empty;
     public string? Title_AR { get; set; }
     public string? Details { get; set; }

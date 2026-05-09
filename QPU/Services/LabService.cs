@@ -11,6 +11,13 @@ public class LabService(AppDBContext db) : ILabService
         {
             Id = l.Id,
             FacultyId = l.FacultyId,
+            Faculty = l.Faculty == null ? null : new FacultyLookupDto
+            {
+                Id = l.Faculty.Id,
+                Slug = l.Faculty.Slug,
+                Name = l.Faculty.Name,
+                Name_AR = l.Faculty.Name_AR
+            },
             Name = l.Name,
             Name_AR = l.Name_AR,
             PictureId = l.PictureId,

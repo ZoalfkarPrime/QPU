@@ -11,8 +11,38 @@ public class ScientificResearchService(AppDBContext db) : IScientificResearchSer
         {
             Id = r.Id,
             FacultyId = r.FacultyId,
+            Faculty = r.Faculty == null ? null : new FacultyLookupDto
+            {
+                Id = r.Faculty.Id,
+                Slug = r.Faculty.Slug,
+                Name = r.Faculty.Name,
+                Name_AR = r.Faculty.Name_AR
+            },
             TeacherId = r.TeacherId,
+            Teacher = r.Teacher == null ? null : new TeacherLookupDto
+            {
+                Id = r.Teacher.Id,
+                Name = r.Teacher.Name,
+                Name_AR = r.Teacher.Name_AR,
+                Picture = r.Teacher.Picture == null ? null : new FileManagerNodeDto
+                {
+                    Id = r.Teacher.Picture.Id,
+                    Name = r.Teacher.Picture.Name,
+                    Name_AR = r.Teacher.Picture.Name_AR,
+                    URL = r.Teacher.Picture.URL,
+                    Thumbnail = r.Teacher.Picture.Thumbnail,
+                    IsFile = r.Teacher.Picture.IsFile,
+                    FileType = r.Teacher.Picture.FileType
+                }
+            },
             StudyYearId = r.StudyYearId,
+            StudyYear = r.StudyYear == null ? null : new StudyYearLookupDto
+            {
+                Id = r.StudyYear.Id,
+                Name = r.StudyYear.Name,
+                Name_AR = r.StudyYear.Name_AR,
+                IsCurrent = r.StudyYear.IsCurrent
+            },
             Title = r.Title,
             Title_AR = r.Title_AR,
             Details = r.Details,

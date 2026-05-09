@@ -6,7 +6,9 @@ public class CourseDto
 {
     public int Id { get; set; }
     public int FacultyId { get; set; }
+    public FacultyLookupDto? Faculty { get; set; }
     public int StudyYearId { get; set; }
+    public StudyYearLookupDto? StudyYear { get; set; }
     public string Name { get; set; } = string.Empty;
     public string? Name_AR { get; set; }
     public string? Description { get; set; }

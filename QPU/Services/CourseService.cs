@@ -11,7 +11,21 @@ public class CourseService(AppDBContext db) : ICourseService
         {
             Id = c.Id,
             FacultyId = c.FacultyId,
+            Faculty = c.Faculty == null ? null : new FacultyLookupDto
+            {
+                Id = c.Faculty.Id,
+                Slug = c.Faculty.Slug,
+                Name = c.Faculty.Name,
+                Name_AR = c.Faculty.Name_AR
+            },
             StudyYearId = c.StudyYearId,
+            StudyYear = c.StudyYear == null ? null : new StudyYearLookupDto
+            {
+                Id = c.StudyYear.Id,
+                Name = c.StudyYear.Name,
+                Name_AR = c.StudyYear.Name_AR,
+                IsCurrent = c.StudyYear.IsCurrent
+            },
             Name = c.Name,
             Name_AR = c.Name_AR,
             Description = c.Description,

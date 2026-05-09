@@ -6,8 +6,11 @@ public class BestEmployeeDto
 {
     public int Id { get; set; }
     public int FacultyId { get; set; }
+    public FacultyLookupDto? Faculty { get; set; }
     public int StudyYearId { get; set; }
+    public StudyYearLookupDto? StudyYear { get; set; }
     public int TeacherId { get; set; }
+    public TeacherLookupDto? Teacher { get; set; }
     public string? Description { get; set; }
     public string? Description_AR { get; set; }
     public int DisplayOrder { get; set; }
