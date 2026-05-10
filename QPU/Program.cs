@@ -64,6 +64,8 @@ builder.Services.AddScoped<IStudyProgramService, StudyProgramService>();
 builder.Services.AddScoped<IContentService, ContentService>();
 builder.Services.AddScoped<IContentMetaService, ContentMetaService>();
 builder.Services.AddScoped<IBestEmployeeService, BestEmployeeService>();
+builder.Services.AddScoped<IVacancyService, VacancyService>();
+builder.Services.AddScoped<ISiteRequestService, SiteRequestService>();
 
 var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>() ?? ["*"];
 

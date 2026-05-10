@@ -496,3 +496,103 @@ public class BestEmployee : BaseEntity
     [ForeignKey(nameof(TeacherId))]
     public virtual Teacher? Teacher { get; set; }
 }
+
+public enum Gender { Male = 1, Female = 2 }
+
+public enum MaritalStatus
+{
+    Single = 1,   // اعزب
+    Married = 2   // متزوج
+}
+
+public enum RequestCategory
+{
+    Employment = 1,  // طلب توظيف
+    ContactUs = 2    // قالب مراسلة
+}
+
+public class Vacancy : BaseEntity
+{
+    [Key]
+    public int Id { get; set; }
+
+    [Required]
+    [MaxLength(300)]
+    public string Title { get; set; } = string.Empty;
+
+    [MaxLength(300)]
+    public string? Title_AR { get; set; }
+
+    [Column(TypeName = "nvarchar(max)")]
+    public string? Description { get; set; }
+
+    [Column(TypeName = "nvarchar(max)")]
+    public string? Description_AR { get; set; }
+
+    public bool IsActive { get; set; } = true;
+
+    public virtual ICollection<SiteRequest> Requests { get; set; } = new List<SiteRequest>();
+}
+
+public class SiteRequest : BaseEntity
+{
+    [Key]
+    public int Id { get; set; }
+
+    // نوع الطلب
+    public RequestCategory Category { get; set; } = RequestCategory.Employment;
+
+    // الوظيفة المطلوبة * (Employment only)
+    public int? VacancyId { get; set; }
+
+    // الاسم * / الاسم الكامل *
+    [Required]
+    [MaxLength(200)]
+    public string FirstName { get; set; } = string.Empty;
+
+    // الكنية * (Employment only)
+    [MaxLength(200)]
+    public string? LastName { get; set; }
+
+    // تاريخ الميلاد (Employment only)
+    public DateOnly? DateOfBirth { get; set; }
+
+    // محل الولادة (Employment only)
+    [MaxLength(300)]
+    public string? PlaceOfBirth { get; set; }
+
+    // الجنس (Employment only)
+    public Gender? Gender { get; set; }
+
+    // الجنسية (Employment only)
+    [MaxLength(100)]
+    public string? Nationality { get; set; }
+
+    // رقم الهاتف
+    [MaxLength(50)]
+    public string? PhoneNumber { get; set; }
+
+    // البريد الإلكتروني
+    [MaxLength(200)]
+    public string? Email { get; set; }
+
+    // الحالة الاجتماعية (Employment only — اعزب / متزوج)
+    public MaritalStatus? MaritalStatus { get; set; }
+
+    // أرفق سيرتك الذاتية (Employment only — pdf/word max 8MB)
+    public Guid? CvFileId { get; set; }
+
+    // عنوان الرسالة * (ContactUs only)
+    [MaxLength(300)]
+    public string? MessageTitle { get; set; }
+
+    // نص الرسالة (ContactUs only)
+    [Column(TypeName = "nvarchar(max)")]
+    public string? MessageBody { get; set; }
+
+    [ForeignKey(nameof(VacancyId))]
+    public virtual Vacancy? Vacancy { get; set; }
+
+    [ForeignKey(nameof(CvFileId))]
+    public virtual FileManager? CvFile { get; set; }
+}

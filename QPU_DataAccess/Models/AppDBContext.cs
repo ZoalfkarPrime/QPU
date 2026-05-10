@@ -25,6 +25,8 @@ public class AppDBContext : IdentityDbContext<AppUser, AppRole, string, AppUserC
     public DbSet<Content> Contents => Set<Content>();
     public DbSet<ContentMeta> ContentMetas => Set<ContentMeta>();
     public DbSet<BestEmployee> BestEmployees => Set<BestEmployee>();
+    public DbSet<Vacancy> Vacancies => Set<Vacancy>();
+    public DbSet<SiteRequest> SiteRequests => Set<SiteRequest>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
