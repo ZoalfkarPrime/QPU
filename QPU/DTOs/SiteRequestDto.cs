@@ -70,7 +70,8 @@ public class CreateEmploymentRequest
 
     public MaritalStatus? MaritalStatus { get; set; }
 
-    public Guid? CvFileId { get; set; }
+    // Optional CV file — sent as multipart/form-data
+    public IFormFile? CvFile { get; set; }
 }
 
 // ── Contact-us request ───────────────────────────────────────────────────────

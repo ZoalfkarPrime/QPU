@@ -25,13 +25,15 @@ public class SiteRequestController(ISiteRequestService siteRequestService) : Con
     }
 
     /// <summary>
-    /// Submit an employment (job application) request — طلب توظيف
+    /// Submit an employment request — طلب توظيف
+    /// Send as multipart/form-data; include CV file in the "CvFile" field (optional).
     /// </summary>
     [HttpPost("Employment")]
-    public async Task<IActionResult> CreateEmployment([FromBody] CreateEmploymentRequest model)
+    public async Task<IActionResult> CreateEmployment([FromForm] CreateEmploymentRequest model)
     {
         if (!ModelState.IsValid) return BadRequest(ModelState);
-        var created = await siteRequestService.CreateEmploymentAsync(model);
+        var (success, error, created) = await siteRequestService.CreateEmploymentAsync(model);
+        if (!success) return BadRequest(new { message = error });
         return Ok(created);
     }
 

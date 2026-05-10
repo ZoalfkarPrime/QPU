@@ -4,7 +4,7 @@ using QPU_DataAccess.Models;
 
 namespace QPU.Services;
 
-public class SiteRequestService(AppDBContext db) : ISiteRequestService
+public class SiteRequestService(AppDBContext db, IFileManagerService fileManagerService) : ISiteRequestService
 {
     public IQueryable<SiteRequestDto> GetQueryable() =>
         db.SiteRequests.Select(r => new SiteRequestDto
@@ -50,8 +50,19 @@ public class SiteRequestService(AppDBContext db) : ISiteRequestService
     public async Task<SiteRequestDto?> GetByIdAsync(int id) =>
         await GetQueryable().FirstOrDefaultAsync(r => r.Id == id);
 
-    public async Task<SiteRequestDto> CreateEmploymentAsync(CreateEmploymentRequest request)
+    public async Task<(bool Success, string? Error, SiteRequestDto? Data)> CreateEmploymentAsync(CreateEmploymentRequest request)
     {
+        // Upload CV file first if provided, get its FileManager ID
+        Guid? cvFileId = null;
+        if (request.CvFile is not null)
+        {
+            var folderId = await fileManagerService.GetOrCreateFolderAsync("Hiring Requests CVs");
+            var (success, error, uploaded) = await fileManagerService.UploadSingleAsync(request.CvFile, folderId);
+            if (!success)
+                return (false, error, null);
+            cvFileId = uploaded!.Id;
+        }
+
         var entity = new SiteRequest
         {
             Category = RequestCategory.Employment,
@@ -65,7 +76,7 @@ public class SiteRequestService(AppDBContext db) : ISiteRequestService
             PhoneNumber = request.PhoneNumber,
             Email = request.Email,
             MaritalStatus = request.MaritalStatus,
-            CvFileId = request.CvFileId,
+            CvFileId = cvFileId,
             IsActive = true,
             CreatedAt = DateTime.UtcNow,
             UpdatedAt = DateTime.UtcNow
@@ -73,7 +84,8 @@ public class SiteRequestService(AppDBContext db) : ISiteRequestService
 
         db.SiteRequests.Add(entity);
         await db.SaveChangesAsync();
-        return await GetQueryable().FirstAsync(r => r.Id == entity.Id);
+        var dto = await GetQueryable().FirstAsync(r => r.Id == entity.Id);
+        return (true, null, dto);
     }
 
     public async Task<SiteRequestDto> CreateContactUsAsync(CreateContactUsRequest request)

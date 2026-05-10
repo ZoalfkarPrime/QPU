@@ -216,4 +216,96 @@ public class FileManagerService(AppDBContext db, IConfiguration config, ILogger<
         CreatedAt = f.CreatedAt,
         UpdatedAt = f.UpdatedAt
     };
+
+    public async Task<Guid> GetOrCreateFolderAsync(string name)
+    {
+        var existing = await db.FileManagers
+            .FirstOrDefaultAsync(f => !f.IsFile && f.Name == name && f.ParentId == null);
+
+        if (existing is not null)
+            return existing.Id;
+
+        var folder = new FileManager
+        {
+            Id = Guid.NewGuid(),
+            Name = name,
+            Name_AR = name,
+            IsFile = false,
+            FileType = 0,
+            ParentId = null,
+            CreatedAt = DateTime.UtcNow,
+            UpdatedAt = DateTime.UtcNow,
+            IsActive = true
+        };
+
+        db.FileManagers.Add(folder);
+        await db.SaveChangesAsync();
+        return folder.Id;
+    }
+
+    public async Task<(bool Success, string? Error, FileManagerNodeDto? File)> UploadSingleAsync(IFormFile file, Guid? parentId = null)
+    {
+        try
+        {
+            if (file.Length == 0)
+                return (false, "File is empty.", null);
+
+            if (file.Length > MaxFileSize)
+                return (false, $"File exceeds the maximum allowed size of {MaxFileSize / 1024 / 1024} MB.", null);
+
+            var allowedExtensions = new HashSet<string>
+                { ".pdf", ".doc", ".docx", ".jpg", ".jpeg", ".png" };
+
+            var extension = Path.GetExtension(file.FileName).ToLowerInvariant();
+            if (!allowedExtensions.Contains(extension))
+                return (false, "File type not allowed. Accepted types: PDF, Word, JPG, PNG.", null);
+
+            Directory.CreateDirectory(UploadPath);
+
+            var uniqueName = $"{Guid.NewGuid()}{extension}";
+            var filePath = Path.Combine(UploadPath, uniqueName);
+
+            await using (var stream = new FileStream(filePath, FileMode.Create))
+                await file.CopyToAsync(stream);
+
+            var relativeUrl = UploadRelativePath + uniqueName;
+            var thumbnail = ImageExtensions.Contains(extension) ? relativeUrl : null;
+
+            var entity = new FileManager
+            {
+                Id = Guid.NewGuid(),
+                Name = file.FileName,
+                Name_AR = file.FileName,
+                URL = relativeUrl,
+                IsFile = true,
+                FileType = GetFileType(extension),
+                Thumbnail = thumbnail,
+                ParentId = parentId,
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow,
+                IsActive = true
+            };
+
+            db.FileManagers.Add(entity);
+            await db.SaveChangesAsync();
+
+            var result = new FileManagerNodeDto
+            {
+                Id = entity.Id,
+                Name = entity.Name,
+                Name_AR = entity.Name_AR,
+                URL = ApiBaseUrl + entity.URL,
+                Thumbnail = entity.Thumbnail != null ? ApiBaseUrl + entity.Thumbnail : null,
+                IsFile = true,
+                FileType = entity.FileType
+            };
+
+            return (true, null, result);
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "UploadSingleAsync failed for file: {FileName}", file.FileName);
+            return (false, "An error occurred while uploading the file.", null);
+        }
+    }
 }
