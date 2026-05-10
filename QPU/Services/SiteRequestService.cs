@@ -4,10 +4,14 @@ using QPU_DataAccess.Models;
 
 namespace QPU.Services;
 
-public class SiteRequestService(AppDBContext db, IFileManagerService fileManagerService) : ISiteRequestService
+public class SiteRequestService(AppDBContext db, IFileManagerService fileManagerService, IConfiguration config) : ISiteRequestService
 {
-    public IQueryable<SiteRequestDto> GetQueryable() =>
-        db.SiteRequests.Select(r => new SiteRequestDto
+    private string ApiBaseUrl => config["FileManager:APIBaseURL"] ?? string.Empty;
+
+    public IQueryable<SiteRequestDto> GetQueryable()
+    {
+        var baseUrl = ApiBaseUrl;
+        return db.SiteRequests.Select(r => new SiteRequestDto
         {
             Id = r.Id,
             Category = r.Category,
@@ -34,8 +38,8 @@ public class SiteRequestService(AppDBContext db, IFileManagerService fileManager
                 Id = r.CvFile.Id,
                 Name = r.CvFile.Name,
                 Name_AR = r.CvFile.Name_AR,
-                URL = r.CvFile.URL,
-                Thumbnail = r.CvFile.Thumbnail,
+                URL = r.CvFile.URL != null ? baseUrl + r.CvFile.URL : null,
+                Thumbnail = r.CvFile.Thumbnail != null ? baseUrl + r.CvFile.Thumbnail : null,
                 IsFile = r.CvFile.IsFile,
                 FileType = r.CvFile.FileType
             },
@@ -46,6 +50,7 @@ public class SiteRequestService(AppDBContext db, IFileManagerService fileManager
             CreatedAt = r.CreatedAt,
             UpdatedAt = r.UpdatedAt
         });
+    }
 
     public async Task<SiteRequestDto?> GetByIdAsync(int id) =>
         await GetQueryable().FirstOrDefaultAsync(r => r.Id == id);
