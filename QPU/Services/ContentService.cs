@@ -32,7 +32,7 @@ public class ContentService(AppDBContext db, IConfiguration config) : IContentSe
                     IsActive = cm.IsActive,
                     CreatedAt = cm.CreatedAt,
                     UpdatedAt = cm.UpdatedAt,
-                    Filemanager = (cm.Type == "image" || cm.Type == "video")
+                    Filemanager = (cm.Type == "image" || cm.Type == "video" || cm.Type == "file")
                         ? db.FileManagers
                             .Where(f => f.Id.ToString() == cm.Value)
                             .Select(f => new FileManagerNodeDto
