@@ -7,7 +7,7 @@ namespace QPU.Services;
 public class StudyYearService(AppDBContext db) : IStudyYearService
 {
     public IQueryable<StudyYearDto> GetQueryable() =>
-        db.StudyYears.Select(s => new StudyYearDto
+        db.StudyYears.OrderBy(s => s.DisplayOrder).Select(s => new StudyYearDto
         {
             Id = s.Id,
             Name = s.Name,
@@ -29,6 +29,9 @@ public class StudyYearService(AppDBContext db) : IStudyYearService
 
     public async Task<StudyYearDto> CreateAsync(CreateStudyYearRequest request)
     {
+        if (request.IsCurrent)
+            await ClearCurrentAsync();
+
         var entity = new StudyYear
         {
             Name = request.Name,
@@ -52,6 +55,9 @@ public class StudyYearService(AppDBContext db) : IStudyYearService
         var entity = await db.StudyYears.FindAsync(dto.Id);
         if (entity is null) return null;
 
+        if (dto.IsCurrent)
+            await ClearCurrentAsync(entity.Id);
+
         entity.Name = dto.Name;
         entity.Name_AR = dto.Name_AR;
         entity.StartDate = dto.StartDate;
@@ -73,6 +79,16 @@ public class StudyYearService(AppDBContext db) : IStudyYearService
         db.StudyYears.Remove(entity);
         await db.SaveChangesAsync();
         return true;
+    }
+
+    private async Task ClearCurrentAsync(int? excludeId = null)
+    {
+        var others = await db.StudyYears
+            .Where(s => s.IsCurrent && (excludeId == null || s.Id != excludeId))
+            .ToListAsync();
+
+        foreach (var s in others)
+            s.IsCurrent = false;
     }
 
     private static StudyYearDto ToDto(StudyYear s) => new()

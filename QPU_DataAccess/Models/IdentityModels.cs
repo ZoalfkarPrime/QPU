@@ -18,6 +18,7 @@ public class AppUser : IdentityUser<string>
     public int? UserType { get; set; }
     public int? OneTimePassword { get; set; }
     public int? FacultyId { get; set; }
+    public bool IsSuperAdmin { get; set; }
 
     public virtual Faculty? Faculty { get; set; }
     public virtual ICollection<AppUserRole> UserRoles { get; set; } = new List<AppUserRole>();

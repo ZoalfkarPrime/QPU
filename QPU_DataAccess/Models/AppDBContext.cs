@@ -51,6 +51,12 @@ public class AppDBContext : IdentityDbContext<AppUser, AppRole, string, AppUserC
             .HasForeignKey(u => u.FacultyId)
             .OnDelete(DeleteBehavior.Restrict);
 
+        // Only one superadmin allowed at the DB level
+        modelBuilder.Entity<AppUser>()
+            .HasIndex(u => u.IsSuperAdmin)
+            .IsUnique()
+            .HasFilter("[IsSuperAdmin] = 1");
+
         // Faculty
         modelBuilder.Entity<Faculty>()
             .HasIndex(f => f.Slug)
@@ -246,5 +252,9 @@ public class AppDBContext : IdentityDbContext<AppUser, AppRole, string, AppUserC
             .WithMany()
             .HasForeignKey(be => be.TeacherId)
             .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<BestEmployee>()
+            .HasIndex(be => new { be.FacultyId, be.StudyYearId })
+            .IsUnique();
     }
 }

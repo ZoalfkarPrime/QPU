@@ -7,7 +7,7 @@ namespace QPU.Services;
 public class VacancyService(AppDBContext db) : IVacancyService
 {
     public IQueryable<VacancyDto> GetQueryable() =>
-        db.Vacancies.Select(v => new VacancyDto
+        db.Vacancies.OrderBy(v => v.DisplayOrder).Select(v => new VacancyDto
         {
             Id = v.Id,
             Title = v.Title,

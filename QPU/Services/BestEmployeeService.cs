@@ -7,7 +7,7 @@ namespace QPU.Services;
 public class BestEmployeeService(AppDBContext db) : IBestEmployeeService
 {
     public IQueryable<BestEmployeeDto> GetQueryable() =>
-        db.BestEmployees.Select(be => new BestEmployeeDto
+        db.BestEmployees.OrderBy(be => be.DisplayOrder).Select(be => new BestEmployeeDto
         {
             Id = be.Id,
             FacultyId = be.FacultyId,

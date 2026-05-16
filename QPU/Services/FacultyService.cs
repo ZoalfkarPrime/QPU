@@ -7,7 +7,7 @@ namespace QPU.Services;
 public class FacultyService(AppDBContext db) : IFacultyService
 {
     public IQueryable<FacultyDto> GetQueryable() =>
-        db.Faculties.Select(f => new FacultyDto
+        db.Faculties.OrderBy(f => f.DisplayOrder).Select(f => new FacultyDto
         {
             Id = f.Id,
             Slug = f.Slug,

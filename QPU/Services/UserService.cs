@@ -118,6 +118,7 @@ public class UserService(
     {
         var user = await userManager.FindByIdAsync(id);
         if (user == null) return false;
+        if (user.IsSuperAdmin) return false;
 
         user.IsDeleted = true;
         user.IsActive = false;
@@ -130,6 +131,7 @@ public class UserService(
     {
         var user = await userManager.FindByIdAsync(id);
         if (user == null) return false;
+        if (user.IsSuperAdmin) return false;
 
         user.IsActive = isActive;
         await userManager.UpdateAsync(user);
@@ -223,6 +225,7 @@ public class UserService(
         IsActive = user.IsActive,
         IsVerified = user.IsVerified,
         IsDeleted = user.IsDeleted,
+        IsSuperAdmin = user.IsSuperAdmin,
         Roles = roles
     };
 }

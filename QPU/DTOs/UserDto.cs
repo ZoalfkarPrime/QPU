@@ -15,6 +15,7 @@ public class UserDto
     public bool IsActive { get; set; }
     public bool IsVerified { get; set; }
     public bool IsDeleted { get; set; }
+    public bool IsSuperAdmin { get; set; }
     public List<RoleDto> Roles { get; set; } = [];
 }
 

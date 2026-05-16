@@ -7,7 +7,7 @@ namespace QPU.Services;
 public class GraduatedStudentService(AppDBContext db) : IGraduatedStudentService
 {
     public IQueryable<GraduatedStudentDto> GetQueryable() =>
-        db.GraduatedStudents.Select(g => new GraduatedStudentDto
+        db.GraduatedStudents.OrderBy(g => g.DisplayOrder).Select(g => new GraduatedStudentDto
         {
             Id = g.Id,
             StudyYearId = g.StudyYearId,

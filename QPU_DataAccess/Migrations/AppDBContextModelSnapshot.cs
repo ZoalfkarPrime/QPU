@@ -144,6 +144,9 @@ namespace QPU_DataAccess.Migrations
                     b.Property<bool>("IsVerified")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("IsSuperAdmin")
+                        .HasColumnType("bit");
+
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -193,6 +196,10 @@ namespace QPU_DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("FacultyId");
+
+                    b.HasIndex("IsSuperAdmin")
+                        .IsUnique()
+                        .HasFilter("[IsSuperAdmin] = 1");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -1072,6 +1079,9 @@ namespace QPU_DataAccess.Migrations
                     b.HasIndex("StudyYearId");
 
                     b.HasIndex("TeacherId");
+
+                    b.HasIndex("FacultyId", "StudyYearId")
+                        .IsUnique();
 
                     b.ToTable("BestEmployees", "dbo");
                 });

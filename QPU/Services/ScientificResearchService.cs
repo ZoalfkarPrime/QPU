@@ -7,7 +7,7 @@ namespace QPU.Services;
 public class ScientificResearchService(AppDBContext db) : IScientificResearchService
 {
     public IQueryable<ScientificResearchDto> GetQueryable() =>
-        db.ScientificResearches.Select(r => new ScientificResearchDto
+        db.ScientificResearches.OrderBy(r => r.DisplayOrder).Select(r => new ScientificResearchDto
         {
             Id = r.Id,
             FacultyId = r.FacultyId,

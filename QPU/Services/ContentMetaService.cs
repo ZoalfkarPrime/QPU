@@ -11,7 +11,7 @@ public class ContentMetaService(AppDBContext db, IConfiguration config) : IConte
     public IQueryable<ContentMetaDto> GetQueryable()
     {
         var baseUrl = ApiBaseUrl;
-        return db.ContentMetas.Select(cm => new ContentMetaDto
+        return db.ContentMetas.OrderBy(cm => cm.DisplayOrder).Select(cm => new ContentMetaDto
         {
             Id = cm.Id,
             ContentId = cm.ContentId,

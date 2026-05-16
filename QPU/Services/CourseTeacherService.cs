@@ -7,7 +7,7 @@ namespace QPU.Services;
 public class CourseTeacherService(AppDBContext db) : ICourseTeacherService
 {
     public IQueryable<CourseTeacherDto> GetQueryable() =>
-        db.CourseTeachers.Select(ct => new CourseTeacherDto
+        db.CourseTeachers.OrderBy(ct => ct.DisplayOrder).Select(ct => new CourseTeacherDto
         {
             Id = ct.Id,
             CourseId = ct.CourseId,

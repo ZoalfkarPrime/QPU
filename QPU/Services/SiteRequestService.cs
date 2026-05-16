@@ -11,7 +11,7 @@ public class SiteRequestService(AppDBContext db, IFileManagerService fileManager
     public IQueryable<SiteRequestDto> GetQueryable()
     {
         var baseUrl = ApiBaseUrl;
-        return db.SiteRequests.Select(r => new SiteRequestDto
+        return db.SiteRequests.OrderBy(r => r.DisplayOrder).Select(r => new SiteRequestDto
         {
             Id = r.Id,
             Category = r.Category,

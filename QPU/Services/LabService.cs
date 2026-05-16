@@ -7,7 +7,7 @@ namespace QPU.Services;
 public class LabService(AppDBContext db) : ILabService
 {
     public IQueryable<LabDto> GetQueryable() =>
-        db.Labs.Select(l => new LabDto
+        db.Labs.OrderBy(l => l.DisplayOrder).Select(l => new LabDto
         {
             Id = l.Id,
             FacultyId = l.FacultyId,

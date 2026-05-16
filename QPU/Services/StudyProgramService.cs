@@ -7,7 +7,7 @@ namespace QPU.Services;
 public class StudyProgramService(AppDBContext db) : IStudyProgramService
 {
     public IQueryable<StudyProgramDto> GetQueryable() =>
-        db.StudyPrograms.Select(sp => new StudyProgramDto
+        db.StudyPrograms.OrderBy(sp => sp.DisplayOrder).Select(sp => new StudyProgramDto
         {
             Id = sp.Id,
             StudyYearId = sp.StudyYearId,
