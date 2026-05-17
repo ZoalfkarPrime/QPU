@@ -46,6 +46,7 @@ builder.Services.AddAuthentication("DbToken")
     .AddScheme<DbTokenAuthOptions, DbTokenAuthHandler>("DbToken", _ => { });
 
 builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<IFacultyAccessService, FacultyAccessService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IRoleService, UserService>();

@@ -1,5 +1,6 @@
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using QPU.DTOs;
 using QPU.Services;
@@ -8,6 +9,7 @@ namespace QPU.Controllers;
 
 [ApiController]
 [Route("api/SiteRequest")]
+[Authorize]
 public class SiteRequestController(ISiteRequestService siteRequestService) : ControllerBase
 {
     [HttpGet("Read")]
@@ -28,6 +30,7 @@ public class SiteRequestController(ISiteRequestService siteRequestService) : Con
     /// Submit an employment request — طلب توظيف
     /// Send as multipart/form-data; include CV file in the "CvFile" field (optional).
     /// </summary>
+    [AllowAnonymous]
     [HttpPost("Employment")]
     public async Task<IActionResult> CreateEmployment([FromForm] CreateEmploymentRequest model)
     {
@@ -40,6 +43,7 @@ public class SiteRequestController(ISiteRequestService siteRequestService) : Con
     /// <summary>
     /// Submit a contact-us message — قالب مراسلة
     /// </summary>
+    [AllowAnonymous]
     [HttpPost("ContactUs")]
     public async Task<IActionResult> CreateContactUs([FromBody] CreateContactUsRequest model)
     {

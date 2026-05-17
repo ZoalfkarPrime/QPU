@@ -1,5 +1,6 @@
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using QPU.DTOs;
 using QPU.Services;
@@ -8,26 +9,27 @@ namespace QPU.Controllers;
 
 [ApiController]
 [Route("api/Faculty")]
-public class FacultyController(IFacultyService facultyService) : ControllerBase
+public class FacultyController(IFacultyService facultyService, IFacultyAccessService facultyAccess)
+    : FacultyScopedController(facultyAccess)
 {
-    // Used by Kendo Grid for server-side paging, filtering and sorting
+    [AllowAnonymous]
     [HttpGet("Read")]
     public async Task<JsonResult> Read([DataSourceRequest] DataSourceRequest request)
     {
-        var result = await facultyService.GetQueryable().ToDataSourceResultAsync(request);
+        var query = facultyService.GetQueryable();
+        if (ScopedFacultyId.HasValue)
+            query = query.Where(f => f.Id == ScopedFacultyId.Value);
+        var result = await query.ToDataSourceResultAsync(request);
         return new JsonResult(result);
     }
 
-    // Standard REST endpoint for fetching a single item
+    [AllowAnonymous]
     [HttpGet("{id:int}")]
     public async Task<IActionResult> GetById(int id)
     {
         var faculty = await facultyService.GetByIdAsync(id);
-
-        if (faculty is null)
-            return NotFound();
-
-        return Ok(faculty);
+        if (faculty is null) return NotFound();
+        return CheckAccess(faculty.Id) ?? Ok(faculty);
     }
 
     [HttpPost("Create")]
@@ -36,36 +38,42 @@ public class FacultyController(IFacultyService facultyService) : ControllerBase
         [FromBody] CreateFacultyRequest model)
     {
         FacultyDto? created = null;
-
         if (ModelState.IsValid)
+        {
+            // Only unrestricted admins may create new faculties
+            var deny = CheckAccess(null);
+            if (deny is not null) return new JsonResult(deny);
             created = await facultyService.CreateAsync(model);
-
+        }
         return new JsonResult(new[] { created }.ToDataSourceResult(request, ModelState));
     }
 
-    // Grid sends back the full FacultyDto row it was showing (same as Wattsan Product update)
     [HttpPut("Update")]
     public async Task<JsonResult> Update(
         [DataSourceRequest] DataSourceRequest request,
         [FromBody] FacultyDto model)
     {
         FacultyDto? updated = null;
-
         if (ModelState.IsValid)
+        {
+            var deny = CheckAccess(model.Id);
+            if (deny is not null) return new JsonResult(deny);
             updated = await facultyService.UpdateAsync(model);
-
+        }
         return new JsonResult(new[] { updated ?? model }.ToDataSourceResult(request, ModelState));
     }
 
-    // Grid sends back the full FacultyDto row being deleted (same as Wattsan Product destroy)
     [HttpDelete("Delete")]
     public async Task<JsonResult> Delete(
         [DataSourceRequest] DataSourceRequest request,
         [FromBody] FacultyDto model)
     {
         if (ModelState.IsValid)
+        {
+            var deny = CheckAccess(null);
+            if (deny is not null) return new JsonResult(deny);
             await facultyService.DeleteAsync(model.Id);
-
+        }
         return new JsonResult(new[] { model }.ToDataSourceResult(request, ModelState));
     }
 }

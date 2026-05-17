@@ -18,45 +18,34 @@ public class SearchService(
     {
         var q = query.Trim().ToLower();
 
-        var results = await Task.WhenAll(
-            SearchFacultiesAsync(q),
-            SearchLabsAsync(q),
-            SearchTeachersAsync(q),
-            SearchCoursesAsync(q),
-            SearchScientificResearchesAsync(q),
-            SearchGraduatedStudentsAsync(q),
-            SearchContentsAsync(q),
-            SearchVacanciesAsync(q)
-        );
-
-        var faculties          = (SearchResultGroupDto<FacultyDto>)results[0];
-        var labs               = (SearchResultGroupDto<LabDto>)results[1];
-        var teachers           = (SearchResultGroupDto<TeacherDto>)results[2];
-        var courses            = (SearchResultGroupDto<CourseDto>)results[3];
-        var researches         = (SearchResultGroupDto<ScientificResearchDto>)results[4];
-        var graduatedStudents  = (SearchResultGroupDto<GraduatedStudentDto>)results[5];
-        var contents           = (SearchResultGroupDto<ContentDto>)results[6];
-        var vacancies          = (SearchResultGroupDto<VacancyDto>)results[7];
+        var faculties         = await SearchFacultiesAsync(q);
+        var labs              = await SearchLabsAsync(q);
+        var teachers          = await SearchTeachersAsync(q);
+        var courses           = await SearchCoursesAsync(q);
+        var researches        = await SearchScientificResearchesAsync(q);
+        var graduatedStudents = await SearchGraduatedStudentsAsync(q);
+        var contents          = await SearchContentsAsync(q);
+        var vacancies         = await SearchVacanciesAsync(q);
 
         return new SearchResultDto
         {
             Query = query,
             TotalCount = faculties.Count + labs.Count + teachers.Count + courses.Count
                        + researches.Count + graduatedStudents.Count + contents.Count + vacancies.Count,
-            Faculties         = faculties,
-            Labs              = labs,
-            Teachers          = teachers,
-            Courses           = courses,
+            Faculties            = faculties,
+            Labs                 = labs,
+            Teachers             = teachers,
+            Courses              = courses,
             ScientificResearches = researches,
-            GraduatedStudents = graduatedStudents,
-            Contents          = contents,
-            Vacancies         = vacancies
+            GraduatedStudents    = graduatedStudents,
+            Contents             = contents,
+            Vacancies            = vacancies
         };
     }
 
     // ── Per-entity search helpers ────────────────────────────────────────────
 
-    private async Task<object> SearchFacultiesAsync(string q)
+    private async Task<SearchResultGroupDto<FacultyDto>> SearchFacultiesAsync(string q)
     {
         var items = await facultyService.GetQueryable()
             .Where(f => f.IsActive &&
@@ -68,7 +57,7 @@ public class SearchService(
         return Group<FacultyDto>("Faculties", items);
     }
 
-    private async Task<object> SearchLabsAsync(string q)
+    private async Task<SearchResultGroupDto<LabDto>> SearchLabsAsync(string q)
     {
         var items = await labService.GetQueryable()
             .Where(l => l.IsActive &&
@@ -81,7 +70,7 @@ public class SearchService(
         return Group<LabDto>("Labs", items);
     }
 
-    private async Task<object> SearchTeachersAsync(string q)
+    private async Task<SearchResultGroupDto<TeacherDto>> SearchTeachersAsync(string q)
     {
         var items = await teacherService.GetQueryable()
             .Where(t => t.IsPublished &&
@@ -98,7 +87,7 @@ public class SearchService(
         return Group<TeacherDto>("Teachers", items);
     }
 
-    private async Task<object> SearchCoursesAsync(string q)
+    private async Task<SearchResultGroupDto<CourseDto>> SearchCoursesAsync(string q)
     {
         var items = await courseService.GetQueryable()
             .Where(c => c.IsActive &&
@@ -111,7 +100,7 @@ public class SearchService(
         return Group<CourseDto>("Courses", items);
     }
 
-    private async Task<object> SearchScientificResearchesAsync(string q)
+    private async Task<SearchResultGroupDto<ScientificResearchDto>> SearchScientificResearchesAsync(string q)
     {
         var items = await scientificResearchService.GetQueryable()
             .Where(r => r.IsActive &&
@@ -124,7 +113,7 @@ public class SearchService(
         return Group<ScientificResearchDto>("ScientificResearches", items);
     }
 
-    private async Task<object> SearchGraduatedStudentsAsync(string q)
+    private async Task<SearchResultGroupDto<GraduatedStudentDto>> SearchGraduatedStudentsAsync(string q)
     {
         var items = await graduatedStudentService.GetQueryable()
             .Where(g => g.IsActive &&
@@ -136,7 +125,7 @@ public class SearchService(
         return Group<GraduatedStudentDto>("GraduatedStudents", items);
     }
 
-    private async Task<object> SearchContentsAsync(string q)
+    private async Task<SearchResultGroupDto<ContentDto>> SearchContentsAsync(string q)
     {
         var items = await contentService.GetQueryable()
             .Where(c => c.IsActive &&
@@ -148,7 +137,7 @@ public class SearchService(
         return Group<ContentDto>("Contents", items);
     }
 
-    private async Task<object> SearchVacanciesAsync(string q)
+    private async Task<SearchResultGroupDto<VacancyDto>> SearchVacanciesAsync(string q)
     {
         var items = await vacancyService.GetQueryable()
             .Where(v => v.IsActive &&

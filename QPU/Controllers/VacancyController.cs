@@ -1,5 +1,6 @@
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using QPU.DTOs;
 using QPU.Services;
@@ -24,6 +25,7 @@ public class VacancyController(IVacancyService vacancyService) : ControllerBase
         return item is null ? NotFound() : Ok(item);
     }
 
+    [Authorize]
     [HttpPost("Create")]
     public async Task<JsonResult> Create(
         [DataSourceRequest] DataSourceRequest request,
@@ -35,6 +37,7 @@ public class VacancyController(IVacancyService vacancyService) : ControllerBase
         return new JsonResult(new[] { created }.ToDataSourceResult(request, ModelState));
     }
 
+    [Authorize]
     [HttpPut("Update")]
     public async Task<JsonResult> Update(
         [DataSourceRequest] DataSourceRequest request,
@@ -46,6 +49,7 @@ public class VacancyController(IVacancyService vacancyService) : ControllerBase
         return new JsonResult(new[] { updated ?? model }.ToDataSourceResult(request, ModelState));
     }
 
+    [Authorize]
     [HttpDelete("Delete")]
     public async Task<JsonResult> Delete(
         [DataSourceRequest] DataSourceRequest request,
