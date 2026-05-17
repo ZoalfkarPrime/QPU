@@ -142,6 +142,39 @@ public class UserService(
         return true;
     }
 
+    public async Task<(bool Success, string? Error)> AdminChangePasswordAsync(AdminChangePasswordRequest request)
+    {
+        var user = await userManager.FindByIdAsync(request.UserId);
+        if (user == null) return (false, "User not found.");
+
+        var token = await userManager.GeneratePasswordResetTokenAsync(user);
+        var result = await userManager.ResetPasswordAsync(user, token, request.NewPassword);
+        if (!result.Succeeded)
+        {
+            var errors = string.Join(", ", result.Errors.Select(e => e.Description));
+            return (false, errors);
+        }
+
+        logger.LogInformation("Admin changed password for user {Id}", request.UserId);
+        return (true, null);
+    }
+
+    public async Task<(bool Success, string? Error)> ChangeMyPasswordAsync(string userId, ChangeMyPasswordRequest request)
+    {
+        var user = await userManager.FindByIdAsync(userId);
+        if (user == null) return (false, "User not found.");
+
+        var result = await userManager.ChangePasswordAsync(user, request.OldPassword, request.NewPassword);
+        if (!result.Succeeded)
+        {
+            var errors = string.Join(", ", result.Errors.Select(e => e.Description));
+            return (false, errors);
+        }
+
+        logger.LogInformation("User {Id} changed their own password", userId);
+        return (true, null);
+    }
+
     // ── Roles ────────────────────────────────────────────────────────────────
 
     public async Task<List<RoleDto>> GetAllRolesAsync()

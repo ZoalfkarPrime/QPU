@@ -61,6 +61,20 @@ public class AuthController(IAuthService authService) : ControllerBase
         return result.Success ? Ok(result) : NotFound(result);
     }
 
+    [AllowAnonymous]
+    [HttpPost("check-login")]
+    public async Task<IActionResult> CheckLogin([FromBody] CheckLoginRequest request)
+    {
+        if (!ModelState.IsValid) return BadRequest(ModelState);
+        var result = await authService.CheckLoginAsync(request);
+        return result.Code switch
+        {
+            401 => Unauthorized(result),
+            403 => StatusCode(403, result),
+            _ => result.Success ? Ok(result) : BadRequest(result)
+        };
+    }
+
     [Authorize]
     [HttpGet("Me")]
     public IActionResult Me()

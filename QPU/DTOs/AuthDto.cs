@@ -70,3 +70,11 @@ public class UserSessionDto
     public string Token { get; set; } = string.Empty;
     public string? Photo { get; set; }
 }
+
+public class CheckLoginRequest
+{
+    [Required]
+    public string LoginToken { get; set; } = string.Empty;
+
+    public bool StayOnline { get; set; } = false;
+}

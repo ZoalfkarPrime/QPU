@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using QPU.DTOs;
 using QPU.Services;
+using System.Security.Claims;
 
 namespace QPU.Controllers;
 
@@ -52,6 +53,26 @@ public class UserController(IUserService userService) : ControllerBase
     {
         var result = await userService.SetActiveAsync(id, isActive);
         return result ? Ok() : NotFound();
+    }
+
+    /// <summary>Admin changes any user's password without needing the old one.</summary>
+    [HttpPatch("ChangePassword")]
+    public async Task<IActionResult> AdminChangePassword([FromBody] AdminChangePasswordRequest request)
+    {
+        if (!ModelState.IsValid) return BadRequest(ModelState);
+        var (success, error) = await userService.AdminChangePasswordAsync(request);
+        return success ? Ok() : BadRequest(new { error });
+    }
+
+    /// <summary>Authenticated user changes their own password using the old password.</summary>
+    [HttpPatch("ChangeMyPassword")]
+    public async Task<IActionResult> ChangeMyPassword([FromBody] ChangeMyPasswordRequest request)
+    {
+        if (!ModelState.IsValid) return BadRequest(ModelState);
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        if (string.IsNullOrEmpty(userId)) return Unauthorized();
+        var (success, error) = await userService.ChangeMyPasswordAsync(userId, request);
+        return success ? Ok() : BadRequest(new { error });
     }
 }
 

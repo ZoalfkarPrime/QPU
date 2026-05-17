@@ -155,6 +155,37 @@ public class AuthService(
         return new AuthResult(true, null, "Logged out successfully.", 0);
     }
 
+    public async Task<AuthResult> CheckLoginAsync(CheckLoginRequest request)
+    {
+        var userToken = await db.UserTokens.FirstOrDefaultAsync(t => t.Value == request.LoginToken);
+        if (userToken == null)
+            return new AuthResult(false, null, "Invalid token.", 401);
+
+        var user = await db.Users.FindAsync(userToken.UserId);
+        if (user == null || !user.IsActive)
+            return new AuthResult(false, null, "User not found or inactive.", 403);
+
+        if (request.StayOnline)
+        {
+            userToken.CreatedAt = DateTime.UtcNow;
+            await db.SaveChangesAsync();
+        }
+
+        var session = new UserSessionDto
+        {
+            Id = user.Id,
+            Email = user.Email ?? string.Empty,
+            FirstName = user.FirstName,
+            Phone = user.PhoneNumber,
+            UserType = user.UserType,
+            FacultyId = user.FacultyId,
+            Token = request.LoginToken,
+            Photo = user.Photo != null ? ApiBaseUrl + user.Photo : null
+        };
+
+        return new AuthResult(true, session, null, 0);
+    }
+
     private static string GenerateOtp()
     {
         return new Random().Next(0, 1000000).ToString("D6");

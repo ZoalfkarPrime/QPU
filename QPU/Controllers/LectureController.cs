@@ -8,12 +8,23 @@ namespace QPU.Controllers;
 
 [ApiController]
 [Route("api/Lecture")]
-public class LectureController(ILectureService lectureService) : ControllerBase
+public class LectureController(ILectureService lectureService, ICourseService courseService) : ControllerBase
 {
     [HttpGet("Read")]
-    public async Task<JsonResult> Read([DataSourceRequest] DataSourceRequest request)
+    public async Task<JsonResult> Read([DataSourceRequest] DataSourceRequest request, [FromQuery] int? facultyId)
     {
-        var result = await lectureService.GetQueryable().ToDataSourceResultAsync(request);
+        var query = lectureService.GetQueryable();
+
+        if (facultyId.HasValue)
+        {
+            var courseIds = courseService.GetQueryable()
+                .Where(c => c.FacultyId == facultyId.Value)
+                .Select(c => c.Id);
+
+            query = query.Where(l => courseIds.Contains(l.CourseId));
+        }
+
+        var result = await query.ToDataSourceResultAsync(request);
         return new JsonResult(result);
     }
 

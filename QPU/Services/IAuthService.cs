@@ -9,4 +9,5 @@ public interface IAuthService
     Task<AuthResult> LoginAsync(LoginRequest request);
     Task<AuthResult> LoginByCodeAsync(LoginByCodeRequest request);
     Task<AuthResult> LogoutAsync(string token);
+    Task<AuthResult> CheckLoginAsync(CheckLoginRequest request);
 }

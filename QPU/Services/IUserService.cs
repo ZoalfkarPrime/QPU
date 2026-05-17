@@ -10,6 +10,8 @@ public interface IUserService
     Task<(bool Success, string? Error, UserDto? User)> UpdateUserAsync(UpdateUserRequest request);
     Task<bool> DeleteUserAsync(string id);
     Task<bool> SetActiveAsync(string id, bool isActive);
+    Task<(bool Success, string? Error)> AdminChangePasswordAsync(AdminChangePasswordRequest request);
+    Task<(bool Success, string? Error)> ChangeMyPasswordAsync(string userId, ChangeMyPasswordRequest request);
 }
 
 public interface IRoleService

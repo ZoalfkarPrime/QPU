@@ -89,3 +89,25 @@ public class UpdateRoleRequest
     [MaxLength(100)]
     public string Name { get; set; } = string.Empty;
 }
+
+/// <summary>Admin changes any user's password (no old password required).</summary>
+public class AdminChangePasswordRequest
+{
+    [Required]
+    public string UserId { get; set; } = string.Empty;
+
+    [Required]
+    [MinLength(6)]
+    public string NewPassword { get; set; } = string.Empty;
+}
+
+/// <summary>Authenticated user changes their own password (old password required).</summary>
+public class ChangeMyPasswordRequest
+{
+    [Required]
+    public string OldPassword { get; set; } = string.Empty;
+
+    [Required]
+    [MinLength(6)]
+    public string NewPassword { get; set; } = string.Empty;
+}
