@@ -12,6 +12,7 @@ public class UserDto
     public string? PhoneNumber { get; set; }
     public int? UserType { get; set; }
     public int? FacultyId { get; set; }
+    public FacultyLookupDto? Faculty { get; set; }
     public bool IsActive { get; set; }
     public bool IsVerified { get; set; }
     public bool IsDeleted { get; set; }

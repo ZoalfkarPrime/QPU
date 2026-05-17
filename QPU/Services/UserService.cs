@@ -17,6 +17,7 @@ public class UserService(
     {
         var users = await db.Users
             .Where(u => !u.IsDeleted)
+            .Include(u => u.Faculty)
             .ToListAsync();
 
         var result = new List<UserDto>();
@@ -30,7 +31,9 @@ public class UserService(
 
     public async Task<UserDto?> GetUserByIdAsync(string id)
     {
-        var user = await db.Users.FindAsync(id);
+        var user = await db.Users
+            .Include(u => u.Faculty)
+            .FirstOrDefaultAsync(u => u.Id == id);
         if (user == null) return null;
         var roles = await GetUserRolesAsync(id);
         return MapToDto(user, roles);
@@ -222,6 +225,13 @@ public class UserService(
         PhoneNumber = user.PhoneNumber,
         UserType = user.UserType,
         FacultyId = user.FacultyId,
+        Faculty = user.Faculty == null ? null : new FacultyLookupDto
+        {
+            Id = user.Faculty.Id,
+            Slug = user.Faculty.Slug,
+            Name = user.Faculty.Name,
+            Name_AR = user.Faculty.Name_AR
+        },
         IsActive = user.IsActive,
         IsVerified = user.IsVerified,
         IsDeleted = user.IsDeleted,
