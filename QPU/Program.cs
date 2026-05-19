@@ -45,6 +45,15 @@ builder.Services.AddIdentity<AppUser, AppRole>(options =>
 builder.Services.AddAuthentication("DbToken")
     .AddScheme<DbTokenAuthOptions, DbTokenAuthHandler>("DbToken", _ => { });
 
+builder.Services.AddAuthorization();
+
+// Override Identity's default scheme so [Authorize] uses DbToken, not cookies
+builder.Services.Configure<Microsoft.AspNetCore.Authentication.AuthenticationOptions>(options =>
+{
+    options.DefaultAuthenticateScheme = "DbToken";
+    options.DefaultChallengeScheme = "DbToken";
+});
+
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IFacultyAccessService, FacultyAccessService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
@@ -149,6 +158,9 @@ app.UseHttpsRedirection();
 
 app.UseCors("CorsPolicy");
 
+app.UseAuthentication();
+app.UseAuthorization();
+
 var uploadPath = builder.Configuration["FileManager:UploadPath"];
 if (!string.IsNullOrWhiteSpace(uploadPath))
 {
@@ -160,9 +172,6 @@ if (!string.IsNullOrWhiteSpace(uploadPath))
         RequestPath = "/uploads"
     });
 }
-
-app.UseAuthentication();
-app.UseAuthorization();
 
 app.MapControllers();
 

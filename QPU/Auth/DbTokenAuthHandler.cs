@@ -21,7 +21,10 @@ public class DbTokenAuthHandler(
         if (!Request.Headers.TryGetValue(HeaderNames.Authorization, out var authHeader))
             return Task.FromResult(AuthenticateResult.Fail("Missing Authorization header."));
 
-        var token = authHeader.ToString();
+        var raw = authHeader.ToString();
+        var token = raw.StartsWith("Bearer ", StringComparison.OrdinalIgnoreCase)
+            ? raw["Bearer ".Length..]
+            : raw;
 
         using var scope = serviceProvider.GetRequiredService<IServiceScopeFactory>().CreateScope();
         var db = scope.ServiceProvider.GetRequiredService<AppDBContext>();
