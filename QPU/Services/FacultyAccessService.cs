@@ -7,7 +7,7 @@ public class FacultyAccessService(IHttpContextAccessor httpContextAccessor) : IF
     public int? GetScopedFacultyId()
     {
         var user = httpContextAccessor.HttpContext?.User;
-        if (user is null || !user.Identity?.IsAuthenticated == true)
+        if (user is null || user.Identity?.IsAuthenticated != true)
             return null;
 
         // SuperAdmin — no restrictions
