@@ -27,6 +27,8 @@ public class AppDBContext : IdentityDbContext<AppUser, AppRole, string, AppUserC
     public DbSet<BestEmployee> BestEmployees => Set<BestEmployee>();
     public DbSet<Vacancy> Vacancies => Set<Vacancy>();
     public DbSet<SiteRequest> SiteRequests => Set<SiteRequest>();
+    public DbSet<Gallery> Galleries => Set<Gallery>();
+    public DbSet<GalleryAttachment> GalleryAttachments => Set<GalleryAttachment>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -256,5 +258,18 @@ public class AppDBContext : IdentityDbContext<AppUser, AppRole, string, AppUserC
         modelBuilder.Entity<BestEmployee>()
             .HasIndex(be => new { be.FacultyId, be.StudyYearId })
             .IsUnique();
+
+        // Gallery
+        modelBuilder.Entity<GalleryAttachment>()
+            .HasOne(ga => ga.Gallery)
+            .WithMany(g => g.Attachments)
+            .HasForeignKey(ga => ga.GalleryId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<GalleryAttachment>()
+            .HasOne(ga => ga.File)
+            .WithMany()
+            .HasForeignKey(ga => ga.FileManagerId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }

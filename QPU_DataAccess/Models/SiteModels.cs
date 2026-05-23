@@ -497,6 +497,45 @@ public class BestEmployee : BaseEntity
     public virtual Teacher? Teacher { get; set; }
 }
 
+public class Gallery : BaseEntity
+{
+    [Key]
+    public int Id { get; set; }
+
+    [Required]
+    [MaxLength(300)]
+    public string Title { get; set; } = string.Empty;
+
+    [MaxLength(300)]
+    public string? Title_AR { get; set; }
+
+    public DateOnly? DateFrom { get; set; }
+
+    public DateOnly? DateTo { get; set; }
+
+    public bool IsPublished { get; set; } = true;
+
+    public virtual ICollection<GalleryAttachment> Attachments { get; set; } = new List<GalleryAttachment>();
+}
+
+public class GalleryAttachment : BaseEntity
+{
+    [Key]
+    public int Id { get; set; }
+
+    [Required]
+    public int GalleryId { get; set; }
+
+    [Required]
+    public Guid FileManagerId { get; set; }
+
+    [ForeignKey(nameof(GalleryId))]
+    public virtual Gallery? Gallery { get; set; }
+
+    [ForeignKey(nameof(FileManagerId))]
+    public virtual FileManager? File { get; set; }
+}
+
 public enum Gender { Male = 1, Female = 2 }
 
 public enum MaritalStatus
