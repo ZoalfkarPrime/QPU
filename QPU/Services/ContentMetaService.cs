@@ -37,6 +37,21 @@ public class ContentMetaService(AppDBContext db, IConfiguration config) : IConte
                         FileType = f.FileType
                     })
                     .FirstOrDefault()
+                : null,
+            Filemanager_AR = (cm.Type == "image" || cm.Type == "video" || cm.Type == "file")
+                ? db.FileManagers
+                    .Where(f => f.Id.ToString() == cm.Value_AR)
+                    .Select(f => new FileManagerNodeDto
+                    {
+                        Id = f.Id,
+                        Name = f.Name,
+                        Name_AR = f.Name_AR,
+                        URL = f.URL != null ? baseUrl + f.URL : null,
+                        Thumbnail = f.Thumbnail != null ? baseUrl + f.Thumbnail : null,
+                        IsFile = f.IsFile,
+                        FileType = f.FileType
+                    })
+                    .FirstOrDefault()
                 : null
         });
     }
