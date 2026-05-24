@@ -46,7 +46,22 @@ public class ContentService(AppDBContext db, IConfiguration config) : IContentSe
                                 FileType = f.FileType
                             })
                             .FirstOrDefault()
-                        : null
+                        : null,
+                    Filemanager_AR = (cm.Type == "image" || cm.Type == "video" || cm.Type == "file")
+                ? db.FileManagers
+                    .Where(f => f.Id.ToString() == cm.Value_AR)
+                    .Select(f => new FileManagerNodeDto
+                    {
+                        Id = f.Id,
+                        Name = f.Name,
+                        Name_AR = f.Name_AR,
+                        URL = f.URL != null ? baseUrl + f.URL : null,
+                        Thumbnail = f.Thumbnail != null ? baseUrl + f.Thumbnail : null,
+                        IsFile = f.IsFile,
+                        FileType = f.FileType
+                    })
+                    .FirstOrDefault()
+                : null
                 })
                 .ToList(),
             DisplayOrder = c.DisplayOrder,
