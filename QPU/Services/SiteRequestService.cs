@@ -84,7 +84,8 @@ public class SiteRequestService(AppDBContext db, IFileManagerService fileManager
             CvFileId = cvFileId,
             IsActive = true,
             CreatedAt = DateTime.UtcNow,
-            UpdatedAt = DateTime.UtcNow
+            UpdatedAt = DateTime.UtcNow,
+            IsDeleted = false
         };
 
         db.SiteRequests.Add(entity);
@@ -105,7 +106,8 @@ public class SiteRequestService(AppDBContext db, IFileManagerService fileManager
             MessageBody = request.MessageBody,
             IsActive = true,
             CreatedAt = DateTime.UtcNow,
-            UpdatedAt = DateTime.UtcNow
+            UpdatedAt = DateTime.UtcNow,
+            IsDeleted = false
         };
 
         db.SiteRequests.Add(entity);

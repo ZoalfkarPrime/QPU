@@ -9,6 +9,13 @@ using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Align Kestrel's request body limit with the configured FileManager max file size (default 50 MB)
+var maxFileSize = long.Parse(builder.Configuration["FileManager:MaxFileSize"] ?? "52428800");
+builder.WebHost.ConfigureKestrel(options =>
+{
+    options.Limits.MaxRequestBodySize = maxFileSize;
+});
+
 // Add services to the container.
 
 builder.Services.AddControllers()

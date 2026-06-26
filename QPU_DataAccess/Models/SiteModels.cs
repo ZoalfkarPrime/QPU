@@ -629,6 +629,8 @@ public class SiteRequest : BaseEntity
     [Column(TypeName = "nvarchar(max)")]
     public string? MessageBody { get; set; }
 
+    public bool IsDeleted { get; set; } = false;
+
     [ForeignKey(nameof(VacancyId))]
     public virtual Vacancy? Vacancy { get; set; }
 
