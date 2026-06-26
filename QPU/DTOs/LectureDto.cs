@@ -6,7 +6,9 @@ public class LectureDto
 {
     public int Id { get; set; }
     public int CourseId { get; set; }
+    public CourseLookupDto? Course { get; set; }
     public int TeacherId { get; set; }
+    public TeacherLookupDto? Teacher { get; set; }
     public string Title { get; set; } = string.Empty;
     public string? Title_AR { get; set; }
     public string? Content { get; set; }

@@ -11,7 +11,21 @@ public class LectureService(AppDBContext db) : ILectureService
         {
             Id = l.Id,
             CourseId = l.CourseId,
+            Course = l.Course == null ? null : new CourseLookupDto
+            {
+                Id = l.Course.Id,
+                Name = l.Course.Name,
+                Name_AR = l.Course.Name_AR,
+                FacultyId = l.Course.FacultyId,
+                StudyYearId = l.Course.StudyYearId
+            },
             TeacherId = l.TeacherId,
+            Teacher = l.Teacher == null ? null : new TeacherLookupDto
+            {
+                Id = l.Teacher.Id,
+                Name = l.Teacher.Name,
+                Name_AR = l.Teacher.Name_AR
+            },
             Title = l.Title,
             Title_AR = l.Title_AR,
             Content = l.Content,
