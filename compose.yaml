@@ -34,6 +34,7 @@ services:
       FileManager__UploadPath: "/app/uploads"
       FileManager__UploadRelativePath: "/uploads/"
       FileManager__APIBaseURL: "https://api.qpu.buzz"
+      FileManager__MaxFileSize: "52428800"
     depends_on:
       sqlserver:
         condition: service_healthy
