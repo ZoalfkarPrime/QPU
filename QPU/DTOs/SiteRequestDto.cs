@@ -26,10 +26,25 @@ public class SiteRequestDto
     public MaritalStatus? MaritalStatus { get; set; }
     public Guid? CvFileId { get; set; }
     public FileManagerNodeDto? CvFile { get; set; }
+    public Guid? DegreeFileId { get; set; }
+    public FileManagerNodeDto? DegreeFile { get; set; }
 
     // ContactUs only
     public string? MessageTitle { get; set; }
     public string? MessageBody { get; set; }
+
+    public int? ContractFacultyId { get; set; }
+    public FacultyDto? ContractFaculty { get; set; }
+    public string? ContractScientificDegree { get; set; }
+    public string? ContractSpecialist { get; set; }
+    public string? ContractJob { get; set; }
+    public bool? HasContractScientificDegreeApproved { get; set; }
+    public bool? HasContractExperience { get; set; }
+    public string? ContractExperiences { get; set; }
+    public string? ContractLanguages { get; set; }
+    public string? ContractCurrentPlace { get; set; }
+    public bool? ContractFulltimeJob { get; set; }
+    public bool? HasContractAnotherJob { get; set; }
 
     public bool IsActive { get; set; }
     public int DisplayOrder { get; set; }
@@ -70,8 +85,21 @@ public class CreateEmploymentRequest
 
     public MaritalStatus? MaritalStatus { get; set; }
 
+    public int? ContractFacultyId { get; set; }
+    public string? ContractScientificDegree { get; set; }
+    public string? ContractSpecialist { get; set; }
+    public string? ContractJob { get; set; }
+    public bool? HasContractScientificDegreeApproved { get; set; }
+    public bool? HasContractExperience { get; set; }
+    public string? ContractExperiences { get; set; }
+    public string? ContractLanguages { get; set; }
+    public string? ContractCurrentPlace { get; set; }
+    public bool? ContractFulltimeJob { get; set; }
+    public bool? HasContractAnotherJob { get; set; }
+
     // Optional CV file — sent as multipart/form-data
     public IFormFile? CvFile { get; set; }
+    public IFormFile? DegreeFile { get; set; }
 }
 
 // ── Contact-us request ───────────────────────────────────────────────────────

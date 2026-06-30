@@ -547,7 +547,8 @@ public enum MaritalStatus
 public enum RequestCategory
 {
     Employment = 1,  // طلب توظيف
-    ContactUs = 2    // قالب مراسلة
+    ContactUs = 2,    // قالب مراسلة
+    Contract = 3      // عقد
 }
 
 public class Vacancy : BaseEntity
@@ -629,6 +630,30 @@ public class SiteRequest : BaseEntity
     [Column(TypeName = "nvarchar(max)")]
     public string? MessageBody { get; set; }
 
+    public int? ContractFacultyId { get; set; }
+
+    [ForeignKey(nameof(ContractFacultyId))]
+    public virtual Faculty? ContractFaculty { get; set; }
+
+
+    public string? ContractScientificDegree { get; set; }
+
+    public string? ContractSpecialist { get; set; }
+
+    public string? ContractJob { get; set; }
+
+    public bool? HasContractScientificDegreeApproved { get; set; }
+
+    public bool? HasContractExperience { get; set; }
+    public string? ContractExperiences { get; set; }
+    public string? ContractLanguages { get; set; }
+
+    public string? ContractCurrentPlace { get; set; }
+
+    public bool? ContractFulltimeJob { get; set; }// عقد جزئي او كامل
+
+    public bool? HasContractAnotherJob { get; set; }
+
     public bool IsDeleted { get; set; } = false;
 
     [ForeignKey(nameof(VacancyId))]
@@ -636,4 +661,9 @@ public class SiteRequest : BaseEntity
 
     [ForeignKey(nameof(CvFileId))]
     public virtual FileManager? CvFile { get; set; }
+
+    public Guid? DegreeFileId { get; set; }
+
+    [ForeignKey(nameof(DegreeFileId))]
+    public virtual FileManager? DegreeFile { get; set; }
 }

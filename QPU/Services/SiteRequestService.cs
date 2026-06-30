@@ -45,6 +45,35 @@ public class SiteRequestService(AppDBContext db, IFileManagerService fileManager
             },
             MessageTitle = r.MessageTitle,
             MessageBody = r.MessageBody,
+            ContractFacultyId = r.ContractFacultyId,
+            ContractFaculty = r.ContractFaculty == null ? null : new FacultyDto
+            {
+                Id = r.ContractFaculty.Id,
+                Name = r.ContractFaculty.Name,
+                Name_AR = r.ContractFaculty.Name_AR,
+                IsActive = r.ContractFaculty.IsActive
+            },
+            ContractScientificDegree = r.ContractScientificDegree,
+            ContractSpecialist = r.ContractSpecialist,
+            ContractJob = r.ContractJob,
+            HasContractScientificDegreeApproved = r.HasContractScientificDegreeApproved,
+            HasContractExperience = r.HasContractExperience,
+            ContractExperiences = r.ContractExperiences,
+            ContractLanguages = r.ContractLanguages,
+            ContractCurrentPlace = r.ContractCurrentPlace,
+            ContractFulltimeJob = r.ContractFulltimeJob,
+            HasContractAnotherJob = r.HasContractAnotherJob,
+            DegreeFileId = r.DegreeFileId,
+            DegreeFile = r.DegreeFile == null ? null : new FileManagerNodeDto
+            {
+                Id = r.DegreeFile.Id,
+                Name = r.DegreeFile.Name,
+                Name_AR = r.DegreeFile.Name_AR,
+                URL = r.DegreeFile.URL != null ? baseUrl + r.DegreeFile.URL : null,
+                Thumbnail = r.DegreeFile.Thumbnail != null ? baseUrl + r.DegreeFile.Thumbnail : null,
+                IsFile = r.DegreeFile.IsFile,
+                FileType = r.DegreeFile.FileType
+            },
             IsActive = r.IsActive,
             DisplayOrder = r.DisplayOrder,
             CreatedAt = r.CreatedAt,
@@ -68,6 +97,16 @@ public class SiteRequestService(AppDBContext db, IFileManagerService fileManager
             cvFileId = uploaded!.Id;
         }
 
+        Guid? degreeFileId = null;
+        if (request.DegreeFile is not null)
+        {
+            var folderId = await fileManagerService.GetOrCreateFolderAsync("Hiring Requests Degrees");
+            var (success, error, uploaded) = await fileManagerService.UploadSingleAsync(request.DegreeFile, folderId);
+            if (!success)
+                return (false, error, null);
+            degreeFileId = uploaded!.Id;
+        }
+
         var entity = new SiteRequest
         {
             Category = RequestCategory.Employment,
@@ -81,7 +120,19 @@ public class SiteRequestService(AppDBContext db, IFileManagerService fileManager
             PhoneNumber = request.PhoneNumber,
             Email = request.Email,
             MaritalStatus = request.MaritalStatus,
+            ContractFacultyId = request.ContractFacultyId,
+            ContractScientificDegree = request.ContractScientificDegree,
+            ContractSpecialist = request.ContractSpecialist,
+            ContractJob = request.ContractJob,
+            HasContractScientificDegreeApproved = request.HasContractScientificDegreeApproved,
+            HasContractExperience = request.HasContractExperience,
+            ContractExperiences = request.ContractExperiences,
+            ContractLanguages = request.ContractLanguages,
+            ContractCurrentPlace = request.ContractCurrentPlace,
+            ContractFulltimeJob = request.ContractFulltimeJob,
+            HasContractAnotherJob = request.HasContractAnotherJob,
             CvFileId = cvFileId,
+            DegreeFileId = degreeFileId,
             IsActive = true,
             CreatedAt = DateTime.UtcNow,
             UpdatedAt = DateTime.UtcNow,
@@ -130,7 +181,19 @@ public class SiteRequestService(AppDBContext db, IFileManagerService fileManager
         entity.Gender = dto.Gender;
         entity.Nationality = dto.Nationality;
         entity.MaritalStatus = dto.MaritalStatus;
+        entity.ContractFacultyId = dto.ContractFacultyId;
+        entity.ContractScientificDegree = dto.ContractScientificDegree;
+        entity.ContractSpecialist = dto.ContractSpecialist;
+        entity.ContractJob = dto.ContractJob;
+        entity.HasContractScientificDegreeApproved = dto.HasContractScientificDegreeApproved;
+        entity.HasContractExperience = dto.HasContractExperience;
+        entity.ContractExperiences = dto.ContractExperiences;
+        entity.ContractLanguages = dto.ContractLanguages;
+        entity.ContractCurrentPlace = dto.ContractCurrentPlace;
+        entity.ContractFulltimeJob = dto.ContractFulltimeJob;
+        entity.HasContractAnotherJob = dto.HasContractAnotherJob;
         entity.CvFileId = dto.CvFileId;
+        entity.DegreeFileId = dto.DegreeFileId;
         entity.MessageTitle = dto.MessageTitle;
         entity.MessageBody = dto.MessageBody;
         entity.IsActive = dto.IsActive;
