@@ -1043,9 +1043,52 @@ namespace QPU_DataAccess.Migrations
                     b.Property<int?>("VacancyId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("ContractFacultyId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ContractCurrentPlace")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ContractExperiences")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool?>("ContractFulltimeJob")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("ContractJob")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ContractLanguages")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ContractScientificDegree")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ContractSpecialist")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("DegreeFileId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool?>("HasContractAnotherJob")
+                        .HasColumnType("bit");
+
+                    b.Property<bool?>("HasContractExperience")
+                        .HasColumnType("bit");
+
+                    b.Property<bool?>("HasContractScientificDegreeApproved")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.HasKey("Id");
 
+                    b.HasIndex("ContractFacultyId");
+
                     b.HasIndex("CvFileId");
+
+                    b.HasIndex("DegreeFileId");
 
                     b.HasIndex("VacancyId");
 
@@ -1593,15 +1636,27 @@ namespace QPU_DataAccess.Migrations
 
             modelBuilder.Entity("QPU_DataAccess.Models.SiteRequest", b =>
                 {
+                    b.HasOne("QPU_DataAccess.Models.Faculty", "ContractFaculty")
+                        .WithMany()
+                        .HasForeignKey("ContractFacultyId");
+
                     b.HasOne("QPU_DataAccess.Models.FileManager", "CvFile")
                         .WithMany()
                         .HasForeignKey("CvFileId");
+
+                    b.HasOne("QPU_DataAccess.Models.FileManager", "DegreeFile")
+                        .WithMany()
+                        .HasForeignKey("DegreeFileId");
 
                     b.HasOne("QPU_DataAccess.Models.Vacancy", "Vacancy")
                         .WithMany("Requests")
                         .HasForeignKey("VacancyId");
 
+                    b.Navigation("ContractFaculty");
+
                     b.Navigation("CvFile");
+
+                    b.Navigation("DegreeFile");
 
                     b.Navigation("Vacancy");
                 });

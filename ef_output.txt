@@ -1,0 +1,75 @@
+Build started...
+Build succeeded.
+System.Reflection.ReflectionTypeLoadException: Unable to load one or more of the requested types.
+Method 'ExtensionBlockDeclaration' in type 'Microsoft.CodeAnalysis.VisualBasic.CodeGeneration.VisualBasicSyntaxGenerator' from assembly 'Microsoft.CodeAnalysis.VisualBasic.Workspaces, Version=4.13.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35' does not have an implementation.
+Method 'get_SortImportsDisplayStringWithoutAccelerator' in type 'Microsoft.CodeAnalysis.VisualBasic.OrganizeImports.VisualBasicOrganizeImportsService' from assembly 'Microsoft.CodeAnalysis.VisualBasic.Workspaces, Version=4.13.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35' does not have an implementation.
+Method not found: 'Boolean Microsoft.CodeAnalysis.LanguageService.ISyntaxFacts.ContainsInMemberBody(Microsoft.CodeAnalysis.SyntaxNode, Microsoft.CodeAnalysis.Text.TextSpan)'.
+Method 'get_PartialKeyword' in type 'Microsoft.CodeAnalysis.VisualBasic.LanguageService.VisualBasicSyntaxKinds' from assembly 'Microsoft.CodeAnalysis.VisualBasic.Workspaces, Version=4.13.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35' does not have an implementation.
+Method 'TryGetPrimaryConstructor' in type 'Microsoft.CodeAnalysis.VisualBasic.VisualBasicSemanticFacts' from assembly 'Microsoft.CodeAnalysis.VisualBasic.Workspaces, Version=4.13.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35' does not have an implementation.
+Declaration referenced in a method implementation cannot be a final method.  Type: 'Microsoft.CodeAnalysis.VisualBasic.CodeRefactorings.VisualBasicRefactoringHelpersService'.  Assembly: 'Microsoft.CodeAnalysis.VisualBasic.Workspaces, Version=4.13.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35'.
+Method 'get_PartialKeyword' in type 'Microsoft.CodeAnalysis.VisualBasic.LanguageService.VisualBasicSyntaxKinds' from assembly 'Microsoft.CodeAnalysis.VisualBasic.Workspaces, Version=4.13.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35' does not have an implementation.
+Method not found: 'Boolean Microsoft.CodeAnalysis.LanguageService.ISyntaxFacts.ContainsInMemberBody(Microsoft.CodeAnalysis.SyntaxNode, Microsoft.CodeAnalysis.Text.TextSpan)'.
+   at System.Reflection.RuntimeModule.GetDefinedTypes()
+   at System.Composition.Hosting.ContainerConfiguration.<>c.<WithAssemblies>b__16_0(Assembly a)
+   at System.Linq.Enumerable.SelectManySingleSelectorIterator`2.MoveNext()
+   at System.Composition.TypedParts.TypedPartExportDescriptorProvider..ctor(IEnumerable`1 types, AttributedModelProvider attributeContext)
+   at System.Composition.Hosting.ContainerConfiguration.CreateContainer()
+   at Microsoft.CodeAnalysis.Host.Mef.MefHostServices.Create(IEnumerable`1 assemblies)
+   at Microsoft.CodeAnalysis.Host.Mef.MefHostServices.get_DefaultHost()
+   at Microsoft.CodeAnalysis.AdhocWorkspace..ctor()
+   at Microsoft.EntityFrameworkCore.Design.Internal.CSharpHelper..ctor(ITypeMappingSource typeMappingSource)
+   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Constructor(Object obj, IntPtr* args)
+   at System.Reflection.MethodBaseInvoker.InvokeDirectByRefWithFewArgs(Object obj, Span`1 copyOfArgs, BindingFlags invokeAttr)
+   at System.Reflection.MethodBaseInvoker.InvokeWithOneArg(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   at System.Reflection.RuntimeConstructorInfo.Invoke(BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitConstructor(ConstructorCallSite constructorCallSite, RuntimeResolverContext context)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitRootCache(ServiceCallSite callSite, RuntimeResolverContext context)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitCallSite(ServiceCallSite callSite, TArgument argument)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitConstructor(ConstructorCallSite constructorCallSite, RuntimeResolverContext context)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitRootCache(ServiceCallSite callSite, RuntimeResolverContext context)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitCallSite(ServiceCallSite callSite, TArgument argument)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitConstructor(ConstructorCallSite constructorCallSite, RuntimeResolverContext context)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitRootCache(ServiceCallSite callSite, RuntimeResolverContext context)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitCallSite(ServiceCallSite callSite, TArgument argument)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitIEnumerable(IEnumerableCallSite enumerableCallSite, RuntimeResolverContext context)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitRootCache(ServiceCallSite callSite, RuntimeResolverContext context)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitCallSite(ServiceCallSite callSite, TArgument argument)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitConstructor(ConstructorCallSite constructorCallSite, RuntimeResolverContext context)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitRootCache(ServiceCallSite callSite, RuntimeResolverContext context)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitCallSite(ServiceCallSite callSite, TArgument argument)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitConstructor(ConstructorCallSite constructorCallSite, RuntimeResolverContext context)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitCache(ServiceCallSite callSite, RuntimeResolverContext context, ServiceProviderEngineScope serviceProviderEngine, RuntimeResolverLock lockType)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitScopeCache(ServiceCallSite callSite, RuntimeResolverContext context)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitCallSite(ServiceCallSite callSite, TArgument argument)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitConstructor(ConstructorCallSite constructorCallSite, RuntimeResolverContext context)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitCache(ServiceCallSite callSite, RuntimeResolverContext context, ServiceProviderEngineScope serviceProviderEngine, RuntimeResolverLock lockType)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitScopeCache(ServiceCallSite callSite, RuntimeResolverContext context)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitCallSite(ServiceCallSite callSite, TArgument argument)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.Resolve(ServiceCallSite callSite, ServiceProviderEngineScope scope)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.DynamicServiceProviderEngine.<>c__DisplayClass2_0.<RealizeService>b__0(ServiceProviderEngineScope scope)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider.GetService(ServiceIdentifier serviceIdentifier, ServiceProviderEngineScope serviceProviderEngineScope)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.ServiceProviderEngineScope.GetService(Type serviceType)
+   at Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService(IServiceProvider provider, Type serviceType)
+   at Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService[T](IServiceProvider provider)
+   at Microsoft.EntityFrameworkCore.Design.Internal.MigrationsOperations.AddMigration(String name, String outputDir, String contextType, String namespace, Boolean dryRun)
+   at Microsoft.EntityFrameworkCore.Design.OperationExecutor.AddMigrationImpl(String name, String outputDir, String contextType, String namespace, Boolean dryRun)
+   at Microsoft.EntityFrameworkCore.Design.OperationExecutor.AddMigration.<>c__DisplayClass0_0.<.ctor>b__0()
+   at Microsoft.EntityFrameworkCore.Design.OperationExecutor.OperationBase.<>c__DisplayClass3_0`1.<Execute>b__0()
+   at Microsoft.EntityFrameworkCore.Design.OperationExecutor.OperationBase.Execute(Action action)
+System.TypeLoadException: Method 'ExtensionBlockDeclaration' in type 'Microsoft.CodeAnalysis.VisualBasic.CodeGeneration.VisualBasicSyntaxGenerator' from assembly 'Microsoft.CodeAnalysis.VisualBasic.Workspaces, Version=4.13.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35' does not have an implementation.
+System.TypeLoadException: Method 'get_SortImportsDisplayStringWithoutAccelerator' in type 'Microsoft.CodeAnalysis.VisualBasic.OrganizeImports.VisualBasicOrganizeImportsService' from assembly 'Microsoft.CodeAnalysis.VisualBasic.Workspaces, Version=4.13.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35' does not have an implementation.
+System.MissingMethodException: Method not found: 'Boolean Microsoft.CodeAnalysis.LanguageService.ISyntaxFacts.ContainsInMemberBody(Microsoft.CodeAnalysis.SyntaxNode, Microsoft.CodeAnalysis.Text.TextSpan)'.
+System.TypeLoadException: Method 'get_PartialKeyword' in type 'Microsoft.CodeAnalysis.VisualBasic.LanguageService.VisualBasicSyntaxKinds' from assembly 'Microsoft.CodeAnalysis.VisualBasic.Workspaces, Version=4.13.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35' does not have an implementation.
+System.TypeLoadException: Method 'TryGetPrimaryConstructor' in type 'Microsoft.CodeAnalysis.VisualBasic.VisualBasicSemanticFacts' from assembly 'Microsoft.CodeAnalysis.VisualBasic.Workspaces, Version=4.13.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35' does not have an implementation.
+System.TypeLoadException: Declaration referenced in a method implementation cannot be a final method.  Type: 'Microsoft.CodeAnalysis.VisualBasic.CodeRefactorings.VisualBasicRefactoringHelpersService'.  Assembly: 'Microsoft.CodeAnalysis.VisualBasic.Workspaces, Version=4.13.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35'.
+System.TypeLoadException: Method 'get_PartialKeyword' in type 'Microsoft.CodeAnalysis.VisualBasic.LanguageService.VisualBasicSyntaxKinds' from assembly 'Microsoft.CodeAnalysis.VisualBasic.Workspaces, Version=4.13.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35' does not have an implementation.
+System.MissingMethodException: Method not found: 'Boolean Microsoft.CodeAnalysis.LanguageService.ISyntaxFacts.ContainsInMemberBody(Microsoft.CodeAnalysis.SyntaxNode, Microsoft.CodeAnalysis.Text.TextSpan)'.
+Unable to load one or more of the requested types.
+Method 'ExtensionBlockDeclaration' in type 'Microsoft.CodeAnalysis.VisualBasic.CodeGeneration.VisualBasicSyntaxGenerator' from assembly 'Microsoft.CodeAnalysis.VisualBasic.Workspaces, Version=4.13.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35' does not have an implementation.
+Method 'get_SortImportsDisplayStringWithoutAccelerator' in type 'Microsoft.CodeAnalysis.VisualBasic.OrganizeImports.VisualBasicOrganizeImportsService' from assembly 'Microsoft.CodeAnalysis.VisualBasic.Workspaces, Version=4.13.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35' does not have an implementation.
+Method not found: 'Boolean Microsoft.CodeAnalysis.LanguageService.ISyntaxFacts.ContainsInMemberBody(Microsoft.CodeAnalysis.SyntaxNode, Microsoft.CodeAnalysis.Text.TextSpan)'.
+Method 'get_PartialKeyword' in type 'Microsoft.CodeAnalysis.VisualBasic.LanguageService.VisualBasicSyntaxKinds' from assembly 'Microsoft.CodeAnalysis.VisualBasic.Workspaces, Version=4.13.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35' does not have an implementation.
+Method 'TryGetPrimaryConstructor' in type 'Microsoft.CodeAnalysis.VisualBasic.VisualBasicSemanticFacts' from assembly 'Microsoft.CodeAnalysis.VisualBasic.Workspaces, Version=4.13.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35' does not have an implementation.
+Declaration referenced in a method implementation cannot be a final method.  Type: 'Microsoft.CodeAnalysis.VisualBasic.CodeRefactorings.VisualBasicRefactoringHelpersService'.  Assembly: 'Microsoft.CodeAnalysis.VisualBasic.Workspaces, Version=4.13.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35'.
+Method 'get_PartialKeyword' in type 'Microsoft.CodeAnalysis.VisualBasic.LanguageService.VisualBasicSyntaxKinds' from assembly 'Microsoft.CodeAnalysis.VisualBasic.Workspaces, Version=4.13.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35' does not have an implementation.
+Method not found: 'Boolean Microsoft.CodeAnalysis.LanguageService.ISyntaxFacts.ContainsInMemberBody(Microsoft.CodeAnalysis.SyntaxNode, Microsoft.CodeAnalysis.Text.TextSpan)'.
