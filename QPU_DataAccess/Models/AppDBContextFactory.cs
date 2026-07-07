@@ -9,7 +9,7 @@ public class AppDBContextFactory : IDesignTimeDbContextFactory<AppDBContext>
     {
         var optionsBuilder = new DbContextOptionsBuilder<AppDBContext>();
         var connectionString = Environment.GetEnvironmentVariable("QPU_CONNECTION_STRING")
-            ?? "Server=213.178.227.179,14333;Database=QPU;User Id=sa;Password=Qpu!Sql2022Pass;TrustServerCertificate=True;Encrypt=False;MultipleActiveResultSets=True";
+            ?? "Server=localhost,14333;Database=QPU;User Id=sa;Password=Qpu!Sql2022Pass;TrustServerCertificate=True;Encrypt=False;MultipleActiveResultSets=True";
 
         optionsBuilder.UseSqlServer(connectionString);
 
