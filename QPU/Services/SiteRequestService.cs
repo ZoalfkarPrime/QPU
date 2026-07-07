@@ -109,7 +109,7 @@ public class SiteRequestService(AppDBContext db, IFileManagerService fileManager
 
         var entity = new SiteRequest
         {
-            Category = RequestCategory.Employment,
+            Category = request.VacancyId != null ? RequestCategory.Employment : RequestCategory.Contract,
             VacancyId = request.VacancyId,
             FirstName = request.FirstName,
             LastName = request.LastName,

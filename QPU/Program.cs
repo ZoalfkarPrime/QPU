@@ -102,13 +102,6 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-// Apply pending EF Core migrations automatically on startup
-using (var scope = app.Services.CreateScope())
-{
-    var db = scope.ServiceProvider.GetRequiredService<AppDBContext>();
-    db.Database.Migrate();
-}
-
 app.UseForwardedHeaders();
 app.UseExceptionHandler(exceptionHandlerApp =>
 {

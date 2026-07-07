@@ -28,8 +28,21 @@ FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
 RUN dotnet publish "./QPU.csproj" -c $BUILD_CONFIGURATION -o /app/publish --no-restore
 
+# This stage builds the EF Core migrations bundle (self-contained, no SDK needed at runtime)
+FROM build AS bundle
+WORKDIR /src
+RUN dotnet tool install --global dotnet-ef
+ENV PATH="$PATH:/root/.dotnet/tools"
+RUN dotnet ef migrations bundle \
+    --project QPU_DataAccess/QPU_DataAccess.csproj \
+    --startup-project QPU/QPU.csproj \
+    -o /app/efbundle \
+    --self-contained -r linux-x64
+
 # This stage is used in production or when running from VS in regular mode (Default when not using the Debug configuration)
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+COPY --from=bundle /app/efbundle ./efbundle
+ENTRYPOINT ["dotnet", "QPU.dll"]
 ENTRYPOINT ["dotnet", "QPU.dll"]

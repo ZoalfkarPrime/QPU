@@ -56,8 +56,7 @@ public class SiteRequestDto
 
 public class CreateEmploymentRequest
 {
-    [Required]
-    public int VacancyId { get; set; }
+    public int? VacancyId { get; set; }
 
     [Required]
     [MaxLength(200)]
