@@ -43,6 +43,4 @@ RUN dotnet ef migrations bundle \
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-COPY --from=bundle /app/efbundle ./efbundle
-ENTRYPOINT ["dotnet", "QPU.dll"]
 ENTRYPOINT ["dotnet", "QPU.dll"]
