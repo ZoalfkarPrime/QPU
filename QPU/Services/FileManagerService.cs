@@ -10,6 +10,11 @@ public class FileManagerService(AppDBContext db, IConfiguration config, ILogger<
     private static readonly HashSet<string> ImageExtensions =
         [".jpg", ".jpeg", ".png", ".gif", ".webp", ".bmp"];
 
+    // Extensions that use the ISO Base Media File Format (MP4/MOV/M4V).
+    // Their ftyp box starts at byte offset 4, preceded by a variable 4-byte size field.
+    private static readonly HashSet<string> IsobmffExtensions = [".mp4", ".mov", ".m4v"];
+    private static readonly byte[] FtypMarker = [0x66, 0x74, 0x79, 0x70]; // "ftyp"
+
     // Magic-byte signatures keyed by extension.
     // Each entry is a list of accepted byte patterns (first N bytes of the file).
     private static readonly Dictionary<string, List<byte[]>> MagicBytes = new()
@@ -25,32 +30,40 @@ public class FileManagerService(AppDBContext db, IConfiguration config, ILogger<
         [".docx"] = [[ 0x50, 0x4B, 0x03, 0x04 ]],                          // ZIP/OOXML
         [".xls"]  = [[ 0xD0, 0xCF, 0x11, 0xE0, 0xA1, 0xB1, 0x1A, 0xE1 ]],
         [".xlsx"] = [[ 0x50, 0x4B, 0x03, 0x04 ]],
-        [".mp4"]  = [[ 0x00, 0x00, 0x00, 0x18, 0x66, 0x74, 0x79, 0x70 ],
-                     [ 0x00, 0x00, 0x00, 0x20, 0x66, 0x74, 0x79, 0x70 ]],
         [".avi"]  = [[ 0x52, 0x49, 0x46, 0x46 ]],
-        [".mov"]  = [[ 0x00, 0x00, 0x00, 0x14, 0x66, 0x74, 0x79, 0x70 ]],
     };
 
     /// <summary>
     /// Reads the first bytes of the stream and verifies they match
     /// the expected magic bytes for the given extension.
     /// Returns false when the signature does not match (e.g. .exe renamed to .pdf).
+    /// MP4/MOV files are checked by looking for the "ftyp" marker at byte offset 4,
+    /// since the preceding 4 bytes are a variable-length box size field.
     /// </summary>
     private static async Task<bool> IsContentMatchingExtensionAsync(IFormFile file, string extension)
     {
+        // MP4/MOV: check for "ftyp" at offset 4 (box size is variable, so skip first 4 bytes)
+        if (IsobmffExtensions.Contains(extension))
+        {
+            var header = new byte[8];
+            await using var stream = file.OpenReadStream();
+            var bytesRead = await stream.ReadAsync(header.AsMemory(0, 8));
+            return bytesRead >= 8 && header.Skip(4).Take(4).SequenceEqual(FtypMarker);
+        }
+
         if (!MagicBytes.TryGetValue(extension, out var signatures))
             return true; // unknown extension — no signature check, rely on extension allow-list
 
         // Find the longest signature so we read enough bytes once
         var maxLen = signatures.Max(s => s.Length);
-        var header = new byte[maxLen];
+        var headerBytes = new byte[maxLen];
 
-        await using var stream = file.OpenReadStream();
-        var bytesRead = await stream.ReadAsync(header.AsMemory(0, maxLen));
+        await using var fileStream = file.OpenReadStream();
+        var read = await fileStream.ReadAsync(headerBytes.AsMemory(0, maxLen));
 
         return signatures.Any(sig =>
-            bytesRead >= sig.Length &&
-            header.Take(sig.Length).SequenceEqual(sig));
+            read >= sig.Length &&
+            headerBytes.Take(sig.Length).SequenceEqual(sig));
     }
 
     private string UploadPath
