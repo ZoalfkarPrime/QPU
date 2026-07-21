@@ -63,6 +63,13 @@ public class SiteRequestController(ISiteRequestService siteRequestService) : Con
         return new JsonResult(new[] { updated ?? model }.ToDataSourceResult(request, ModelState));
     }
 
+    [HttpPut("DeactivateContracts")]
+    public async Task<IActionResult> DeactivateContracts()
+    {
+        var count = await siteRequestService.DeactivateContractRequestsAsync();
+        return Ok(new { affected = count });
+    }
+
     [HttpDelete("Delete")]
     public async Task<JsonResult> Delete(
         [DataSourceRequest] DataSourceRequest request,

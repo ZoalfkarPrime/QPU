@@ -204,6 +204,14 @@ public class SiteRequestService(AppDBContext db, IFileManagerService fileManager
         return await GetQueryable().FirstAsync(r => r.Id == entity.Id);
     }
 
+    public async Task<int> DeactivateContractRequestsAsync()
+    {
+        var affected = await db.SiteRequests
+            .Where(r => r.Category == RequestCategory.Contract && r.IsActive)
+            .ExecuteUpdateAsync(s => s.SetProperty(r => r.IsActive, false));
+        return affected;
+    }
+
     public async Task<bool> DeleteAsync(int id)
     {
         var entity = await db.SiteRequests.FindAsync(id);

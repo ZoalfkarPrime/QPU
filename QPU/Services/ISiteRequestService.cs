@@ -10,4 +10,5 @@ public interface ISiteRequestService
     Task<SiteRequestDto> CreateContactUsAsync(CreateContactUsRequest request);
     Task<SiteRequestDto?> UpdateAsync(SiteRequestDto dto);
     Task<bool> DeleteAsync(int id);
+    Task<int> DeactivateContractRequestsAsync();
 }
