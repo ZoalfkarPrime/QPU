@@ -52,7 +52,12 @@ builder.Services.AddIdentity<AppUser, AppRole>(options =>
 builder.Services.AddAuthentication("DbToken")
     .AddScheme<DbTokenAuthOptions, DbTokenAuthHandler>("DbToken", _ => { });
 
-builder.Services.AddAuthorization();
+builder.Services.AddAuthorization(options =>
+{
+    // Only the single, DB-enforced superadmin account can manage users/roles.
+    options.AddPolicy("SuperAdminOnly", policy =>
+        policy.RequireClaim("IsSuperAdmin", "true"));
+});
 
 // Override Identity's default scheme so [Authorize] uses DbToken, not cookies
 builder.Services.Configure<Microsoft.AspNetCore.Authentication.AuthenticationOptions>(options =>

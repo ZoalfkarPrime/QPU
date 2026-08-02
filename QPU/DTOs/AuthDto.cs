@@ -69,6 +69,8 @@ public class UserSessionDto
     public int? FacultyId { get; set; }
     public string Token { get; set; } = string.Empty;
     public string? Photo { get; set; }
+    public bool IsSuperAdmin { get; set; }
+    public List<RoleDto> Roles { get; set; } = [];
 }
 
 public class CheckLoginRequest

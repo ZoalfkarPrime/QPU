@@ -14,6 +14,10 @@ public class FacultyAccessService(IHttpContextAccessor httpContextAccessor) : IF
         if (user.Claims.FirstOrDefault(c => c.Type == "IsSuperAdmin")?.Value == "true")
             return null;
 
+        // Admin role — no faculty restrictions either
+        if (user.IsInRole("Admin"))
+            return null;
+
         var facultyClaim = user.FindFirst("FacultyId")?.Value;
         if (string.IsNullOrWhiteSpace(facultyClaim))
             return null; // no faculty scope → unrestricted (e.g. global admin)

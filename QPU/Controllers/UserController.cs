@@ -8,9 +8,11 @@ namespace QPU.Controllers;
 
 [ApiController]
 [Route("api/User")]
+[Authorize]
 public class UserController(IUserService userService) : ControllerBase
 {
     [HttpGet("Read")]
+    [Authorize(Policy = "SuperAdminOnly")]
     public async Task<IActionResult> Read()
     {
         var users = await userService.GetAllUsersAsync();
@@ -18,6 +20,7 @@ public class UserController(IUserService userService) : ControllerBase
     }
 
     [HttpGet("{id}")]
+    [Authorize(Policy = "SuperAdminOnly")]
     public async Task<IActionResult> GetById(string id)
     {
         var user = await userService.GetUserByIdAsync(id);
@@ -25,6 +28,7 @@ public class UserController(IUserService userService) : ControllerBase
     }
 
     [HttpPost("Create")]
+    [Authorize(Policy = "SuperAdminOnly")]
     public async Task<IActionResult> Create([FromBody] CreateUserRequest request)
     {
         if (!ModelState.IsValid) return BadRequest(ModelState);
@@ -33,6 +37,7 @@ public class UserController(IUserService userService) : ControllerBase
     }
 
     [HttpPut("Update")]
+    [Authorize(Policy = "SuperAdminOnly")]
     public async Task<IActionResult> Update([FromBody] UpdateUserRequest request)
     {
         if (!ModelState.IsValid) return BadRequest(ModelState);
@@ -42,6 +47,7 @@ public class UserController(IUserService userService) : ControllerBase
     }
 
     [HttpDelete("{id}")]
+    [Authorize(Policy = "SuperAdminOnly")]
     public async Task<IActionResult> Delete(string id)
     {
         var result = await userService.DeleteUserAsync(id);
@@ -49,6 +55,7 @@ public class UserController(IUserService userService) : ControllerBase
     }
 
     [HttpPatch("{id}/SetActive")]
+    [Authorize(Policy = "SuperAdminOnly")]
     public async Task<IActionResult> SetActive(string id, [FromQuery] bool isActive)
     {
         var result = await userService.SetActiveAsync(id, isActive);
@@ -57,6 +64,7 @@ public class UserController(IUserService userService) : ControllerBase
 
     /// <summary>Admin changes any user's password without needing the old one.</summary>
     [HttpPatch("ChangePassword")]
+    [Authorize(Policy = "SuperAdminOnly")]
     public async Task<IActionResult> AdminChangePassword([FromBody] AdminChangePasswordRequest request)
     {
         if (!ModelState.IsValid) return BadRequest(ModelState);
@@ -78,6 +86,7 @@ public class UserController(IUserService userService) : ControllerBase
 
 [ApiController]
 [Route("api/Role")]
+[Authorize(Policy = "SuperAdminOnly")]
 public class RoleController(IRoleService roleService) : ControllerBase
 {
     [HttpGet("Read")]

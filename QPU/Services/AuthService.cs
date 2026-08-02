@@ -119,7 +119,9 @@ public class AuthService(
             UserType = user.UserType,
             FacultyId = user.FacultyId,
             Token = token,
-            Photo = user.Photo != null ? ApiBaseUrl + user.Photo : null
+            Photo = user.Photo != null ? ApiBaseUrl + user.Photo : null,
+            IsSuperAdmin = user.IsSuperAdmin,
+            Roles = await GetUserRolesAsync(user.Id)
         };
 
         return new AuthResult(true, session, null, 0);
@@ -180,7 +182,9 @@ public class AuthService(
             UserType = user.UserType,
             FacultyId = user.FacultyId,
             Token = request.LoginToken,
-            Photo = user.Photo != null ? ApiBaseUrl + user.Photo : null
+            Photo = user.Photo != null ? ApiBaseUrl + user.Photo : null,
+            IsSuperAdmin = user.IsSuperAdmin,
+            Roles = await GetUserRolesAsync(user.Id)
         };
 
         return new AuthResult(true, session, null, 0);
@@ -205,5 +209,14 @@ public class AuthService(
     {
         var userAgent = httpContextAccessor.HttpContext?.Request.Headers["User-Agent"].ToString();
         return userAgent ?? "Unknown";
+    }
+
+    private async Task<List<RoleDto>> GetUserRolesAsync(string userId)
+    {
+        return await db.UserRoles
+            .Where(ur => ur.UserId == userId)
+            .Join(db.Roles, ur => ur.RoleId, r => r.Id,
+                (ur, r) => new RoleDto { Id = r.Id, Name = r.Name ?? string.Empty })
+            .ToListAsync();
     }
 }
