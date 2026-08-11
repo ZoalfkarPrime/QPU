@@ -91,6 +91,7 @@ builder.Services.AddScoped<IVacancyService, VacancyService>();
 builder.Services.AddScoped<ISiteRequestService, SiteRequestService>();
 builder.Services.AddScoped<IGalleryService, GalleryService>();
 builder.Services.AddScoped<ISearchService, SearchService>();
+builder.Services.AddScoped<IVisitorCounterService, VisitorCounterService>();
 
 var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>() ?? ["*"];
 
