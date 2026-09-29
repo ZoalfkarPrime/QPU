@@ -65,6 +65,9 @@ public class Faculty : BaseEntity
     [ForeignKey(nameof(LogoId))]
     public virtual FileManager? Logo { get; set; }
 
+
+    public string? PrefixNumber { get; set; }
+
     public virtual ICollection<Lab> Labs { get; set; } = new List<Lab>();
     public virtual ICollection<ScientificResearch> ScientificResearches { get; set; } = new List<ScientificResearch>();
     public virtual ICollection<FacultyTeacher> FacultyTeachers { get; set; } = new List<FacultyTeacher>();
@@ -76,6 +79,9 @@ public class Lab : BaseEntity
 {
     [Key]
     public int Id { get; set; }
+
+    [MaxLength(150)]
+    public string? Slug { get; set; }
 
     [Required]
     public int FacultyId { get; set; }
@@ -108,6 +114,9 @@ public class Teacher : BaseEntity
 {
     [Key]
     public int Id { get; set; }
+
+    [MaxLength(150)]
+    public string? Slug { get; set; }
 
     [Required]
     [MaxLength(200)]
@@ -224,6 +233,9 @@ public class GraduatedStudent : BaseEntity
     [Key]
     public int Id { get; set; }
 
+    [MaxLength(150)]
+    public string? Slug { get; set; }
+
     [Required]
     public int StudyYearId { get; set; }
 
@@ -256,6 +268,9 @@ public class Course : BaseEntity
 {
     [Key]
     public int Id { get; set; }
+
+    [MaxLength(150)]
+    public string? Slug { get; set; }
 
     [Required]
     public int FacultyId { get; set; }
@@ -311,6 +326,9 @@ public class Lecture : BaseEntity
     [Key]
     public int Id { get; set; }
 
+    [MaxLength(150)]
+    public string? Slug { get; set; }
+
     [Required]
     public int CourseId { get; set; }
 
@@ -350,6 +368,9 @@ public class ScientificResearch : BaseEntity
 {
     [Key]
     public int Id { get; set; }
+
+    [MaxLength(150)]
+    public string? Slug { get; set; }
 
     [Required]
     public int FacultyId { get; set; }
@@ -395,6 +416,9 @@ public class StudyProgram : BaseEntity
 {
     [Key]
     public int Id { get; set; }
+
+    [MaxLength(150)]
+    public string? Slug { get; set; }
 
     [Required]
     public int StudyYearId { get; set; }
@@ -501,6 +525,9 @@ public class Gallery : BaseEntity
 {
     [Key]
     public int Id { get; set; }
+
+    [MaxLength(150)]
+    public string? Slug { get; set; }
 
     [Required]
     [MaxLength(300)]
@@ -666,4 +693,196 @@ public class SiteRequest : BaseEntity
 
     [ForeignKey(nameof(DegreeFileId))]
     public virtual FileManager? DegreeFile { get; set; }
+}
+
+public enum StudentRegistrationStatus
+{
+    Draft = 1,
+    Submitted = 2,
+    UnderReview = 3,
+    Accepted = 4,
+    Rejected = 5,
+    Cancelled = 6
+}
+
+// Lookup table: predefined admission/competition types (fixed business list)
+public class AdmissionType : BaseEntity
+{
+    [Key]
+    public int Id { get; set; }
+
+    [Required]
+    [MaxLength(200)]
+    public string Name { get; set; } = string.Empty;
+
+    [MaxLength(200)]
+    public string? Name_AR { get; set; }
+
+    public virtual ICollection<StudentRegistration> StudentRegistrations { get; set; } = new List<StudentRegistration>();
+}
+
+// Lookup table: predefined high school certificate types (fixed business list)
+public class HighSchoolCertificateType : BaseEntity
+{
+    [Key]
+    public int Id { get; set; }
+
+    [Required]
+    [MaxLength(200)]
+    public string Name { get; set; } = string.Empty;
+
+    [MaxLength(200)]
+    public string? Name_AR { get; set; }
+
+    public virtual ICollection<StudentHighSchoolCertificate> StudentHighSchoolCertificates { get; set; } = new List<StudentHighSchoolCertificate>();
+}
+
+// Lookup table: predefined exam sessions (fixed business list)
+public class ExamSession : BaseEntity
+{
+    [Key]
+    public int Id { get; set; }
+
+    [Required]
+    [MaxLength(200)]
+    public string Name { get; set; } = string.Empty;
+
+    [MaxLength(200)]
+    public string? Name_AR { get; set; }
+
+    public virtual ICollection<StudentHighSchoolCertificate> StudentHighSchoolCertificates { get; set; } = new List<StudentHighSchoolCertificate>();
+}
+
+// Lookup table: predefined registration offices (fixed business list)
+public class Office : BaseEntity
+{
+    [Key]
+    public int Id { get; set; }
+
+    [Required]
+    [MaxLength(200)]
+    public string Name { get; set; } = string.Empty;
+
+    [MaxLength(200)]
+    public string? Name_AR { get; set; }
+
+    public virtual ICollection<StudentRegistration> StudentRegistrations { get; set; } = new List<StudentRegistration>();
+}
+
+public class StudentRegistration : BaseEntity
+{
+    [Key]
+    public int Id { get; set; }
+
+    [Required]
+    [MaxLength(50)]
+    public string ApplicationNumber { get; set; } = string.Empty;
+
+    [Required]
+    [MaxLength(300)]
+    public string FullName { get; set; } = string.Empty;
+
+    [MaxLength(300)]
+    public string? MotherName { get; set; }
+
+    [MaxLength(300)]
+    public string? BirthPlace { get; set; }
+
+    public DateOnly? BirthDate { get; set; }
+
+    [MaxLength(50)]
+    public string? NationalNumber { get; set; }
+
+    [MaxLength(50)]
+    public string? IdentityNumber { get; set; }
+
+    [MaxLength(300)]
+    public string? RegistrationPlace { get; set; }
+
+    public DateOnly? RegistrationDate { get; set; }
+
+    [MaxLength(50)]
+    public string? RegistrationNumber { get; set; }
+
+    [MaxLength(500)]
+    public string? Address { get; set; }
+
+    [MaxLength(50)]
+    public string? Phone { get; set; }
+
+    [MaxLength(50)]
+    public string? Mobile { get; set; }
+
+    [Required]
+    public int FacultyId { get; set; }
+
+    [Required]
+    public int AdmissionTypeId { get; set; }
+
+    [Required]
+    public int OfficeId { get; set; }
+
+    [Column(TypeName = "decimal(12,2)")]
+    public decimal AmountPaid { get; set; }
+
+    public StudentRegistrationStatus Status { get; set; } = StudentRegistrationStatus.Draft;
+
+    [Column(TypeName = "nvarchar(max)")]
+    public string? Note { get; set; }
+
+    [ForeignKey(nameof(FacultyId))]
+    public virtual Faculty? Faculty { get; set; }
+
+    [ForeignKey(nameof(AdmissionTypeId))]
+    public virtual AdmissionType? AdmissionType { get; set; }
+
+    [ForeignKey(nameof(OfficeId))]
+    public virtual Office? Office { get; set; }
+
+    public virtual StudentHighSchoolCertificate? HighSchoolCertificate { get; set; }
+}
+
+public class StudentHighSchoolCertificate : BaseEntity
+{
+    [Key]
+    public int Id { get; set; }
+
+    [Required]
+    public int StudentRegistrationId { get; set; }
+
+    [Required]
+    public int CertificateTypeId { get; set; }
+
+    // Country that issued the certificate (e.g. سوريا، لبنان) - free text, not a lookup table
+    [MaxLength(200)]
+    public string? CertificateSource { get; set; }
+
+    // Governorate/city where the certificate was issued (e.g. دمشق، حلب) - free text, not a lookup table
+    [MaxLength(200)]
+    public string? CertificatePlace { get; set; }
+
+    public DateOnly? CertificateDate { get; set; }
+
+    [MaxLength(50)]
+    public string? CertificateOrSubscriptionNumber { get; set; }
+
+    public int? ExamSessionId { get; set; }
+
+    [Column(TypeName = "decimal(6,2)")]
+    public decimal? GeneralTotal { get; set; }
+
+    [Column(TypeName = "decimal(5,2)")]
+    public decimal? Average { get; set; }
+
+    [Column(TypeName = "decimal(5,2)")]
+    public decimal? AdmissionAverageAfterLanguageExclusion { get; set; }
+
+    [ForeignKey(nameof(StudentRegistrationId))]
+    public virtual StudentRegistration? StudentRegistration { get; set; }
+
+    [ForeignKey(nameof(CertificateTypeId))]
+    public virtual HighSchoolCertificateType? CertificateType { get; set; }
+
+    [ForeignKey(nameof(ExamSessionId))]
+    public virtual ExamSession? ExamSession { get; set; }
 }

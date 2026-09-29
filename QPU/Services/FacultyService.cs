@@ -39,6 +39,7 @@ public class FacultyService(AppDBContext db) : IFacultyService
             IsPublished = f.IsPublished,
             PrimaryColor = f.PrimaryColor,
             SecondaryColor = f.SecondaryColor,
+            PrefixNumber = f.PrefixNumber,
             DisplayOrder = f.DisplayOrder,
             IsActive = f.IsActive,
             CreatedAt = f.CreatedAt,
@@ -63,6 +64,7 @@ public class FacultyService(AppDBContext db) : IFacultyService
             IsPublished = request.IsPublished,
             PrimaryColor = request.PrimaryColor,
             SecondaryColor = request.SecondaryColor,
+            PrefixNumber = request.PrefixNumber,
             DisplayOrder = request.DisplayOrder,
             CreatedAt = DateTime.UtcNow,
             UpdatedAt = DateTime.UtcNow,
@@ -91,6 +93,7 @@ public class FacultyService(AppDBContext db) : IFacultyService
         faculty.IsPublished = dto.IsPublished;
         faculty.PrimaryColor = dto.PrimaryColor;
         faculty.SecondaryColor = dto.SecondaryColor;
+        faculty.PrefixNumber = dto.PrefixNumber;
         faculty.DisplayOrder = dto.DisplayOrder;
         faculty.IsActive = dto.IsActive;
         faculty.UpdatedAt = DateTime.UtcNow;
@@ -145,6 +148,7 @@ public class FacultyService(AppDBContext db) : IFacultyService
         IsPublished = f.IsPublished,
         PrimaryColor = f.PrimaryColor,
         SecondaryColor = f.SecondaryColor,
+        PrefixNumber = f.PrefixNumber,
         DisplayOrder = f.DisplayOrder,
         IsActive = f.IsActive,
         CreatedAt = f.CreatedAt,

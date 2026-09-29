@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using QPU_DataAccess.Models;
 
@@ -11,123 +12,19 @@ using QPU_DataAccess.Models;
 namespace QPU_DataAccess.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    partial class AppDBContextModelSnapshot : ModelSnapshot
+    [Migration("20260922185946_AddSlugToFacultyRelatedTables")]
+    partial class AddSlugToFacultyRelatedTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasDefaultSchema("dbo")
-                .HasAnnotation("ProductVersion", "10.0.12")
+                .HasAnnotation("ProductVersion", "10.0.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("QPU_DataAccess.Models.AdmissionType", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("DisplayOrder")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<string>("Name_AR")
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("AdmissionTypes", "dbo");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            DisplayOrder = 0,
-                            IsActive = true,
-                            Name = "General",
-                            Name_AR = "عامة",
-                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
-                        },
-                        new
-                        {
-                            Id = 2,
-                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            DisplayOrder = 0,
-                            IsActive = true,
-                            Name = "Vacancy Filling",
-                            Name_AR = "ملء شواغر",
-                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
-                        },
-                        new
-                        {
-                            Id = 3,
-                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            DisplayOrder = 0,
-                            IsActive = true,
-                            Name = "Equivalent Transfer from Syrian Universities",
-                            Name_AR = "تحويل مماثل من جامعات سورية",
-                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
-                        },
-                        new
-                        {
-                            Id = 4,
-                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            DisplayOrder = 0,
-                            IsActive = true,
-                            Name = "Equivalent Transfer from Non-Syrian Universities",
-                            Name_AR = "تحويل مماثل من جامعات غير سورية",
-                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
-                        },
-                        new
-                        {
-                            Id = 5,
-                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            DisplayOrder = 0,
-                            IsActive = true,
-                            Name = "Change of Registration from Syrian Universities",
-                            Name_AR = "تغيير قيد من جامعات سوريا",
-                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
-                        },
-                        new
-                        {
-                            Id = 6,
-                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            DisplayOrder = 0,
-                            IsActive = true,
-                            Name = "Change of Registration from Non-Syrian Universities",
-                            Name_AR = "تغيير قيد من جامعات غير سورية",
-                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
-                        },
-                        new
-                        {
-                            Id = 7,
-                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            DisplayOrder = 0,
-                            IsActive = true,
-                            Name = "Institutes and Universities Comparative Admission",
-                            Name_AR = "مفاضلة المعاهد والجامعات",
-                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
-                        });
-                });
 
             modelBuilder.Entity("QPU_DataAccess.Models.AppRole", b =>
                 {
@@ -568,6 +465,7 @@ namespace QPU_DataAccess.Migrations
                         .HasColumnType("nvarchar(300)");
 
                     b.Property<string>("Slug")
+                        .IsRequired()
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
 
@@ -582,8 +480,7 @@ namespace QPU_DataAccess.Migrations
                     b.HasIndex("FacultyId");
 
                     b.HasIndex("Slug")
-                        .IsUnique()
-                        .HasFilter("[Slug] IS NOT NULL");
+                        .IsUnique();
 
                     b.HasIndex("StudyYearId");
 
@@ -624,62 +521,6 @@ namespace QPU_DataAccess.Migrations
                         .IsUnique();
 
                     b.ToTable("CourseTeachers", "dbo");
-                });
-
-            modelBuilder.Entity("QPU_DataAccess.Models.ExamSession", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("DisplayOrder")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<string>("Name_AR")
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ExamSessions", "dbo");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            DisplayOrder = 0,
-                            IsActive = true,
-                            Name = "First Session",
-                            Name_AR = "الدورة الأولى",
-                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
-                        },
-                        new
-                        {
-                            Id = 2,
-                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            DisplayOrder = 0,
-                            IsActive = true,
-                            Name = "Second Session",
-                            Name_AR = "الدورة الثانية",
-                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
-                        });
                 });
 
             modelBuilder.Entity("QPU_DataAccess.Models.Faculty", b =>
@@ -858,6 +699,7 @@ namespace QPU_DataAccess.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Slug")
+                        .IsRequired()
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
 
@@ -876,8 +718,7 @@ namespace QPU_DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("Slug")
-                        .IsUnique()
-                        .HasFilter("[Slug] IS NOT NULL");
+                        .IsUnique();
 
                     b.ToTable("Galleries", "dbo");
                 });
@@ -953,6 +794,7 @@ namespace QPU_DataAccess.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Slug")
+                        .IsRequired()
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
 
@@ -971,98 +813,11 @@ namespace QPU_DataAccess.Migrations
                     b.HasIndex("FacultyId");
 
                     b.HasIndex("Slug")
-                        .IsUnique()
-                        .HasFilter("[Slug] IS NOT NULL");
+                        .IsUnique();
 
                     b.HasIndex("StudyYearId");
 
                     b.ToTable("GraduatedStudents", "dbo");
-                });
-
-            modelBuilder.Entity("QPU_DataAccess.Models.HighSchoolCertificateType", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("DisplayOrder")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<string>("Name_AR")
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("HighSchoolCertificateTypes", "dbo");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            DisplayOrder = 0,
-                            IsActive = true,
-                            Name = "Scientific",
-                            Name_AR = "علمي",
-                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
-                        },
-                        new
-                        {
-                            Id = 2,
-                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            DisplayOrder = 0,
-                            IsActive = true,
-                            Name = "Literary",
-                            Name_AR = "أدبي",
-                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
-                        },
-                        new
-                        {
-                            Id = 3,
-                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            DisplayOrder = 0,
-                            IsActive = true,
-                            Name = "Technical",
-                            Name_AR = "تقني",
-                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
-                        },
-                        new
-                        {
-                            Id = 4,
-                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            DisplayOrder = 0,
-                            IsActive = true,
-                            Name = "Vocational",
-                            Name_AR = "فني",
-                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
-                        },
-                        new
-                        {
-                            Id = 5,
-                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            DisplayOrder = 0,
-                            IsActive = true,
-                            Name = "Other",
-                            Name_AR = "أخرى",
-                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
-                        });
                 });
 
             modelBuilder.Entity("QPU_DataAccess.Models.Lab", b =>
@@ -1107,6 +862,7 @@ namespace QPU_DataAccess.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Slug")
+                        .IsRequired()
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
 
@@ -1120,8 +876,7 @@ namespace QPU_DataAccess.Migrations
                     b.HasIndex("PictureId");
 
                     b.HasIndex("Slug")
-                        .IsUnique()
-                        .HasFilter("[Slug] IS NOT NULL");
+                        .IsUnique();
 
                     b.ToTable("Labs", "dbo");
                 });
@@ -1162,6 +917,7 @@ namespace QPU_DataAccess.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Slug")
+                        .IsRequired()
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
 
@@ -1187,46 +943,11 @@ namespace QPU_DataAccess.Migrations
                     b.HasIndex("FileId");
 
                     b.HasIndex("Slug")
-                        .IsUnique()
-                        .HasFilter("[Slug] IS NOT NULL");
+                        .IsUnique();
 
                     b.HasIndex("TeacherId");
 
                     b.ToTable("Lectures", "dbo");
-                });
-
-            modelBuilder.Entity("QPU_DataAccess.Models.Office", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("DisplayOrder")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<string>("Name_AR")
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Offices", "dbo");
                 });
 
             modelBuilder.Entity("QPU_DataAccess.Models.ScientificResearch", b =>
@@ -1265,6 +986,7 @@ namespace QPU_DataAccess.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Slug")
+                        .IsRequired()
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
 
@@ -1293,8 +1015,7 @@ namespace QPU_DataAccess.Migrations
                     b.HasIndex("FacultyId");
 
                     b.HasIndex("Slug")
-                        .IsUnique()
-                        .HasFilter("[Slug] IS NOT NULL");
+                        .IsUnique();
 
                     b.HasIndex("StudyYearId");
 
@@ -1425,177 +1146,6 @@ namespace QPU_DataAccess.Migrations
                     b.ToTable("SiteRequests", "dbo");
                 });
 
-            modelBuilder.Entity("QPU_DataAccess.Models.StudentHighSchoolCertificate", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<decimal?>("AdmissionAverageAfterLanguageExclusion")
-                        .HasColumnType("decimal(5,2)");
-
-                    b.Property<decimal?>("Average")
-                        .HasColumnType("decimal(5,2)");
-
-                    b.Property<DateOnly?>("CertificateDate")
-                        .HasColumnType("date");
-
-                    b.Property<string>("CertificateOrSubscriptionNumber")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("CertificatePlace")
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<string>("CertificateSource")
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<int>("CertificateTypeId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("DisplayOrder")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("ExamSessionId")
-                        .HasColumnType("int");
-
-                    b.Property<decimal?>("GeneralTotal")
-                        .HasColumnType("decimal(6,2)");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("StudentRegistrationId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CertificateTypeId");
-
-                    b.HasIndex("ExamSessionId");
-
-                    b.HasIndex("StudentRegistrationId")
-                        .IsUnique();
-
-                    b.ToTable("StudentHighSchoolCertificates", "dbo");
-                });
-
-            modelBuilder.Entity("QPU_DataAccess.Models.StudentRegistration", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Address")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<int>("AdmissionTypeId")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("AmountPaid")
-                        .HasColumnType("decimal(12,2)");
-
-                    b.Property<string>("ApplicationNumber")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<DateOnly?>("BirthDate")
-                        .HasColumnType("date");
-
-                    b.Property<string>("BirthPlace")
-                        .HasMaxLength(300)
-                        .HasColumnType("nvarchar(300)");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("DisplayOrder")
-                        .HasColumnType("int");
-
-                    b.Property<int>("FacultyId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("FullName")
-                        .IsRequired()
-                        .HasMaxLength(300)
-                        .HasColumnType("nvarchar(300)");
-
-                    b.Property<string>("IdentityNumber")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Mobile")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("MotherName")
-                        .HasMaxLength(300)
-                        .HasColumnType("nvarchar(300)");
-
-                    b.Property<string>("NationalNumber")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("Note")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("OfficeId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Phone")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<DateOnly?>("RegistrationDate")
-                        .HasColumnType("date");
-
-                    b.Property<string>("RegistrationNumber")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("RegistrationPlace")
-                        .HasMaxLength(300)
-                        .HasColumnType("nvarchar(300)");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AdmissionTypeId");
-
-                    b.HasIndex("ApplicationNumber")
-                        .IsUnique();
-
-                    b.HasIndex("FacultyId");
-
-                    b.HasIndex("NationalNumber");
-
-                    b.HasIndex("OfficeId");
-
-                    b.ToTable("StudentRegistrations", "dbo");
-                });
-
             modelBuilder.Entity("QPU_DataAccess.Models.StudyProgram", b =>
                 {
                     b.Property<int>("Id")
@@ -1629,6 +1179,7 @@ namespace QPU_DataAccess.Migrations
                         .HasColumnType("nvarchar(300)");
 
                     b.Property<string>("Slug")
+                        .IsRequired()
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
 
@@ -1643,8 +1194,7 @@ namespace QPU_DataAccess.Migrations
                     b.HasIndex("FileId");
 
                     b.HasIndex("Slug")
-                        .IsUnique()
-                        .HasFilter("[Slug] IS NOT NULL");
+                        .IsUnique();
 
                     b.HasIndex("StudyYearId");
 
@@ -1772,6 +1322,7 @@ namespace QPU_DataAccess.Migrations
                         .HasColumnType("nvarchar(300)");
 
                     b.Property<string>("Slug")
+                        .IsRequired()
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
 
@@ -1795,8 +1346,7 @@ namespace QPU_DataAccess.Migrations
                     b.HasIndex("PictureId");
 
                     b.HasIndex("Slug")
-                        .IsUnique()
-                        .HasFilter("[Slug] IS NOT NULL");
+                        .IsUnique();
 
                     b.ToTable("Teachers", "dbo");
                 });
@@ -2178,59 +1728,6 @@ namespace QPU_DataAccess.Migrations
                     b.Navigation("Vacancy");
                 });
 
-            modelBuilder.Entity("QPU_DataAccess.Models.StudentHighSchoolCertificate", b =>
-                {
-                    b.HasOne("QPU_DataAccess.Models.HighSchoolCertificateType", "CertificateType")
-                        .WithMany("StudentHighSchoolCertificates")
-                        .HasForeignKey("CertificateTypeId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("QPU_DataAccess.Models.ExamSession", "ExamSession")
-                        .WithMany("StudentHighSchoolCertificates")
-                        .HasForeignKey("ExamSessionId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("QPU_DataAccess.Models.StudentRegistration", "StudentRegistration")
-                        .WithOne("HighSchoolCertificate")
-                        .HasForeignKey("QPU_DataAccess.Models.StudentHighSchoolCertificate", "StudentRegistrationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("CertificateType");
-
-                    b.Navigation("ExamSession");
-
-                    b.Navigation("StudentRegistration");
-                });
-
-            modelBuilder.Entity("QPU_DataAccess.Models.StudentRegistration", b =>
-                {
-                    b.HasOne("QPU_DataAccess.Models.AdmissionType", "AdmissionType")
-                        .WithMany("StudentRegistrations")
-                        .HasForeignKey("AdmissionTypeId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("QPU_DataAccess.Models.Faculty", "Faculty")
-                        .WithMany()
-                        .HasForeignKey("FacultyId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("QPU_DataAccess.Models.Office", "Office")
-                        .WithMany("StudentRegistrations")
-                        .HasForeignKey("OfficeId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("AdmissionType");
-
-                    b.Navigation("Faculty");
-
-                    b.Navigation("Office");
-                });
-
             modelBuilder.Entity("QPU_DataAccess.Models.StudyProgram", b =>
                 {
                     b.HasOne("QPU_DataAccess.Models.FileManager", "File")
@@ -2273,11 +1770,6 @@ namespace QPU_DataAccess.Migrations
                     b.Navigation("Picture");
                 });
 
-            modelBuilder.Entity("QPU_DataAccess.Models.AdmissionType", b =>
-                {
-                    b.Navigation("StudentRegistrations");
-                });
-
             modelBuilder.Entity("QPU_DataAccess.Models.AppUser", b =>
                 {
                     b.Navigation("UserRoles");
@@ -2293,11 +1785,6 @@ namespace QPU_DataAccess.Migrations
                     b.Navigation("CourseTeachers");
 
                     b.Navigation("Lectures");
-                });
-
-            modelBuilder.Entity("QPU_DataAccess.Models.ExamSession", b =>
-                {
-                    b.Navigation("StudentHighSchoolCertificates");
                 });
 
             modelBuilder.Entity("QPU_DataAccess.Models.Faculty", b =>
@@ -2321,21 +1808,6 @@ namespace QPU_DataAccess.Migrations
             modelBuilder.Entity("QPU_DataAccess.Models.Gallery", b =>
                 {
                     b.Navigation("Attachments");
-                });
-
-            modelBuilder.Entity("QPU_DataAccess.Models.HighSchoolCertificateType", b =>
-                {
-                    b.Navigation("StudentHighSchoolCertificates");
-                });
-
-            modelBuilder.Entity("QPU_DataAccess.Models.Office", b =>
-                {
-                    b.Navigation("StudentRegistrations");
-                });
-
-            modelBuilder.Entity("QPU_DataAccess.Models.StudentRegistration", b =>
-                {
-                    b.Navigation("HighSchoolCertificate");
                 });
 
             modelBuilder.Entity("QPU_DataAccess.Models.StudyYear", b =>

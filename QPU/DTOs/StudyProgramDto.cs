@@ -5,6 +5,7 @@ namespace QPU.DTOs;
 public class StudyProgramDto
 {
     public int Id { get; set; }
+    public string? Slug { get; set; }
     public int StudyYearId { get; set; }
     public string Name { get; set; } = string.Empty;
     public string? Name_AR { get; set; }
@@ -21,6 +22,9 @@ public class CreateStudyProgramRequest
 {
     [Required]
     public int StudyYearId { get; set; }
+
+    [MaxLength(150)]
+    public string? Slug { get; set; }
 
     [Required]
     [MaxLength(300)]

@@ -10,6 +10,7 @@ public class TeacherService(AppDBContext db) : ITeacherService
         db.Teachers.OrderBy(t => t.DisplayOrder).Select(t => new TeacherDto
         {
             Id = t.Id,
+            Slug = t.Slug,
             Name = t.Name,
             Name_AR = t.Name_AR,
             PictureId = t.PictureId,
@@ -74,6 +75,7 @@ public class TeacherService(AppDBContext db) : ITeacherService
     {
         var entity = new Teacher
         {
+            Slug = request.Slug,
             Name = request.Name,
             Name_AR = request.Name_AR,
             PictureId = request.PictureId,
@@ -108,6 +110,7 @@ public class TeacherService(AppDBContext db) : ITeacherService
         var entity = await db.Teachers.FindAsync(dto.Id);
         if (entity is null) return null;
 
+        entity.Slug = dto.Slug;
         entity.Name = dto.Name;
         entity.Name_AR = dto.Name_AR;
         entity.PictureId = dto.PictureId;
@@ -148,6 +151,7 @@ public class TeacherService(AppDBContext db) : ITeacherService
     private static TeacherDto ToDto(Teacher t) => new()
     {
         Id = t.Id,
+        Slug = t.Slug,
         Name = t.Name,
         Name_AR = t.Name_AR,
         PictureId = t.PictureId,

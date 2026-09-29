@@ -83,6 +83,7 @@ builder.Services.AddScoped<ICourseTeacherService, CourseTeacherService>();
 builder.Services.AddScoped<ILectureService, LectureService>();
 builder.Services.AddScoped<IScientificResearchService, ScientificResearchService>();
 builder.Services.AddScoped<IGraduatedStudentService, GraduatedStudentService>();
+builder.Services.AddScoped<IStudentRegistrationService, StudentRegistrationService>();
 builder.Services.AddScoped<IStudyProgramService, StudyProgramService>();
 builder.Services.AddScoped<IContentService, ContentService>();
 builder.Services.AddScoped<IContentMetaService, ContentMetaService>();

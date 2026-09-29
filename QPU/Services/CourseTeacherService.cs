@@ -14,6 +14,7 @@ public class CourseTeacherService(AppDBContext db) : ICourseTeacherService
             Course = ct.Course == null ? null : new CourseLookupDto
             {
                 Id = ct.Course.Id,
+                Slug = ct.Course.Slug,
                 Name = ct.Course.Name,
                 Name_AR = ct.Course.Name_AR,
                 FacultyId = ct.Course.FacultyId,
@@ -23,6 +24,7 @@ public class CourseTeacherService(AppDBContext db) : ICourseTeacherService
             Teacher = ct.Teacher == null ? null : new TeacherLookupDto
             {
                 Id = ct.Teacher.Id,
+                Slug = ct.Teacher.Slug,
                 Name = ct.Teacher.Name,
                 Name_AR = ct.Teacher.Name_AR,
                 Picture = ct.Teacher.Picture == null ? null : new FileManagerNodeDto

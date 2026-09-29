@@ -5,6 +5,7 @@ namespace QPU.DTOs;
 public class ScientificResearchDto
 {
     public int Id { get; set; }
+    public string? Slug { get; set; }
     public int FacultyId { get; set; }
     public FacultyLookupDto? Faculty { get; set; }
     public int TeacherId { get; set; }
@@ -34,6 +35,9 @@ public class CreateScientificResearchRequest
     public int TeacherId { get; set; }
 
     public int? StudyYearId { get; set; }
+
+    [MaxLength(150)]
+    public string? Slug { get; set; }
 
     [Required]
     [MaxLength(300)]

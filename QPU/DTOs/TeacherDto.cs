@@ -5,6 +5,7 @@ namespace QPU.DTOs;
 public class TeacherDto
 {
     public int Id { get; set; }
+    public string? Slug { get; set; }
     public string Name { get; set; } = string.Empty;
     public string? Name_AR { get; set; }
     public Guid? PictureId { get; set; }
@@ -35,6 +36,9 @@ public class TeacherDto
 
 public class CreateTeacherRequest
 {
+    [MaxLength(150)]
+    public string? Slug { get; set; }
+
     [Required]
     [MaxLength(200)]
     public string Name { get; set; } = string.Empty;

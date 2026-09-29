@@ -29,6 +29,12 @@ public class AppDBContext : IdentityDbContext<AppUser, AppRole, string, AppUserC
     public DbSet<SiteRequest> SiteRequests => Set<SiteRequest>();
     public DbSet<Gallery> Galleries => Set<Gallery>();
     public DbSet<GalleryAttachment> GalleryAttachments => Set<GalleryAttachment>();
+    public DbSet<StudentRegistration> StudentRegistrations => Set<StudentRegistration>();
+    public DbSet<StudentHighSchoolCertificate> StudentHighSchoolCertificates => Set<StudentHighSchoolCertificate>();
+    public DbSet<AdmissionType> AdmissionTypes => Set<AdmissionType>();
+    public DbSet<HighSchoolCertificateType> HighSchoolCertificateTypes => Set<HighSchoolCertificateType>();
+    public DbSet<ExamSession> ExamSessions => Set<ExamSession>();
+    public DbSet<Office> Offices => Set<Office>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -63,6 +69,47 @@ public class AppDBContext : IdentityDbContext<AppUser, AppRole, string, AppUserC
         modelBuilder.Entity<Faculty>()
             .HasIndex(f => f.Slug)
             .IsUnique();
+
+        // Unique slugs for faculty-related content entities
+        modelBuilder.Entity<Lab>()
+            .HasIndex(l => l.Slug)
+            .IsUnique()
+            .HasFilter("[Slug] IS NOT NULL");
+
+        modelBuilder.Entity<Teacher>()
+            .HasIndex(t => t.Slug)
+            .IsUnique()
+            .HasFilter("[Slug] IS NOT NULL");
+
+        modelBuilder.Entity<Course>()
+            .HasIndex(c => c.Slug)
+            .IsUnique()
+            .HasFilter("[Slug] IS NOT NULL");
+
+        modelBuilder.Entity<Lecture>()
+            .HasIndex(l => l.Slug)
+            .IsUnique()
+            .HasFilter("[Slug] IS NOT NULL");
+
+        modelBuilder.Entity<ScientificResearch>()
+            .HasIndex(r => r.Slug)
+            .IsUnique()
+            .HasFilter("[Slug] IS NOT NULL");
+
+        modelBuilder.Entity<StudyProgram>()
+            .HasIndex(sp => sp.Slug)
+            .IsUnique()
+            .HasFilter("[Slug] IS NOT NULL");
+
+        modelBuilder.Entity<GraduatedStudent>()
+            .HasIndex(g => g.Slug)
+            .IsUnique()
+            .HasFilter("[Slug] IS NOT NULL");
+
+        modelBuilder.Entity<Gallery>()
+            .HasIndex(g => g.Slug)
+            .IsUnique()
+            .HasFilter("[Slug] IS NOT NULL");
 
         modelBuilder.Entity<Faculty>()
             .HasOne(f => f.Picture)
@@ -271,5 +318,82 @@ public class AppDBContext : IdentityDbContext<AppUser, AppRole, string, AppUserC
             .WithMany()
             .HasForeignKey(ga => ga.FileManagerId)
             .OnDelete(DeleteBehavior.Restrict);
+
+        // StudentRegistration
+        modelBuilder.Entity<StudentRegistration>()
+            .HasIndex(sr => sr.ApplicationNumber)
+            .IsUnique();
+
+        modelBuilder.Entity<StudentRegistration>()
+            .HasIndex(sr => sr.NationalNumber);
+
+        modelBuilder.Entity<StudentRegistration>()
+            .HasOne(sr => sr.Faculty)
+            .WithMany()
+            .HasForeignKey(sr => sr.FacultyId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<StudentRegistration>()
+            .HasOne(sr => sr.AdmissionType)
+            .WithMany(at => at.StudentRegistrations)
+            .HasForeignKey(sr => sr.AdmissionTypeId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<StudentRegistration>()
+            .HasOne(sr => sr.Office)
+            .WithMany(o => o.StudentRegistrations)
+            .HasForeignKey(sr => sr.OfficeId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        // StudentHighSchoolCertificate (1:1 with StudentRegistration)
+        modelBuilder.Entity<StudentHighSchoolCertificate>()
+            .HasIndex(shc => shc.StudentRegistrationId)
+            .IsUnique();
+
+        modelBuilder.Entity<StudentHighSchoolCertificate>()
+            .HasOne(shc => shc.StudentRegistration)
+            .WithOne(sr => sr.HighSchoolCertificate)
+            .HasForeignKey<StudentHighSchoolCertificate>(shc => shc.StudentRegistrationId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<StudentHighSchoolCertificate>()
+            .HasOne(shc => shc.CertificateType)
+            .WithMany(ct => ct.StudentHighSchoolCertificates)
+            .HasForeignKey(shc => shc.CertificateTypeId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<StudentHighSchoolCertificate>()
+            .HasOne(shc => shc.ExamSession)
+            .WithMany(es => es.StudentHighSchoolCertificates)
+            .HasForeignKey(shc => shc.ExamSessionId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        // Seed data: AdmissionType (fixed business list)
+        modelBuilder.Entity<AdmissionType>().HasData(
+            new AdmissionType { Id = 1, Name = "General", Name_AR = "عامة", CreatedAt = SeedDate, UpdatedAt = SeedDate },
+            new AdmissionType { Id = 2, Name = "Vacancy Filling", Name_AR = "ملء شواغر", CreatedAt = SeedDate, UpdatedAt = SeedDate },
+            new AdmissionType { Id = 3, Name = "Equivalent Transfer from Syrian Universities", Name_AR = "تحويل مماثل من جامعات سورية", CreatedAt = SeedDate, UpdatedAt = SeedDate },
+            new AdmissionType { Id = 4, Name = "Equivalent Transfer from Non-Syrian Universities", Name_AR = "تحويل مماثل من جامعات غير سورية", CreatedAt = SeedDate, UpdatedAt = SeedDate },
+            new AdmissionType { Id = 5, Name = "Change of Registration from Syrian Universities", Name_AR = "تغيير قيد من جامعات سوريا", CreatedAt = SeedDate, UpdatedAt = SeedDate },
+            new AdmissionType { Id = 6, Name = "Change of Registration from Non-Syrian Universities", Name_AR = "تغيير قيد من جامعات غير سورية", CreatedAt = SeedDate, UpdatedAt = SeedDate },
+            new AdmissionType { Id = 7, Name = "Institutes and Universities Comparative Admission", Name_AR = "مفاضلة المعاهد والجامعات", CreatedAt = SeedDate, UpdatedAt = SeedDate }
+        );
+
+        // Seed data: HighSchoolCertificateType (fixed business list)
+        modelBuilder.Entity<HighSchoolCertificateType>().HasData(
+            new HighSchoolCertificateType { Id = 1, Name = "Scientific", Name_AR = "علمي", CreatedAt = SeedDate, UpdatedAt = SeedDate },
+            new HighSchoolCertificateType { Id = 2, Name = "Literary", Name_AR = "أدبي", CreatedAt = SeedDate, UpdatedAt = SeedDate },
+            new HighSchoolCertificateType { Id = 3, Name = "Technical", Name_AR = "تقني", CreatedAt = SeedDate, UpdatedAt = SeedDate },
+            new HighSchoolCertificateType { Id = 4, Name = "Vocational", Name_AR = "فني", CreatedAt = SeedDate, UpdatedAt = SeedDate },
+            new HighSchoolCertificateType { Id = 5, Name = "Other", Name_AR = "أخرى", CreatedAt = SeedDate, UpdatedAt = SeedDate }
+        );
+
+        // Seed data: ExamSession (fixed business list)
+        modelBuilder.Entity<ExamSession>().HasData(
+            new ExamSession { Id = 1, Name = "First Session", Name_AR = "الدورة الأولى", CreatedAt = SeedDate, UpdatedAt = SeedDate },
+            new ExamSession { Id = 2, Name = "Second Session", Name_AR = "الدورة الثانية", CreatedAt = SeedDate, UpdatedAt = SeedDate }
+        );
     }
+
+    private static readonly DateTime SeedDate = new DateTime(2026, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 }

@@ -10,13 +10,15 @@ public class LabService(AppDBContext db) : ILabService
         db.Labs.OrderBy(l => l.DisplayOrder).Select(l => new LabDto
         {
             Id = l.Id,
+            Slug = l.Slug,
             FacultyId = l.FacultyId,
             Faculty = l.Faculty == null ? null : new FacultyLookupDto
             {
                 Id = l.Faculty.Id,
                 Slug = l.Faculty.Slug,
                 Name = l.Faculty.Name,
-                Name_AR = l.Faculty.Name_AR
+                Name_AR = l.Faculty.Name_AR,
+                PrefixNumber = l.Faculty.PrefixNumber
             },
             Name = l.Name,
             Name_AR = l.Name_AR,
@@ -50,6 +52,7 @@ public class LabService(AppDBContext db) : ILabService
         var entity = new Lab
         {
             FacultyId = request.FacultyId,
+            Slug = request.Slug,
             Name = request.Name,
             Name_AR = request.Name_AR,
             PictureId = request.PictureId,
@@ -73,6 +76,7 @@ public class LabService(AppDBContext db) : ILabService
         if (entity is null) return null;
 
         entity.FacultyId = dto.FacultyId;
+        entity.Slug = dto.Slug;
         entity.Name = dto.Name;
         entity.Name_AR = dto.Name_AR;
         entity.PictureId = dto.PictureId;
@@ -100,6 +104,7 @@ public class LabService(AppDBContext db) : ILabService
     private static LabDto ToDto(Lab l) => new()
     {
         Id = l.Id,
+        Slug = l.Slug,
         FacultyId = l.FacultyId,
         Name = l.Name,
         Name_AR = l.Name_AR,

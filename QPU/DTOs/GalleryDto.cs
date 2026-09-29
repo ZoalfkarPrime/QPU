@@ -6,6 +6,8 @@ public class GalleryDto
 {
     public int Id { get; set; }
 
+    public string? Slug { get; set; }
+
     public string Title { get; set; } = string.Empty;
     public string? Title_AR { get; set; }
 
@@ -32,6 +34,9 @@ public class GalleryAttachmentDto
 
 public class CreateGalleryRequest
 {
+    [MaxLength(150)]
+    public string? Slug { get; set; }
+
     [Required]
     [MaxLength(300)]
     public string Title { get; set; } = string.Empty;

@@ -10,13 +10,15 @@ public class CourseService(AppDBContext db) : ICourseService
         db.Courses.OrderBy(c => c.DisplayOrder).Select(c => new CourseDto
         {
             Id = c.Id,
+            Slug = c.Slug,
             FacultyId = c.FacultyId,
             Faculty = c.Faculty == null ? null : new FacultyLookupDto
             {
                 Id = c.Faculty.Id,
                 Slug = c.Faculty.Slug,
                 Name = c.Faculty.Name,
-                Name_AR = c.Faculty.Name_AR
+                Name_AR = c.Faculty.Name_AR,
+                PrefixNumber = c.Faculty.PrefixNumber
             },
             StudyYearId = c.StudyYearId,
             StudyYear = c.StudyYear == null ? null : new StudyYearLookupDto
@@ -49,6 +51,7 @@ public class CourseService(AppDBContext db) : ICourseService
         {
             FacultyId = request.FacultyId,
             StudyYearId = request.StudyYearId,
+            Slug = request.Slug,
             Name = request.Name,
             Name_AR = request.Name_AR,
             Description = request.Description,
@@ -72,6 +75,7 @@ public class CourseService(AppDBContext db) : ICourseService
 
         entity.FacultyId = dto.FacultyId;
         entity.StudyYearId = dto.StudyYearId;
+        entity.Slug = dto.Slug;
         entity.Name = dto.Name;
         entity.Name_AR = dto.Name_AR;
         entity.Description = dto.Description;
@@ -98,6 +102,7 @@ public class CourseService(AppDBContext db) : ICourseService
     private static CourseDto ToDto(Course c) => new()
     {
         Id = c.Id,
+        Slug = c.Slug,
         FacultyId = c.FacultyId,
         StudyYearId = c.StudyYearId,
         Name = c.Name,

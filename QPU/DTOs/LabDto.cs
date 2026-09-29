@@ -5,6 +5,7 @@ namespace QPU.DTOs;
 public class LabDto
 {
     public int Id { get; set; }
+    public string? Slug { get; set; }
     public int FacultyId { get; set; }
     public FacultyLookupDto? Faculty { get; set; }
     public string Name { get; set; } = string.Empty;
@@ -24,6 +25,9 @@ public class CreateLabRequest
 {
     [Required]
     public int FacultyId { get; set; }
+
+    [MaxLength(150)]
+    public string? Slug { get; set; }
 
     [Required]
     [MaxLength(200)]

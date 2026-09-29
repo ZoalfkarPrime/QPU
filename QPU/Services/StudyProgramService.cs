@@ -10,6 +10,7 @@ public class StudyProgramService(AppDBContext db) : IStudyProgramService
         db.StudyPrograms.OrderBy(sp => sp.DisplayOrder).Select(sp => new StudyProgramDto
         {
             Id = sp.Id,
+            Slug = sp.Slug,
             StudyYearId = sp.StudyYearId,
             Name = sp.Name,
             Name_AR = sp.Name_AR,
@@ -41,6 +42,7 @@ public class StudyProgramService(AppDBContext db) : IStudyProgramService
         var entity = new StudyProgram
         {
             StudyYearId = request.StudyYearId,
+            Slug = request.Slug,
             Name = request.Name,
             Name_AR = request.Name_AR,
             FileId = request.FileId,
@@ -62,6 +64,7 @@ public class StudyProgramService(AppDBContext db) : IStudyProgramService
         if (entity is null) return null;
 
         entity.StudyYearId = dto.StudyYearId;
+        entity.Slug = dto.Slug;
         entity.Name = dto.Name;
         entity.Name_AR = dto.Name_AR;
         entity.FileId = dto.FileId;
@@ -87,6 +90,7 @@ public class StudyProgramService(AppDBContext db) : IStudyProgramService
     private static StudyProgramDto ToDto(StudyProgram sp) => new()
     {
         Id = sp.Id,
+        Slug = sp.Slug,
         StudyYearId = sp.StudyYearId,
         Name = sp.Name,
         Name_AR = sp.Name_AR,

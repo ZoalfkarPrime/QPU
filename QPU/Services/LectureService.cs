@@ -10,10 +10,12 @@ public class LectureService(AppDBContext db) : ILectureService
         db.Lectures.OrderBy(l => l.DisplayOrder).Select(l => new LectureDto
         {
             Id = l.Id,
+            Slug = l.Slug,
             CourseId = l.CourseId,
             Course = l.Course == null ? null : new CourseLookupDto
             {
                 Id = l.Course.Id,
+                Slug = l.Course.Slug,
                 Name = l.Course.Name,
                 Name_AR = l.Course.Name_AR,
                 FacultyId = l.Course.FacultyId,
@@ -23,6 +25,7 @@ public class LectureService(AppDBContext db) : ILectureService
             Teacher = l.Teacher == null ? null : new TeacherLookupDto
             {
                 Id = l.Teacher.Id,
+                Slug = l.Teacher.Slug,
                 Name = l.Teacher.Name,
                 Name_AR = l.Teacher.Name_AR
             },
@@ -60,6 +63,7 @@ public class LectureService(AppDBContext db) : ILectureService
         {
             CourseId = request.CourseId,
             TeacherId = request.TeacherId,
+            Slug = request.Slug,
             Title = request.Title,
             Title_AR = request.Title_AR,
             Content = request.Content,
@@ -85,6 +89,7 @@ public class LectureService(AppDBContext db) : ILectureService
 
         entity.CourseId = dto.CourseId;
         entity.TeacherId = dto.TeacherId;
+        entity.Slug = dto.Slug;
         entity.Title = dto.Title;
         entity.Title_AR = dto.Title_AR;
         entity.Content = dto.Content;
@@ -113,6 +118,7 @@ public class LectureService(AppDBContext db) : ILectureService
     private static LectureDto ToDto(Lecture l) => new()
     {
         Id = l.Id,
+        Slug = l.Slug,
         CourseId = l.CourseId,
         TeacherId = l.TeacherId,
         Title = l.Title,

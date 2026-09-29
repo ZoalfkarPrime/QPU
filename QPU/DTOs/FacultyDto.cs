@@ -16,6 +16,7 @@ public class FacultyDto
     public bool IsPublished { get; set; }
     public string? PrimaryColor { get; set; }
     public string? SecondaryColor { get; set; }
+    public string? PrefixNumber { get; set; }
     public int DisplayOrder { get; set; }
     public bool IsActive { get; set; }
     public DateTime CreatedAt { get; set; }
@@ -41,6 +42,7 @@ public class CreateFacultyRequest
     public bool IsPublished { get; set; } = true;
     public string? PrimaryColor { get; set; }
     public string? SecondaryColor { get; set; }
+    public string? PrefixNumber { get; set; }
     public int DisplayOrder { get; set; }
 }
 
@@ -63,6 +65,7 @@ public class UpdateFacultyRequest
     public bool IsPublished { get; set; }
     public string? PrimaryColor { get; set; }
     public string? SecondaryColor { get; set; }
+    public string? PrefixNumber { get; set; }
     public int DisplayOrder { get; set; }
     public bool IsActive { get; set; }
 }

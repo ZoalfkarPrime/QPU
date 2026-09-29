@@ -5,6 +5,7 @@ namespace QPU.DTOs;
 public class CourseDto
 {
     public int Id { get; set; }
+    public string? Slug { get; set; }
     public int FacultyId { get; set; }
     public FacultyLookupDto? Faculty { get; set; }
     public int StudyYearId { get; set; }
@@ -27,6 +28,9 @@ public class CreateCourseRequest
 
     [Required]
     public int StudyYearId { get; set; }
+
+    [MaxLength(150)]
+    public string? Slug { get; set; }
 
     [Required]
     [MaxLength(300)]

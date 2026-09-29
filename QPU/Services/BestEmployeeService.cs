@@ -16,7 +16,8 @@ public class BestEmployeeService(AppDBContext db) : IBestEmployeeService
                 Id = be.Faculty.Id,
                 Slug = be.Faculty.Slug,
                 Name = be.Faculty.Name,
-                Name_AR = be.Faculty.Name_AR
+                Name_AR = be.Faculty.Name_AR,
+                PrefixNumber = be.Faculty.PrefixNumber
             },
             StudyYearId = be.StudyYearId,
             StudyYear = be.StudyYear == null ? null : new StudyYearLookupDto
@@ -30,6 +31,7 @@ public class BestEmployeeService(AppDBContext db) : IBestEmployeeService
             Teacher = be.Teacher == null ? null : new TeacherLookupDto
             {
                 Id = be.Teacher.Id,
+                Slug = be.Teacher.Slug,
                 Name = be.Teacher.Name,
                 Name_AR = be.Teacher.Name_AR,
                 Picture = be.Teacher.Picture == null ? null : new FileManagerNodeDto

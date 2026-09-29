@@ -263,7 +263,8 @@ public class UserService(
             Id = user.Faculty.Id,
             Slug = user.Faculty.Slug,
             Name = user.Faculty.Name,
-            Name_AR = user.Faculty.Name_AR
+            Name_AR = user.Faculty.Name_AR,
+            PrefixNumber = user.Faculty.PrefixNumber
         },
         IsActive = user.IsActive,
         IsVerified = user.IsVerified,

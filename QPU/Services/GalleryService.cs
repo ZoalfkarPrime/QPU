@@ -14,6 +14,7 @@ public class GalleryService(AppDBContext db, IConfiguration config) : IGallerySe
         return db.Galleries.OrderBy(g => g.DisplayOrder).Select(g => new GalleryDto
         {
             Id = g.Id,
+            Slug = g.Slug,
             Title = g.Title,
             Title_AR = g.Title_AR,
             DateFrom = g.DateFrom,
@@ -55,6 +56,7 @@ public class GalleryService(AppDBContext db, IConfiguration config) : IGallerySe
     {
         var entity = new Gallery
         {
+            Slug = request.Slug,
             Title = request.Title,
             Title_AR = request.Title_AR,
             DateFrom = request.DateFrom,
@@ -94,6 +96,7 @@ public class GalleryService(AppDBContext db, IConfiguration config) : IGallerySe
 
         if (entity is null) return null;
 
+        entity.Slug = dto.Slug;
         entity.Title = dto.Title;
         entity.Title_AR = dto.Title_AR;
         entity.DateFrom = dto.DateFrom;

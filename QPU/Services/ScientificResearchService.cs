@@ -10,18 +10,21 @@ public class ScientificResearchService(AppDBContext db) : IScientificResearchSer
         db.ScientificResearches.OrderBy(r => r.DisplayOrder).Select(r => new ScientificResearchDto
         {
             Id = r.Id,
+            Slug = r.Slug,
             FacultyId = r.FacultyId,
             Faculty = r.Faculty == null ? null : new FacultyLookupDto
             {
                 Id = r.Faculty.Id,
                 Slug = r.Faculty.Slug,
                 Name = r.Faculty.Name,
-                Name_AR = r.Faculty.Name_AR
+                Name_AR = r.Faculty.Name_AR,
+                PrefixNumber = r.Faculty.PrefixNumber
             },
             TeacherId = r.TeacherId,
             Teacher = r.Teacher == null ? null : new TeacherLookupDto
             {
                 Id = r.Teacher.Id,
+                Slug = r.Teacher.Slug,
                 Name = r.Teacher.Name,
                 Name_AR = r.Teacher.Name_AR,
                 Picture = r.Teacher.Picture == null ? null : new FileManagerNodeDto
@@ -78,6 +81,7 @@ public class ScientificResearchService(AppDBContext db) : IScientificResearchSer
             FacultyId = request.FacultyId,
             TeacherId = request.TeacherId,
             StudyYearId = request.StudyYearId,
+            Slug = request.Slug,
             Title = request.Title,
             Title_AR = request.Title_AR,
             Details = request.Details,
@@ -104,6 +108,7 @@ public class ScientificResearchService(AppDBContext db) : IScientificResearchSer
         entity.FacultyId = dto.FacultyId;
         entity.TeacherId = dto.TeacherId;
         entity.StudyYearId = dto.StudyYearId;
+        entity.Slug = dto.Slug;
         entity.Title = dto.Title;
         entity.Title_AR = dto.Title_AR;
         entity.Details = dto.Details;
@@ -132,6 +137,7 @@ public class ScientificResearchService(AppDBContext db) : IScientificResearchSer
     private static ScientificResearchDto ToDto(ScientificResearch r) => new()
     {
         Id = r.Id,
+        Slug = r.Slug,
         FacultyId = r.FacultyId,
         TeacherId = r.TeacherId,
         StudyYearId = r.StudyYearId,

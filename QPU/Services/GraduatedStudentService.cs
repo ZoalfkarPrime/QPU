@@ -10,6 +10,7 @@ public class GraduatedStudentService(AppDBContext db) : IGraduatedStudentService
         db.GraduatedStudents.OrderBy(g => g.DisplayOrder).Select(g => new GraduatedStudentDto
         {
             Id = g.Id,
+            Slug = g.Slug,
             StudyYearId = g.StudyYearId,
             StudyYear = g.StudyYear == null ? null : new StudyYearLookupDto
             {
@@ -24,7 +25,8 @@ public class GraduatedStudentService(AppDBContext db) : IGraduatedStudentService
                 Id = g.Faculty.Id,
                 Slug = g.Faculty.Slug,
                 Name = g.Faculty.Name,
-                Name_AR = g.Faculty.Name_AR
+                Name_AR = g.Faculty.Name_AR,
+                PrefixNumber = g.Faculty.PrefixNumber
             },
             FullName = g.FullName,
             FullName_AR = g.FullName_AR,
@@ -49,6 +51,7 @@ public class GraduatedStudentService(AppDBContext db) : IGraduatedStudentService
         {
             StudyYearId = request.StudyYearId,
             FacultyId = request.FacultyId,
+            Slug = request.Slug,
             FullName = request.FullName,
             FullName_AR = request.FullName_AR,
             Average = request.Average,
@@ -72,6 +75,7 @@ public class GraduatedStudentService(AppDBContext db) : IGraduatedStudentService
 
         entity.StudyYearId = dto.StudyYearId;
         entity.FacultyId = dto.FacultyId;
+        entity.Slug = dto.Slug;
         entity.FullName = dto.FullName;
         entity.FullName_AR = dto.FullName_AR;
         entity.Average = dto.Average;
@@ -98,6 +102,7 @@ public class GraduatedStudentService(AppDBContext db) : IGraduatedStudentService
     private static GraduatedStudentDto ToDto(GraduatedStudent g) => new()
     {
         Id = g.Id,
+        Slug = g.Slug,
         StudyYearId = g.StudyYearId,
         FacultyId = g.FacultyId,
         FullName = g.FullName,

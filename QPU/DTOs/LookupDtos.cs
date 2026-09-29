@@ -6,6 +6,7 @@ public class FacultyLookupDto
     public string Slug { get; set; } = string.Empty;
     public string Name { get; set; } = string.Empty;
     public string? Name_AR { get; set; }
+    public string? PrefixNumber { get; set; }
 }
 
 public class StudyYearLookupDto
@@ -19,6 +20,7 @@ public class StudyYearLookupDto
 public class TeacherLookupDto
 {
     public int Id { get; set; }
+    public string? Slug { get; set; }
     public string Name { get; set; } = string.Empty;
     public string? Name_AR { get; set; }
     public FileManagerNodeDto? Picture { get; set; }
@@ -27,8 +29,37 @@ public class TeacherLookupDto
 public class CourseLookupDto
 {
     public int Id { get; set; }
+    public string? Slug { get; set; }
     public string Name { get; set; } = string.Empty;
     public string? Name_AR { get; set; }
     public int FacultyId { get; set; }
     public int StudyYearId { get; set; }
+}
+
+public class AdmissionTypeLookupDto
+{
+    public int Id { get; set; }
+    public string Name { get; set; } = string.Empty;
+    public string? Name_AR { get; set; }
+}
+
+public class OfficeLookupDto
+{
+    public int Id { get; set; }
+    public string Name { get; set; } = string.Empty;
+    public string? Name_AR { get; set; }
+}
+
+public class HighSchoolCertificateTypeLookupDto
+{
+    public int Id { get; set; }
+    public string Name { get; set; } = string.Empty;
+    public string? Name_AR { get; set; }
+}
+
+public class ExamSessionLookupDto
+{
+    public int Id { get; set; }
+    public string Name { get; set; } = string.Empty;
+    public string? Name_AR { get; set; }
 }
