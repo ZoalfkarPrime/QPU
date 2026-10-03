@@ -376,7 +376,8 @@ public class AppDBContext : IdentityDbContext<AppUser, AppRole, string, AppUserC
             new AdmissionType { Id = 4, Name = "Equivalent Transfer from Non-Syrian Universities", Name_AR = "تحويل مماثل من جامعات غير سورية", CreatedAt = SeedDate, UpdatedAt = SeedDate },
             new AdmissionType { Id = 5, Name = "Change of Registration from Syrian Universities", Name_AR = "تغيير قيد من جامعات سوريا", CreatedAt = SeedDate, UpdatedAt = SeedDate },
             new AdmissionType { Id = 6, Name = "Change of Registration from Non-Syrian Universities", Name_AR = "تغيير قيد من جامعات غير سورية", CreatedAt = SeedDate, UpdatedAt = SeedDate },
-            new AdmissionType { Id = 7, Name = "Institutes and Universities Comparative Admission", Name_AR = "مفاضلة المعاهد والجامعات", CreatedAt = SeedDate, UpdatedAt = SeedDate }
+            new AdmissionType { Id = 7, Name = "Institutes and Universities Comparative Admission", Name_AR = "مفاضلة المعاهد والجامعات", CreatedAt = SeedDate, UpdatedAt = SeedDate },
+            new AdmissionType { Id = 8, Name = "Arab and Foreign Students Admission", Name_AR = "مفاضلة عرب واجانب", CreatedAt = SeedDate, UpdatedAt = SeedDate }
         );
 
         // Seed data: HighSchoolCertificateType (fixed business list)

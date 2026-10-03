@@ -799,8 +799,6 @@ public class StudentRegistration : BaseEntity
     [MaxLength(300)]
     public string? RegistrationPlace { get; set; }
 
-    public DateOnly? RegistrationDate { get; set; }
-
     [MaxLength(50)]
     public string? RegistrationNumber { get; set; }
 
@@ -861,7 +859,8 @@ public class StudentHighSchoolCertificate : BaseEntity
     [MaxLength(200)]
     public string? CertificatePlace { get; set; }
 
-    public DateOnly? CertificateDate { get; set; }
+    // Certificate year only (e.g. 2024)
+    public int? CertificateDate { get; set; }
 
     [MaxLength(50)]
     public string? CertificateOrSubscriptionNumber { get; set; }

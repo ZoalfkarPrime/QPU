@@ -18,7 +18,7 @@ public class StudentHighSchoolCertificateDto
     [MaxLength(200)]
     public string? CertificatePlace { get; set; }
 
-    public DateOnly? CertificateDate { get; set; }
+    public int? CertificateDate { get; set; }
 
     [MaxLength(50)]
     public string? CertificateOrSubscriptionNumber { get; set; }
@@ -43,7 +43,6 @@ public class StudentRegistrationDto
     public string? NationalNumber { get; set; }
     public string? IdentityNumber { get; set; }
     public string? RegistrationPlace { get; set; }
-    public DateOnly? RegistrationDate { get; set; }
     public string? RegistrationNumber { get; set; }
     public string? Address { get; set; }
     public string? Phone { get; set; }
@@ -81,7 +80,7 @@ public class CreateStudentHighSchoolCertificateRequest
     [MaxLength(200)]
     public string? CertificatePlace { get; set; }
 
-    public DateOnly? CertificateDate { get; set; }
+    public int? CertificateDate { get; set; }
 
     [MaxLength(50)]
     public string? CertificateOrSubscriptionNumber { get; set; }
@@ -114,8 +113,6 @@ public class CreateStudentRegistrationRequest
 
     [MaxLength(300)]
     public string? RegistrationPlace { get; set; }
-
-    public DateOnly? RegistrationDate { get; set; }
 
     [MaxLength(500)]
     public string? Address { get; set; }

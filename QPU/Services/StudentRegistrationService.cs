@@ -35,7 +35,6 @@ public class StudentRegistrationService(AppDBContext db) : IStudentRegistrationS
             NationalNumber = request.NationalNumber,
             IdentityNumber = request.IdentityNumber,
             RegistrationPlace = request.RegistrationPlace,
-            RegistrationDate = request.RegistrationDate,
             RegistrationNumber = await GenerateRegistrationNumberAsync(request.FacultyId),
             Address = request.Address,
             Phone = request.Phone,
@@ -91,7 +90,6 @@ public class StudentRegistrationService(AppDBContext db) : IStudentRegistrationS
         entity.NationalNumber = dto.NationalNumber;
         entity.IdentityNumber = dto.IdentityNumber;
         entity.RegistrationPlace = dto.RegistrationPlace;
-        entity.RegistrationDate = dto.RegistrationDate;
         entity.RegistrationNumber = dto.RegistrationNumber;
         entity.Address = dto.Address;
         entity.Phone = dto.Phone;
@@ -236,7 +234,6 @@ public class StudentRegistrationService(AppDBContext db) : IStudentRegistrationS
         NationalNumber = r.NationalNumber,
         IdentityNumber = r.IdentityNumber,
         RegistrationPlace = r.RegistrationPlace,
-        RegistrationDate = r.RegistrationDate,
         RegistrationNumber = r.RegistrationNumber,
         Address = r.Address,
         Phone = r.Phone,
