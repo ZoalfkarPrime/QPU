@@ -16,15 +16,17 @@ namespace QPU_DataAccess.Migrations
                 schema: "dbo",
                 table: "StudentRegistrations");
 
-            migrationBuilder.AlterColumn<int>(
+            migrationBuilder.DropColumn(
+                name: "CertificateDate",
+                schema: "dbo",
+                table: "StudentHighSchoolCertificates");
+
+            migrationBuilder.AddColumn<int>(
                 name: "CertificateDate",
                 schema: "dbo",
                 table: "StudentHighSchoolCertificates",
                 type: "int",
-                nullable: true,
-                oldClrType: typeof(DateOnly),
-                oldType: "date",
-                oldNullable: true);
+                nullable: true);
 
             migrationBuilder.InsertData(
                 schema: "dbo",
@@ -49,15 +51,17 @@ namespace QPU_DataAccess.Migrations
                 type: "date",
                 nullable: true);
 
-            migrationBuilder.AlterColumn<DateOnly>(
+            migrationBuilder.DropColumn(
+                name: "CertificateDate",
+                schema: "dbo",
+                table: "StudentHighSchoolCertificates");
+
+            migrationBuilder.AddColumn<DateOnly>(
                 name: "CertificateDate",
                 schema: "dbo",
                 table: "StudentHighSchoolCertificates",
                 type: "date",
-                nullable: true,
-                oldClrType: typeof(int),
-                oldType: "int",
-                oldNullable: true);
+                nullable: true);
         }
     }
 }
