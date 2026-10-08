@@ -7,7 +7,14 @@ namespace QPU.Services;
 public class StudentRegistrationService(AppDBContext db) : IStudentRegistrationService
 {
     public IQueryable<StudentRegistrationDto> GetQueryable() =>
-        db.StudentRegistrations.OrderByDescending(r => r.CreatedAt).Select(r => ToDtoProjection(r));
+        db.StudentRegistrations
+            .Include(r => r.Faculty)
+            .Include(r => r.AdmissionType)
+            .Include(r => r.Office)
+            .Include(r => r.HighSchoolCertificate).ThenInclude(c => c!.CertificateType)
+            .Include(r => r.HighSchoolCertificate).ThenInclude(c => c!.ExamSession)
+            .OrderByDescending(r => r.CreatedAt)
+            .Select(r => ToDtoProjection(r));
 
     public async Task<StudentRegistrationDto?> GetByIdAsync(int id)
     {
