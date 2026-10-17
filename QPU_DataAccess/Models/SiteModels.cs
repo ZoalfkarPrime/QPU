@@ -598,6 +598,8 @@ public class Vacancy : BaseEntity
 
     public bool IsActive { get; set; } = true;
 
+    public bool? IsDeleted { get; set; } = false;
+
     public virtual ICollection<SiteRequest> Requests { get; set; } = new List<SiteRequest>();
 }
 
